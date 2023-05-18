@@ -15,7 +15,21 @@ namespace CorporateHotelBooking.Test.E2E
 
             // Assert
             Assert.Null(exception);
+        }
 
+        [Fact]
+        public async Task should_throw_exception_when_hotel_already_exists()
+        {
+            // Arrange
+            var hotelService = new HotelService();
+            int hotelId = 1;
+            string hotelName = "Wesing";
+
+            // Act
+            hotelService.AddHotel(hotelId, hotelName);
+
+            // Assert
+            Assert.Throws<ExistingHotelException>(() => hotelService.AddHotel(hotelId, hotelName));
         }
     }
 }
