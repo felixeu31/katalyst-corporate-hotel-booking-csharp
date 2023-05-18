@@ -3,7 +3,7 @@ namespace CorporateHotelBooking.Test.E2E
     public class HotelTest
     {
         [Fact]
-        public async Task should_be_able_to_create_hotel()
+        public async Task should_be_able_to_create_hotel_without_exception()
         {
             // Arrange
             var hotelService = new HotelService();
@@ -16,14 +16,6 @@ namespace CorporateHotelBooking.Test.E2E
             // Assert
             Assert.Null(exception);
 
-        }
-    }
-
-    public class HotelService
-    {
-        public void AddHotel(int hotelId, string hotelName)
-        {
-            throw new NotImplementedException();
         }
     }
 }
