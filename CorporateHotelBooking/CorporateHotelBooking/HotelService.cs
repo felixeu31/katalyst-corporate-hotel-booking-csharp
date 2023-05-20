@@ -2,15 +2,17 @@ namespace CorporateHotelBooking;
 
 public class HotelService
 {
-    private readonly HotelRepository _hotelRepositoryObject;
-
-    public HotelService(HotelRepository hotelRepositoryObject)
+    public HotelService()
     {
-        _hotelRepositoryObject = hotelRepositoryObject;
     }
 
     public void AddHotel(int hotelId, string hotelName)
     {
-        _hotelRepositoryObject.AddHotel(hotelId, hotelName);
+        throw new NotImplementedException();
+    }
+
+    public void SetRoom(int hotelId, int roomNumber, string roomType)
+    {
+        throw new NotImplementedException();
     }
 }
