@@ -1,3 +1,4 @@
+using CorporateHotelBooking.Test.Unit;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.E2E
@@ -7,12 +8,14 @@ namespace CorporateHotelBooking.Test.E2E
         private readonly HotelService _hotelService;
         private readonly BookingService _bookingService;
         private readonly EmployeeService _employeeService;
+        private HotelRepository _hotelRepository;
 
         public CorporateHotelAcceptanceTest()
         {
             _employeeService = new EmployeeService();
             _bookingService = new BookingService();
-            _hotelService = new HotelService();
+            _hotelRepository = new InMemoryHotelRepository();
+            _hotelService = new HotelService(_hotelRepository);
         }
 
         [Fact]
