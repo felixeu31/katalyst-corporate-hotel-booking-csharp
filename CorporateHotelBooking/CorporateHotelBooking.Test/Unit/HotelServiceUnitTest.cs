@@ -11,20 +11,27 @@ namespace CorporateHotelBooking.Test.Unit
 {
     public class HotelServiceUnitTest
     {
+        private readonly Mock<HotelRepository> _hotelRepository;
+        private readonly HotelService _hotelService;
+
+        public HotelServiceUnitTest()
+        {
+            _hotelRepository = new();
+            _hotelService = new HotelService(_hotelRepository.Object);
+        }
+
         [Fact]
         public void AddHotel_ShouldStoreHotel()
         {
             // Arrange
             int hotelId = 1;
             string hotelName = "Westing";
-            Mock<HotelRepository> hotelRepository = new();
-            HotelService hotelService = new HotelService(hotelRepository.Object);
 
             // Act
-            hotelService.AddHotel(hotelId, hotelName);
+            _hotelService.AddHotel(hotelId, hotelName);
 
             // Assert
-            hotelRepository.Verify(x => x.AddHotel(hotelId, hotelName), Times.Once());
+            _hotelRepository.Verify(x => x.AddHotel(hotelId, hotelName), Times.Once());
         }
     }
 }
