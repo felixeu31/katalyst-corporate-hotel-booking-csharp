@@ -1,4 +1,8 @@
-using CorporateHotelBooking.Test.Unit;
+using CorporateHotelBooking.Bookings.Application;
+using CorporateHotelBooking.Employees.Application;
+using CorporateHotelBooking.Hotels.Application;
+using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Hotels.Infrastructure;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.E2E

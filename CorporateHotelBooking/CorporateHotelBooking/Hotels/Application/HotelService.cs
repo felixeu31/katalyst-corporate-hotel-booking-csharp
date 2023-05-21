@@ -1,4 +1,6 @@
-namespace CorporateHotelBooking;
+using CorporateHotelBooking.Hotels.Domain;
+
+namespace CorporateHotelBooking.Hotels.Application;
 
 public class HotelService
 {

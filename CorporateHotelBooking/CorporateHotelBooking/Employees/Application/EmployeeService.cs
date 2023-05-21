@@ -1,4 +1,4 @@
-namespace CorporateHotelBooking;
+namespace CorporateHotelBooking.Employees.Application;
 
 public class EmployeeService
 {

@@ -1,4 +1,4 @@
-﻿namespace CorporateHotelBooking;
+﻿namespace CorporateHotelBooking.Hotels.Domain;
 
 public interface HotelRepository
 {
