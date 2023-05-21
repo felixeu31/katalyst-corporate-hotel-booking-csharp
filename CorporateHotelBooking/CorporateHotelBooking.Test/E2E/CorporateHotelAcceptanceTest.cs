@@ -12,14 +12,13 @@ namespace CorporateHotelBooking.Test.E2E
         private readonly HotelService _hotelService;
         private readonly BookingService _bookingService;
         private readonly EmployeeService _employeeService;
-        private HotelRepository _hotelRepository;
 
         public CorporateHotelAcceptanceTest()
         {
+            HotelRepository hotelRepository = new InMemoryHotelRepository();
             _employeeService = new EmployeeService();
             _bookingService = new BookingService();
-            _hotelRepository = new InMemoryHotelRepository();
-            _hotelService = new HotelService(_hotelRepository);
+            _hotelService = new HotelService(hotelRepository);
         }
 
         [Fact]
