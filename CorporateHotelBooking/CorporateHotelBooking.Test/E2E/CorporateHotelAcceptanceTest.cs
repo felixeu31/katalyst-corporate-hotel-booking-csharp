@@ -7,6 +7,10 @@ using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.E2E
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>dotnet watch test --project .\CorporateHotelBooking.Test\CorporateHotelBooking.Test.csproj</remarks>
     public class CorporateHotelAcceptanceTest
     {
         private readonly HotelService _hotelService;

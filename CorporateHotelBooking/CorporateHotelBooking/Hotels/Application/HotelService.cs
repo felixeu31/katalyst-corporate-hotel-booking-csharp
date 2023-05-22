@@ -18,6 +18,13 @@ public class HotelService
 
     public void SetRoom(int hotelId, int roomNumber, string roomType)
     {
-        throw new NotImplementedException();
+        var hotel = _hotelRepository.GetById(hotelId);
+
+        if (hotel.Rooms.Exists(x => x.RoomNumber == roomNumber))
+        {
+            _hotelRepository.UpdateRoom(hotelId, roomNumber, roomType);
+        }
+
+        _hotelRepository.AddRoom(hotelId, roomNumber, roomType);
     }
 }

@@ -33,5 +33,44 @@ namespace CorporateHotelBooking.Test.Unit
             // Assert
             _hotelRepository.Verify(x => x.AddHotel(hotelId, hotelName), Times.Once());
         }
+
+        [Fact]
+        public void SetRoom_WhenNew_ShouldAddRoom()
+        {
+            // Arrange
+            int hotelId = 1;
+            string hotelName = "Westing";
+            var roomNumber = 1;
+            var roomType = "Deluxe";
+            _hotelRepository.Setup(repository => repository.GetById(hotelId)).Returns(new Hotel(hotelId, hotelName));
+
+            // Act
+            _hotelService.SetRoom(hotelId, roomNumber, roomType);
+
+            // Assert
+            _hotelRepository.Verify(x => x.AddRoom(hotelId, roomNumber, roomType), Times.Once());
+        }
+
+
+        [Fact]
+        public void SetRoom_WhenExisting_ShouldUpdateRoom()
+        {
+            // Arrange
+            int hotelId = 1;
+            string hotelName = "Westing";
+            var roomNumber = 1;
+            var roomType = "Deluxe";
+            var otherRoomType = "Standard";
+            var hotel = new Hotel(hotelId, hotelName);
+            hotel.AddRoom(new Room(roomNumber, roomType));
+            _hotelRepository.Setup(repository => repository.GetById(hotelId)).Returns(hotel);
+
+            // Act
+            _hotelService.SetRoom(hotelId, roomNumber, roomType);
+            _hotelService.SetRoom(hotelId, roomNumber, otherRoomType);
+
+            // Assert
+            _hotelRepository.Verify(x => x.UpdateRoom(hotelId, roomNumber, roomType), Times.Once());
+        }
     }
 }

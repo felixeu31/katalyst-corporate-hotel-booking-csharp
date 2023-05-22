@@ -20,4 +20,20 @@ public class InMemoryHotelRepository : HotelRepository
     {
         return _hotels.First(x => x.HotelId.Equals(hotelId));
     }
+
+    public void UpdateRoom(int hotelId, int roomNumber, string roomType)
+    {
+        var hotel = GetById(hotelId);
+
+        var room = hotel.Rooms.First(x => x.RoomNumber.Equals(roomNumber));
+
+        room.RoomType = roomType;
+    }
+
+    public void AddRoom(int hotelId, int roomNumber, string roomType)
+    {
+        var hotel = GetById(hotelId);
+
+        hotel.Rooms.Add(new Room(roomNumber, roomType));
+    }
 }
