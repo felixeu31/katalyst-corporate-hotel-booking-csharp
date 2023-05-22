@@ -11,7 +11,7 @@ namespace CorporateHotelBooking.Test.Unit
 {
     public class HotelServiceUnitTest
     {
-        private readonly Mock<HotelRepository> _hotelRepository;
+        private readonly Mock<IHotelRepository> _hotelRepository;
         private readonly HotelService _hotelService;
 
         public HotelServiceUnitTest()
@@ -31,7 +31,7 @@ namespace CorporateHotelBooking.Test.Unit
             _hotelService.AddHotel(hotelId, hotelName);
 
             // Assert
-            _hotelRepository.Verify(x => x.AddHotel(hotelId, hotelName), Times.Once());
+            _hotelRepository.Verify(x => x.Add(It.IsAny<Hotel>()), Times.Once());
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace CorporateHotelBooking.Test.Unit
             _hotelService.SetRoom(hotelId, roomNumber, roomType);
 
             // Assert
-            _hotelRepository.Verify(x => x.AddRoom(hotelId, roomNumber, roomType), Times.Once());
+            _hotelRepository.Verify(x => x.Update(It.IsAny<Hotel>()), Times.Once());
         }
 
 
@@ -62,7 +62,7 @@ namespace CorporateHotelBooking.Test.Unit
             var roomType = "Deluxe";
             var otherRoomType = "Standard";
             var hotel = new Hotel(hotelId, hotelName);
-            hotel.AddRoom(new Room(roomNumber, roomType));
+            hotel.AddRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.GetById(hotelId)).Returns(hotel);
 
             // Act
@@ -70,7 +70,7 @@ namespace CorporateHotelBooking.Test.Unit
             _hotelService.SetRoom(hotelId, roomNumber, otherRoomType);
 
             // Assert
-            _hotelRepository.Verify(x => x.UpdateRoom(hotelId, roomNumber, roomType), Times.Once());
+            _hotelRepository.Verify(x => x.Update(It.IsAny<Hotel>()));
         }
     }
 }

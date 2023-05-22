@@ -19,7 +19,7 @@ namespace CorporateHotelBooking.Test.E2E
 
         public CorporateHotelAcceptanceTest()
         {
-            HotelRepository hotelRepository = new InMemoryHotelRepository();
+            IHotelRepository hotelRepository = new InMemoryHotelRepository();
             _employeeService = new EmployeeService();
             _bookingService = new BookingService();
             _hotelService = new HotelService(hotelRepository);

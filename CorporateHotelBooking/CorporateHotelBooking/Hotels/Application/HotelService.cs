@@ -4,27 +4,24 @@ namespace CorporateHotelBooking.Hotels.Application;
 
 public class HotelService
 {
-    private readonly HotelRepository _hotelRepository;
+    private readonly IHotelRepository _hotelRepository;
 
-    public HotelService(HotelRepository hotelRepository)
+    public HotelService(IHotelRepository hotelRepository)
     {
         _hotelRepository = hotelRepository;
     }
 
     public void AddHotel(int hotelId, string hotelName)
     {
-        _hotelRepository.AddHotel(hotelId, hotelName);
+        _hotelRepository.Add(new Hotel(hotelId, hotelName));
     }
 
     public void SetRoom(int hotelId, int roomNumber, string roomType)
     {
-        var hotel = _hotelRepository.GetById(hotelId);
+        var hotel = _hotelRepository.GetById(hotelId); // Consulta 1
 
-        if (hotel.Rooms.Exists(x => x.RoomNumber == roomNumber))
-        {
-            _hotelRepository.UpdateRoom(hotelId, roomNumber, roomType);
-        }
+        hotel.SetRoom(roomNumber, roomType);
 
-        _hotelRepository.AddRoom(hotelId, roomNumber, roomType);
+        _hotelRepository.Update(hotel);
     }
 }

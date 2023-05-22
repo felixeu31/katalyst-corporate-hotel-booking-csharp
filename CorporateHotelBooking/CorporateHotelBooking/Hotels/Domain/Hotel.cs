@@ -11,11 +11,28 @@ public class Hotel
 
     public int HotelId { get; set; }
     public string HotelName { get; set; }
-    public List<Room> Rooms { get; set; }
+    public List<Room> Rooms { get; private set; }
 
-    public void AddRoom(Room room)
+    public void SetRoom(int roomNumber, string roomType)
     {
-        Rooms.Add(room);
+        if (Rooms.Exists(x => x.RoomNumber == roomNumber))
+        {
+            UpdateRoom(roomNumber, roomType);
+        }
+
+        AddRoom(roomNumber, roomType);
+    }
+
+    public void UpdateRoom(int roomNumber, string roomType)
+    {
+        var room = Rooms.FirstOrDefault(x => x.RoomNumber.Equals(roomNumber));
+
+        room.RoomType = roomType;
+    }
+
+    public void AddRoom(int roomNumber, string roomType)
+    {
+        Rooms.Add(new Room(roomNumber, roomType));
     }
 }
 

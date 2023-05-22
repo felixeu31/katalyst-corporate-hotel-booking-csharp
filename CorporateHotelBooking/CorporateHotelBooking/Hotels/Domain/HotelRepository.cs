@@ -1,9 +1,8 @@
 ﻿namespace CorporateHotelBooking.Hotels.Domain;
 
-public interface HotelRepository
+public interface IHotelRepository
 {
-    void AddHotel(int hotelId, string hotelName);
+    void Add(Hotel hotel);
     Hotel GetById(int hotelId);
-    void UpdateRoom(int hotelId, int roomNumber, string roomType);
-    void AddRoom(int hotelId, int roomNumber, string roomType);
+    void Update(Hotel hotel);
 }

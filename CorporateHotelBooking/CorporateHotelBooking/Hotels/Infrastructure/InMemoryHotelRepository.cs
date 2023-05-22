@@ -2,7 +2,7 @@ using CorporateHotelBooking.Hotels.Domain;
 
 namespace CorporateHotelBooking.Hotels.Infrastructure;
 
-public class InMemoryHotelRepository : HotelRepository
+public class InMemoryHotelRepository : IHotelRepository
 {
     private readonly List<Hotel> _hotels;
 
@@ -11,9 +11,9 @@ public class InMemoryHotelRepository : HotelRepository
         _hotels = new List<Hotel>();
     }
 
-    public void AddHotel(int hotelId, string hotelName)
+    public void Add(Hotel hotel)
     {
-        _hotels.Add(new Hotel(hotelId, hotelName));
+        _hotels.Add(hotel);
     }
 
     public Hotel GetById(int hotelId)
@@ -21,19 +21,8 @@ public class InMemoryHotelRepository : HotelRepository
         return _hotels.First(x => x.HotelId.Equals(hotelId));
     }
 
-    public void UpdateRoom(int hotelId, int roomNumber, string roomType)
+    public void Update(Hotel hotel)
     {
-        var hotel = GetById(hotelId);
-
-        var room = hotel.Rooms.First(x => x.RoomNumber.Equals(roomNumber));
-
-        room.RoomType = roomType;
-    }
-
-    public void AddRoom(int hotelId, int roomNumber, string roomType)
-    {
-        var hotel = GetById(hotelId);
-
-        hotel.Rooms.Add(new Room(roomNumber, roomType));
+        
     }
 }
