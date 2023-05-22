@@ -36,26 +36,28 @@ namespace CorporateHotelBooking.Test.Integration
         }
 
 
-        //[Fact]
-        //public void should_insert_new_room_to_hotel_when_new()
-        //{
-        //    // Arrange
-        //    int hotelId = 1;
-        //    string hotelName = "Westing";
-        //    var roomNumber = 1;
-        //    var roomType = "Deluxe";
+        [Fact]
+        public void should_insert_new_room_to_hotel_when_new()
+        {
+            // Arrange
+            int hotelId = 1;
+            string hotelName = "Westing";
+            var roomNumber = 1;
+            var roomType = "Deluxe";
+            var newHotel = new Hotel(hotelId, hotelName);
 
-        //    // Act
-        //    _hotelRepository.Add(hotelId, hotelName);
-        //    _hotelRepository.AddRoom(hotelId, roomNumber, roomType);
-        //    Hotel hotel = _hotelRepository.GetById(hotelId);
+            // Act
+            _hotelRepository.Add(newHotel);
+            newHotel.SetRoom(roomNumber, roomType);
+            _hotelRepository.Update(newHotel);
+            Hotel hotel = _hotelRepository.GetById(hotelId);
 
-        //    // Assert
-        //    hotel.Should().NotBeNull();
-        //    hotel.Rooms.Should().HaveCount(1);
-        //    hotel.Rooms.First().RoomNumber.Should().Be(roomNumber);
-        //    hotel.Rooms.First().RoomType.Should().Be(roomType);
-        //}
+            // Assert
+            hotel.Should().NotBeNull();
+            hotel.Rooms.Should().HaveCount(1);
+            hotel.Rooms.First().RoomNumber.Should().Be(roomNumber);
+            hotel.Rooms.First().RoomType.Should().Be(roomType);
+        }
 
 
         //[Fact]
