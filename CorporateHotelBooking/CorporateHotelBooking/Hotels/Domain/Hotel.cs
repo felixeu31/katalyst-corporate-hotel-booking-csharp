@@ -6,16 +6,20 @@ public class Hotel
     {
         HotelId = hotelId;
         HotelName = hotelName;
-        Rooms = new List<Room>();
+        _rooms = new List<Room>();
     }
 
-    public int HotelId { get; set; }
-    public string HotelName { get; set; }
-    public List<Room> Rooms { get; private set; }
+    public int HotelId { get; }
+
+    public string HotelName { get; }
+
+    private readonly List<Room> _rooms;
+
+    public IReadOnlyList<Room> Rooms => _rooms.AsReadOnly();
 
     public void SetRoom(int roomNumber, string roomType)
     {
-        if (Rooms.Exists(x => x.RoomNumber == roomNumber))
+        if (_rooms.Exists(x => x.RoomNumber == roomNumber))
         {
             UpdateRoom(roomNumber, roomType);
         }
@@ -25,14 +29,14 @@ public class Hotel
 
     public void UpdateRoom(int roomNumber, string roomType)
     {
-        var room = Rooms.FirstOrDefault(x => x.RoomNumber.Equals(roomNumber));
+        var room = _rooms.FirstOrDefault(x => x.RoomNumber.Equals(roomNumber));
 
-        room.RoomType = roomType;
+        room.SetRoomType(roomType);
     }
 
     public void AddRoom(int roomNumber, string roomType)
     {
-        Rooms.Add(new Room(roomNumber, roomType));
+        _rooms.Add(new Room(roomNumber, roomType));
     }
 }
 
@@ -46,4 +50,9 @@ public class Room
 
     public int RoomNumber { get; set; }
     public string RoomType { get; set; }
+
+    public void SetRoomType(string roomType)
+    {
+        RoomType = roomType;
+    }
 }

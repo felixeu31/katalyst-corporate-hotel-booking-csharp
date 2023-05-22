@@ -18,7 +18,7 @@ public class HotelService
 
     public void SetRoom(int hotelId, int roomNumber, string roomType)
     {
-        var hotel = _hotelRepository.GetById(hotelId); // Consulta 1
+        var hotel = _hotelRepository.GetById(hotelId);
 
         hotel.SetRoom(roomNumber, roomType);
 
