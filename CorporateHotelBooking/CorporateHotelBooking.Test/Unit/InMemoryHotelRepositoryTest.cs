@@ -7,7 +7,7 @@ using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
 using FluentAssertions;
 
-namespace CorporateHotelBooking.Test.Integration
+namespace CorporateHotelBooking.Test.Unit
 {
     public class InMemoryHotelRepositoryTest
     {
@@ -28,7 +28,7 @@ namespace CorporateHotelBooking.Test.Integration
             // Act
             _hotelRepository.Add(new Hotel(hotelId, hotelName));
             Hotel hotel = _hotelRepository.Get(hotelId);
-            
+
             // Assert
             hotel.Should().NotBeNull();
             hotel.HotelId.Should().Be(1);
