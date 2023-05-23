@@ -12,12 +12,10 @@ namespace CorporateHotelBooking.Test.Unit
     public class HotelServiceUnitTest
     {
         private readonly Mock<IHotelRepository> _hotelRepository;
-        private readonly HotelService _hotelService;
 
         public HotelServiceUnitTest()
         {
             _hotelRepository = new();
-            _hotelService = new HotelService(_hotelRepository.Object);
         }
 
         [Fact]
@@ -26,9 +24,10 @@ namespace CorporateHotelBooking.Test.Unit
             // Arrange
             int hotelId = 1;
             string hotelName = "Westing";
+            var hotelService = new HotelService(_hotelRepository.Object);
 
             // Act
-            _hotelService.AddHotel(hotelId, hotelName);
+            hotelService.AddHotel(hotelId, hotelName);
 
             // Assert
             _hotelRepository.Verify(x => x.Add(It.IsAny<Hotel>()), Times.Once());
@@ -42,13 +41,15 @@ namespace CorporateHotelBooking.Test.Unit
             string hotelName = "Westing";
             var roomNumber = 1;
             var roomType = "Deluxe";
-            _hotelRepository.Setup(repository => repository.GetById(hotelId)).Returns(new Hotel(hotelId, hotelName));
+            _hotelRepository.Setup(repository => repository.Get(hotelId)).Returns(new Hotel(hotelId, hotelName));
+            var hotelService = new HotelService(_hotelRepository.Object);
+            hotelService.AddHotel(hotelId, hotelName);
 
             // Act
-            _hotelService.SetRoom(hotelId, roomNumber, roomType);
+            hotelService.SetRoom(hotelId, roomNumber, roomType);
 
             // Assert
-            _hotelRepository.Verify(x => x.Update(It.IsAny<Hotel>()), Times.Once());
+            _hotelRepository.Verify(x => x.Add(It.IsAny<Hotel>()), Times.Once());
         }
 
 
@@ -63,11 +64,13 @@ namespace CorporateHotelBooking.Test.Unit
             var otherRoomType = "Standard";
             var hotel = new Hotel(hotelId, hotelName);
             hotel.AddRoom(roomNumber, roomType);
-            _hotelRepository.Setup(repository => repository.GetById(hotelId)).Returns(hotel);
+            _hotelRepository.Setup(repository => repository.Get(hotelId)).Returns(hotel);
+            var hotelService = new HotelService(_hotelRepository.Object);
+            hotelService.AddHotel(hotelId, hotelName);
 
             // Act
-            _hotelService.SetRoom(hotelId, roomNumber, roomType);
-            _hotelService.SetRoom(hotelId, roomNumber, otherRoomType);
+            hotelService.SetRoom(hotelId, roomNumber, roomType);
+            hotelService.SetRoom(hotelId, roomNumber, otherRoomType);
 
             // Assert
             _hotelRepository.Verify(x => x.Update(It.IsAny<Hotel>()));

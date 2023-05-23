@@ -4,25 +4,25 @@ namespace CorporateHotelBooking.Hotels.Infrastructure;
 
 public class InMemoryHotelRepository : IHotelRepository
 {
-    private readonly List<Hotel> _hotels;
+    private readonly Dictionary<int, Hotel> _hotels;
 
     public InMemoryHotelRepository()
     {
-        _hotels = new List<Hotel>();
+        _hotels = new Dictionary<int, Hotel>();
     }
 
     public void Add(Hotel hotel)
     {
-        _hotels.Add(hotel);
+        _hotels.Add(hotel.HotelId, hotel);
     }
 
-    public Hotel GetById(int hotelId)
+    public Hotel? Get(int hotelId)
     {
-        return _hotels.First(x => x.HotelId.Equals(hotelId));
+        return _hotels.ContainsKey(hotelId) ? _hotels[hotelId] : null;
     }
 
     public void Update(Hotel hotel)
     {
-        
+        _hotels[hotel.HotelId] = hotel;
     }
 }

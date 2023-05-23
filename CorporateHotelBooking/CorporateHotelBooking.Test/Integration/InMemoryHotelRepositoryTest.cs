@@ -27,7 +27,7 @@ namespace CorporateHotelBooking.Test.Integration
 
             // Act
             _hotelRepository.Add(new Hotel(hotelId, hotelName));
-            Hotel hotel = _hotelRepository.GetById(hotelId);
+            Hotel hotel = _hotelRepository.Get(hotelId);
             
             // Assert
             hotel.Should().NotBeNull();
@@ -50,7 +50,7 @@ namespace CorporateHotelBooking.Test.Integration
             _hotelRepository.Add(newHotel);
             newHotel.SetRoom(roomNumber, roomType);
             _hotelRepository.Update(newHotel);
-            Hotel hotel = _hotelRepository.GetById(hotelId);
+            Hotel hotel = _hotelRepository.Get(hotelId);
 
             // Assert
             hotel.Should().NotBeNull();
