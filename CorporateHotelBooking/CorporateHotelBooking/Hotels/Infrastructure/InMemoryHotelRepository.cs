@@ -18,7 +18,11 @@ public class InMemoryHotelRepository : IHotelRepository
 
     public Hotel? Get(int hotelId)
     {
-        return _hotels.ContainsKey(hotelId) ? _hotels[hotelId] : null;
+        if (_hotels.TryGetValue(hotelId, out var hotel))
+        {
+            return hotel;
+        }
+        return null;
     }
 
     public void Update(Hotel hotel)
