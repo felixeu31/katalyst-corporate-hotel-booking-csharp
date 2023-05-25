@@ -1,5 +1,7 @@
 using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Employees.Application;
+using CorporateHotelBooking.Employees.Domain;
+using CorporateHotelBooking.Employees.Infra;
 using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
@@ -20,7 +22,8 @@ namespace CorporateHotelBooking.Test.E2E
         public CorporateHotelAcceptanceTest()
         {
             IHotelRepository hotelRepository = new InMemoryHotelRepository();
-            _employeeService = new EmployeeService();
+            IEmployeeRepository employeeRepository = new InMemoryEmployeeRepository();
+            _employeeService = new EmployeeService(employeeRepository);
             _bookingService = new BookingService();
             _hotelService = new HotelService(hotelRepository);
         }
