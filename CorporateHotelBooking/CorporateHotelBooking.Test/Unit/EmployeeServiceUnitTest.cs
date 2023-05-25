@@ -1,11 +1,5 @@
 ﻿using CorporateHotelBooking.Employees.Application;
-using CorporateHotelBooking.Hotels.Domain;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CorporateHotelBooking.Employees.Domain;
 
 namespace CorporateHotelBooking.Test.Unit

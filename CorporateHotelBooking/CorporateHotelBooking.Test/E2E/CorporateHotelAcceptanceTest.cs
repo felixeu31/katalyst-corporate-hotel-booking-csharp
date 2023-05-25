@@ -1,4 +1,6 @@
 using CorporateHotelBooking.Bookings.Application;
+using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Bookings.Infra;
 using CorporateHotelBooking.Employees.Application;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Employees.Infra;
@@ -23,8 +25,9 @@ namespace CorporateHotelBooking.Test.E2E
         {
             IHotelRepository hotelRepository = new InMemoryHotelRepository();
             IEmployeeRepository employeeRepository = new InMemoryEmployeeRepository();
+            IBookingRepository bookingRepository = new InMemoryBookingRepository();
             _employeeService = new EmployeeService(employeeRepository);
-            _bookingService = new BookingService();
+            _bookingService = new BookingService(bookingRepository);
             _hotelService = new HotelService(hotelRepository);
         }
 
@@ -45,7 +48,7 @@ namespace CorporateHotelBooking.Test.E2E
             _employeeService.AddEmployee(companyId, employeeId);
 
             // Act
-            var booking = _bookingService.Book(employeeId, hotelId, roomType, checkIn, checkOut);
+            var booking = _bookingService.Book(roomNumber, hotelId, employeeId, roomType, checkIn, checkOut);
 
             // Assert
             booking.HotelId.Should().Be(hotelId);
