@@ -27,8 +27,4 @@
     <ProjectReference Include="..\CorporateHotelBooking\CorporateHotelBooking.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Integration\" />
-  </ItemGroup>
-
 </Project>
