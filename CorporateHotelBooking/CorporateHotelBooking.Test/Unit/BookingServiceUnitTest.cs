@@ -24,12 +24,12 @@ namespace CorporateHotelBooking.Test.Unit
         {
             // Arrange
             var bookingService = new BookingService(_bookingRepository.Object);
-            Guid hotelId = Guid.NewGuid();
-            int roomNumber = 1;
-            int employeeId = 1;
-            string roomType = "Deluxe";
-            DateTime checkIn = DateTime.Today.AddDays(1);
-            DateTime chekout = DateTime.Today.AddDays(2);
+            var hotelId = Guid.NewGuid();
+            var roomNumber = 1;
+            var employeeId = Guid.NewGuid();
+            var roomType = "Deluxe";
+            var checkIn = DateTime.Today.AddDays(1);
+            var chekout = DateTime.Today.AddDays(2);
 
             // Act
             bookingService.Book(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);

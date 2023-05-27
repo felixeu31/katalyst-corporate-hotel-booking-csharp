@@ -3,5 +3,5 @@
 public interface IEmployeeRepository
 {
     void Add(Employee employee);
-    Employee? Get(int employeeId);
+    Employee? Get(EmployeeId employeeId);
 }

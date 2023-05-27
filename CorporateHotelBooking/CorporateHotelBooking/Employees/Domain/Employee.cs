@@ -3,14 +3,14 @@
 public class Employee
 {
     private readonly int _companyId;
-    private readonly int _employeeId;
+    private readonly EmployeeId _employeeId;
 
-    public Employee(int companyId, int employeeId)
+    public Employee(int companyId, EmployeeId employeeId)
     {
         _companyId = companyId;
         _employeeId = employeeId;
     }
 
-    public int EmployeeId => _employeeId;
+    public EmployeeId EmployeeId => _employeeId;
     public int CompanyId => _companyId;
 }

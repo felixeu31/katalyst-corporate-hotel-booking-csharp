@@ -38,7 +38,7 @@ namespace CorporateHotelBooking.Test.E2E
             var companyId = 1;
             var hotelId = Guid.NewGuid();
             var hotelName = "Wesing";
-            var employeeId = 1;
+            var employeeId = Guid.NewGuid();
             var roomType = "Suite";
             var roomNumber = 1;
             var checkIn = DateTime.Today;
@@ -51,8 +51,8 @@ namespace CorporateHotelBooking.Test.E2E
             var booking = _bookingService.Book(roomNumber, hotelId, employeeId, roomType, checkIn, checkOut);
 
             // Assert
-            booking.HotelId.Value.Should().Be(hotelId);
-            booking.BookedBy.Should().Be(employeeId);
+            booking.HotelId.Should().Be(HotelId.From(hotelId));
+            booking.BookedBy.Should().Be(EmployeeId.From(employeeId));
             booking.RoomType.Should().Be(roomType);
             booking.RoomNumber.Should().Be(roomNumber);
             booking.CheckIn.Should().BeSameDateAs(checkIn);

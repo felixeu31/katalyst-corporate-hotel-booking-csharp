@@ -1,5 +1,6 @@
 ﻿using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Infra;
+using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Hotels.Domain;
 using FluentAssertions;
 
@@ -20,7 +21,7 @@ namespace CorporateHotelBooking.Test.Integration
             // Arrange
             HotelId hotelId = HotelId.New();
             int roomNumber = 1;
-            int employeeId = 1;
+            EmployeeId employeeId = EmployeeId.New();
             string roomType = "Deluxe";
             DateTime checkIn = DateTime.Today.AddDays(1);
             DateTime chekout = DateTime.Today.AddDays(2);

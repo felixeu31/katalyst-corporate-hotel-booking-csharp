@@ -5,11 +5,11 @@ namespace CorporateHotelBooking.Employees.Infra;
 
 public class InMemoryEmployeeRepository : IEmployeeRepository
 {
-    private readonly Dictionary<int, Employee> _employees;
+    private readonly Dictionary<EmployeeId, Employee> _employees;
 
     public InMemoryEmployeeRepository()
     {
-        _employees = new Dictionary<int, Employee>();
+        _employees = new Dictionary<EmployeeId, Employee>();
     }
 
     public void Add(Employee employee)
@@ -17,7 +17,7 @@ public class InMemoryEmployeeRepository : IEmployeeRepository
         _employees.Add(employee.EmployeeId, employee);
     }
 
-    public Employee? Get(int employeeId)
+    public Employee? Get(EmployeeId employeeId)
     {
 
         if (_employees.TryGetValue(employeeId, out var employee))
