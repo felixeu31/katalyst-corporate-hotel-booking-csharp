@@ -36,9 +36,9 @@ namespace CorporateHotelBooking.Test.E2E
         {
             // Arrange
             var companyId = Guid.NewGuid();
+            var employeeId = Guid.NewGuid();
             var hotelId = Guid.NewGuid();
             var hotelName = "Wesing";
-            var employeeId = Guid.NewGuid();
             var roomType = "Suite";
             var roomNumber = 1;
             var checkIn = DateTime.Today;
