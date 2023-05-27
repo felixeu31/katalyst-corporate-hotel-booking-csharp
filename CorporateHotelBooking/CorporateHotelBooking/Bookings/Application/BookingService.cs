@@ -1,4 +1,5 @@
 using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Hotels.Domain;
 
 namespace CorporateHotelBooking.Bookings.Application;
 
@@ -12,10 +13,10 @@ public class BookingService
         _bookingRepository = bookingRepository;
     }
 
-    public Booking Book(int roomNumber, int hotelId, int employeeId, string roomType, DateTime checkIn,
+    public Booking Book(int roomNumber, Guid hotelId, int employeeId, string roomType, DateTime checkIn,
         DateTime checkOut)
     {
-        var booking = new Booking(roomNumber, hotelId, employeeId, roomType, checkIn,
+        var booking = new Booking(roomNumber, HotelId.From(hotelId), employeeId, roomType, checkIn,
             checkOut);
         _bookingRepository.Add(booking);
         return booking;

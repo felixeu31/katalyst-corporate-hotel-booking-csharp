@@ -1,5 +1,6 @@
 ﻿using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Infra;
+using CorporateHotelBooking.Hotels.Domain;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Integration
@@ -17,7 +18,7 @@ namespace CorporateHotelBooking.Test.Integration
         public void should_retrieve_added_booking()
         {
             // Arrange
-            int hotelId = 1;
+            HotelId hotelId = HotelId.New();
             int roomNumber = 1;
             int employeeId = 1;
             string roomType = "Deluxe";
@@ -32,7 +33,7 @@ namespace CorporateHotelBooking.Test.Integration
             // Assert
             booking.Should().NotBeNull();
             booking.RoomNumber.Should().Be(1);
-            booking.HotelId.Should().Be(1);
+            booking.HotelId.Should().Be(hotelId);
             booking.RoomType.Should().Be("Deluxe");
             booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
             booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));

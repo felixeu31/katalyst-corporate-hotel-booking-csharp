@@ -3,6 +3,6 @@
 public interface IHotelRepository
 {
     void Add(Hotel hotel);
-    Hotel? Get(int hotelId);
+    Hotel? Get(HotelId hotelId);
     void Update(Hotel hotel);
 }

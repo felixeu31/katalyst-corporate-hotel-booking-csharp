@@ -22,7 +22,7 @@ namespace CorporateHotelBooking.Test.Integration
         public void should_retrieve_added_hotel()
         {
             // Arrange
-            int hotelId = 1;
+            HotelId hotelId = HotelId.New();
             string hotelName = "Westing";
 
             // Act
@@ -31,7 +31,7 @@ namespace CorporateHotelBooking.Test.Integration
 
             // Assert
             hotel.Should().NotBeNull();
-            hotel.HotelId.Should().Be(1);
+            hotel.HotelId.Should().Be(hotelId);
             hotel.HotelName.Should().Be(hotelName);
         }
 
@@ -40,7 +40,8 @@ namespace CorporateHotelBooking.Test.Integration
         public void should_insert_new_room_to_hotel_when_new()
         {
             // Arrange
-            int hotelId = 1;
+
+            HotelId hotelId = HotelId.New();
             string hotelName = "Westing";
             var roomNumber = 1;
             var roomType = "Deluxe";
@@ -64,7 +65,8 @@ namespace CorporateHotelBooking.Test.Integration
         //public void should_update_hotel_room_when_existing()
         //{
         //    // Arrange
-        //    int hotelId = 1;
+        //    
+        //    HotelId hotelId = HotelId.New();
         //    string hotelName = "Westing";
         //    var roomNumber = 1;
         //    var roomType = "Deluxe";

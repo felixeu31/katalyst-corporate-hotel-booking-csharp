@@ -4,11 +4,11 @@ namespace CorporateHotelBooking.Hotels.Infrastructure;
 
 public class InMemoryHotelRepository : IHotelRepository
 {
-    private readonly Dictionary<int, Hotel> _hotels;
+    private readonly Dictionary<HotelId, Hotel> _hotels;
 
     public InMemoryHotelRepository()
     {
-        _hotels = new Dictionary<int, Hotel>();
+        _hotels = new Dictionary<HotelId, Hotel>();
     }
 
     public void Add(Hotel hotel)
@@ -16,7 +16,7 @@ public class InMemoryHotelRepository : IHotelRepository
         _hotels.Add(hotel.HotelId, hotel);
     }
 
-    public Hotel? Get(int hotelId)
+    public Hotel? Get(HotelId hotelId)
     {
         if (_hotels.TryGetValue(hotelId, out var hotel))
         {

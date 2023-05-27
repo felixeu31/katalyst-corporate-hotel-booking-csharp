@@ -11,14 +11,14 @@ public class HotelService
         _hotelRepository = hotelRepository;
     }
 
-    public void AddHotel(int hotelId, string hotelName)
+    public void AddHotel(Guid hotelId, string hotelName)
     {
-        _hotelRepository.Add(new Hotel(hotelId, hotelName));
+        _hotelRepository.Add(new Hotel(HotelId.From(hotelId), hotelName));
     }
 
-    public void SetRoom(int hotelId, int roomNumber, string roomType)
+    public void SetRoom(Guid hotelId, int roomNumber, string roomType)
     {
-        var hotel = _hotelRepository.Get(hotelId);
+        var hotel = _hotelRepository.Get(HotelId.From(hotelId));
 
         hotel.SetRoom(roomNumber, roomType);
 

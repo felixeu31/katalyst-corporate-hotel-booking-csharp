@@ -24,7 +24,7 @@ namespace CorporateHotelBooking.Test.Unit
         {
             // Arrange
             var bookingService = new BookingService(_bookingRepository.Object);
-            int hotelId = 1;
+            Guid hotelId = Guid.NewGuid();
             int roomNumber = 1;
             int employeeId = 1;
             string roomType = "Deluxe";

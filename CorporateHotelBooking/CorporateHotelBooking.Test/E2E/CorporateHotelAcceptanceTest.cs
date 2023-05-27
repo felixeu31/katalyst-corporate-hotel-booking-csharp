@@ -36,7 +36,7 @@ namespace CorporateHotelBooking.Test.E2E
         {
             // Arrange
             var companyId = 1;
-            var hotelId = 1;
+            var hotelId = Guid.NewGuid();
             var hotelName = "Wesing";
             var employeeId = 1;
             var roomType = "Suite";
@@ -51,12 +51,13 @@ namespace CorporateHotelBooking.Test.E2E
             var booking = _bookingService.Book(roomNumber, hotelId, employeeId, roomType, checkIn, checkOut);
 
             // Assert
-            booking.HotelId.Should().Be(hotelId);
+            booking.HotelId.Value.Should().Be(hotelId);
             booking.BookedBy.Should().Be(employeeId);
             booking.RoomType.Should().Be(roomType);
             booking.RoomNumber.Should().Be(roomNumber);
             booking.CheckIn.Should().BeSameDateAs(checkIn);
             booking.CheckOut.Should().BeSameDateAs(checkOut);
         }
+
     }
 }

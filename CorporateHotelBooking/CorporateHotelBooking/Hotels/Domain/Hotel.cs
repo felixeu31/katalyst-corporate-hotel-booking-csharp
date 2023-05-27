@@ -2,14 +2,14 @@
 
 public class Hotel
 {
-    public Hotel(int hotelId, string hotelName)
+    public Hotel(HotelId hotelId, string hotelName)
     {
         HotelId = hotelId;
         HotelName = hotelName;
         _rooms = new List<Room>();
     }
 
-    public int HotelId { get; }
+    public HotelId HotelId { get; }
 
     public string HotelName { get; }
 

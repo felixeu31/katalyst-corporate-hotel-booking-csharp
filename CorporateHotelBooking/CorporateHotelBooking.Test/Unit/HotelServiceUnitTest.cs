@@ -22,7 +22,7 @@ namespace CorporateHotelBooking.Test.Unit
         public void AddHotel_ShouldStoreHotel()
         {
             // Arrange
-            int hotelId = 1;
+            Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var hotelService = new HotelService(_hotelRepository.Object);
 
@@ -37,11 +37,13 @@ namespace CorporateHotelBooking.Test.Unit
         public void SetRoom_WhenNew_ShouldAddRoom()
         {
             // Arrange
-            int hotelId = 1;
+            Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
             var roomType = "Deluxe";
-            _hotelRepository.Setup(repository => repository.Get(hotelId)).Returns(new Hotel(hotelId, hotelName));
+            _hotelRepository
+                .Setup(repository => repository.Get(HotelId.From(hotelId)))
+                    .Returns(new Hotel(HotelId.From(hotelId), hotelName));
             var hotelService = new HotelService(_hotelRepository.Object);
             hotelService.AddHotel(hotelId, hotelName);
 
@@ -57,14 +59,14 @@ namespace CorporateHotelBooking.Test.Unit
         public void SetRoom_WhenExisting_ShouldUpdateRoom()
         {
             // Arrange
-            int hotelId = 1;
+            Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
             var roomType = "Deluxe";
             var otherRoomType = "Standard";
-            var hotel = new Hotel(hotelId, hotelName);
+            var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             hotel.AddRoom(roomNumber, roomType);
-            _hotelRepository.Setup(repository => repository.Get(hotelId)).Returns(hotel);
+            _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
             var hotelService = new HotelService(_hotelRepository.Object);
             hotelService.AddHotel(hotelId, hotelName);
 
