@@ -2,15 +2,15 @@
 
 public class Employee
 {
-    private readonly int _companyId;
+    private readonly CompanyId _companyId;
     private readonly EmployeeId _employeeId;
 
-    public Employee(int companyId, EmployeeId employeeId)
+    public Employee(CompanyId companyId, EmployeeId employeeId)
     {
         _companyId = companyId;
         _employeeId = employeeId;
     }
 
     public EmployeeId EmployeeId => _employeeId;
-    public int CompanyId => _companyId;
+    public CompanyId CompanyId => _companyId;
 }

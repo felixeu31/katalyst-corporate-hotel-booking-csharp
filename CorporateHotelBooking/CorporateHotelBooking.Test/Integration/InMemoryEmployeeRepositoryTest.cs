@@ -18,7 +18,7 @@ namespace CorporateHotelBooking.Test.Integration
         {
             // Arrange
             EmployeeId employeeId = EmployeeId.New();
-            int companyId = 1;
+            CompanyId companyId = CompanyId.New();
 
             // Act
             _employeeRepository.Add(new Employee(companyId, employeeId));
@@ -26,7 +26,7 @@ namespace CorporateHotelBooking.Test.Integration
 
             // Assert
             employee.Should().NotBeNull();
-            employee.CompanyId.Should().Be(1);
+            employee.CompanyId.Should().Be(companyId);
             employee.EmployeeId.Should().Be(employeeId);
         }
 

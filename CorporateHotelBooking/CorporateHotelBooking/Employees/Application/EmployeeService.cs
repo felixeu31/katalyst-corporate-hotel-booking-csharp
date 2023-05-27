@@ -11,8 +11,8 @@ public class EmployeeService
         _employeeRepository = employeeRepository;
     }
 
-    public void AddEmployee(int companyId, Guid employeeId)
+    public void AddEmployee(Guid companyId, Guid employeeId)
     {
-        _employeeRepository.Add(new Employee(companyId, EmployeeId.From(employeeId)));
+        _employeeRepository.Add(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
     }
 }

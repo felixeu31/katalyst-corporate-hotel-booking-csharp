@@ -19,7 +19,7 @@ namespace CorporateHotelBooking.Test.Unit
             // Arrange
             var employeeService = new EmployeeService(_employeeRepository.Object);
             var employeeId = Guid.NewGuid();
-            var companyId = 1;
+            var companyId = Guid.NewGuid();
 
             // Act
             employeeService.AddEmployee(companyId, employeeId);

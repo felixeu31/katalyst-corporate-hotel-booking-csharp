@@ -35,7 +35,7 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task an_employee_should_be_able_to_book_a_room()
         {
             // Arrange
-            var companyId = 1;
+            var companyId = Guid.NewGuid();
             var hotelId = Guid.NewGuid();
             var hotelName = "Wesing";
             var employeeId = Guid.NewGuid();

@@ -7,7 +7,7 @@ public class Booking
 {
     public Booking(int roomNumber, HotelId hotelId, EmployeeId bookedBy, string roomType, DateTime checkIn, DateTime checkOut)
     {
-        BookingId = Guid.NewGuid();
+        BookingId = BookingId.New();
         RoomNumber = roomNumber;
         HotelId = hotelId;
         BookedBy = bookedBy;
@@ -16,7 +16,7 @@ public class Booking
         CheckOut = checkOut;
     }
 
-    public Guid BookingId { get; set; }
+    public BookingId BookingId { get; set; }
     public HotelId HotelId { get; set; }
     public EmployeeId BookedBy { get; set; }
     public DateTime CheckIn { get; set; }
