@@ -24,10 +24,10 @@ namespace CorporateHotelBooking.Test.Unit
             // Arrange
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
-            var hotelService = new HotelService(_hotelRepository.Object);
+            var addHotelUseCase = new AddHotelUseCase(_hotelRepository.Object);
 
             // Act
-            hotelService.AddHotel(hotelId, hotelName);
+            addHotelUseCase.Execute(hotelId, hotelName);
 
             // Assert
             _hotelRepository.Verify(x => x.Add(It.IsAny<Hotel>()), Times.Once());
@@ -44,11 +44,12 @@ namespace CorporateHotelBooking.Test.Unit
             _hotelRepository
                 .Setup(repository => repository.Get(HotelId.From(hotelId)))
                     .Returns(new Hotel(HotelId.From(hotelId), hotelName));
-            var hotelService = new HotelService(_hotelRepository.Object);
-            hotelService.AddHotel(hotelId, hotelName);
+            var addHotelUseCase = new AddHotelUseCase(_hotelRepository.Object);
+            var setRoomUseCase = new SetRoomUseCase(_hotelRepository.Object);
+            addHotelUseCase.Execute(hotelId, hotelName);
 
             // Act
-            hotelService.SetRoom(hotelId, roomNumber, roomType);
+            setRoomUseCase.Execute(hotelId, roomNumber, roomType);
 
             // Assert
             _hotelRepository.Verify(x => x.Add(It.IsAny<Hotel>()), Times.Once());
@@ -67,12 +68,13 @@ namespace CorporateHotelBooking.Test.Unit
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             hotel.AddRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
-            var hotelService = new HotelService(_hotelRepository.Object);
-            hotelService.AddHotel(hotelId, hotelName);
+            var addHotelUseCase = new AddHotelUseCase(_hotelRepository.Object);
+            var setRoomUseCase = new SetRoomUseCase(_hotelRepository.Object);
+            addHotelUseCase.Execute(hotelId, hotelName);
 
             // Act
-            hotelService.SetRoom(hotelId, roomNumber, roomType);
-            hotelService.SetRoom(hotelId, roomNumber, otherRoomType);
+            setRoomUseCase.Execute(hotelId, roomNumber, roomType);
+            setRoomUseCase.Execute(hotelId, roomNumber, otherRoomType);
 
             // Assert
             _hotelRepository.Verify(x => x.Update(It.IsAny<Hotel>()));

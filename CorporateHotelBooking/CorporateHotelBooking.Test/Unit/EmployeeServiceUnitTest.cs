@@ -17,12 +17,12 @@ namespace CorporateHotelBooking.Test.Unit
         public void AddEmployee_ShouldStoreEmployee()
         {
             // Arrange
-            var employeeService = new EmployeeService(_employeeRepository.Object);
+            var addEmployeeUseCase = new AddEmployeeUseCase(_employeeRepository.Object);
             var employeeId = Guid.NewGuid();
             var companyId = Guid.NewGuid();
 
             // Act
-            employeeService.AddEmployee(companyId, employeeId);
+            addEmployeeUseCase.Execute(companyId, employeeId);
 
             // Assert
             _employeeRepository.Verify(x => x.Add(It.IsAny<Employee>()), Times.Once());

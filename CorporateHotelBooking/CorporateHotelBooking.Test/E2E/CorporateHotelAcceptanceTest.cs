@@ -17,18 +17,20 @@ namespace CorporateHotelBooking.Test.E2E
     /// <remarks>dotnet watch test --project .\CorporateHotelBooking.Test\CorporateHotelBooking.Test.csproj</remarks>
     public class CorporateHotelAcceptanceTest
     {
-        private readonly HotelService _hotelService;
-        private readonly BookingService _bookingService;
-        private readonly EmployeeService _employeeService;
+        private readonly AddHotelUseCase _addHotelUseCase;
+        private readonly BookUseCase _bookUseCase;
+        private readonly AddEmployeeUseCase _addEmployeeUseCase;
+        private readonly SetRoomUseCase _setRoomUseCase;
 
         public CorporateHotelAcceptanceTest()
         {
             IHotelRepository hotelRepository = new InMemoryHotelRepository();
             IEmployeeRepository employeeRepository = new InMemoryEmployeeRepository();
             IBookingRepository bookingRepository = new InMemoryBookingRepository();
-            _employeeService = new EmployeeService(employeeRepository);
-            _bookingService = new BookingService(bookingRepository);
-            _hotelService = new HotelService(hotelRepository);
+            _addEmployeeUseCase = new AddEmployeeUseCase(employeeRepository);
+            _bookUseCase = new BookUseCase(bookingRepository);
+            _addHotelUseCase = new AddHotelUseCase(hotelRepository);
+            _setRoomUseCase = new SetRoomUseCase(hotelRepository);
         }
 
         [Fact]
@@ -43,12 +45,12 @@ namespace CorporateHotelBooking.Test.E2E
             var roomNumber = 1;
             var checkIn = DateTime.Today;
             var checkOut = DateTime.Today.AddDays(7);
-            _hotelService.AddHotel(hotelId, hotelName);
-            _hotelService.SetRoom(hotelId, roomNumber, roomType);
-            _employeeService.AddEmployee(companyId, employeeId);
+            _addHotelUseCase.Execute(hotelId, hotelName);
+            _setRoomUseCase.Execute(hotelId, roomNumber, roomType);
+            _addEmployeeUseCase.Execute(companyId, employeeId);
 
             // Act
-            var booking = _bookingService.Book(roomNumber, hotelId, employeeId, roomType, checkIn, checkOut);
+            var booking = _bookUseCase.Execute(roomNumber, hotelId, employeeId, roomType, checkIn, checkOut);
 
             // Assert
             booking.HotelId.Should().Be(HotelId.From(hotelId));

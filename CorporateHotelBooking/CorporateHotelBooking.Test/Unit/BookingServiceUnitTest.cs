@@ -23,7 +23,7 @@ namespace CorporateHotelBooking.Test.Unit
         public void AddBooking_ShouldStoreBooking()
         {
             // Arrange
-            var bookingService = new BookingService(_bookingRepository.Object);
+            var bookUseCase = new BookUseCase(_bookingRepository.Object);
             var hotelId = Guid.NewGuid();
             var roomNumber = 1;
             var employeeId = Guid.NewGuid();
@@ -32,7 +32,7 @@ namespace CorporateHotelBooking.Test.Unit
             var chekout = DateTime.Today.AddDays(2);
 
             // Act
-            bookingService.Book(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
+            bookUseCase.Execute(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
 
             // Assert
             _bookingRepository.Verify(x => x.Add(It.IsAny<Booking>()), Times.Once());
