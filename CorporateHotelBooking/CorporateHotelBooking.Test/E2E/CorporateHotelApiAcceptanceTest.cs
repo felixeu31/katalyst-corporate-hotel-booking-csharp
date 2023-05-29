@@ -15,6 +15,10 @@ using System.Net.Http.Json;
 
 namespace CorporateHotelBooking.Test.E2E
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>dotnet watch test --project .\CorporateHotelBooking.Test\CorporateHotelBooking.Test.csproj</remarks>
     public class CorporateHotelApiAcceptanceTest : IClassFixture<CorporateHotelApiFactory>
     {
         private readonly HttpClient _client;
@@ -25,7 +29,7 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
-        public async Task an_existing_room_in_hotel_should_be_booked()
+        public async Task should_book_an_existing_room_in_hotel()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
