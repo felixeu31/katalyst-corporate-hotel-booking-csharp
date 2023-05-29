@@ -23,18 +23,20 @@ public class Hotel
         {
             UpdateRoom(roomNumber, roomType);
         }
-
-        AddRoom(roomNumber, roomType);
+        else
+        {
+            AddRoom(roomNumber, roomType);
+        }
     }
 
-    public void UpdateRoom(int roomNumber, string roomType)
+    private void UpdateRoom(int roomNumber, string roomType)
     {
         var room = _rooms.FirstOrDefault(x => x.RoomNumber.Equals(roomNumber));
 
         room.SetRoomType(roomType);
     }
 
-    public void AddRoom(int roomNumber, string roomType)
+    private void AddRoom(int roomNumber, string roomType)
     {
         _rooms.Add(new Room(roomNumber, roomType));
     }

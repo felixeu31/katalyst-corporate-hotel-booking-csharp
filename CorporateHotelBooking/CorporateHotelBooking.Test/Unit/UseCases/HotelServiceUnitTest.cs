@@ -7,7 +7,7 @@ using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
 using Moq;
 
-namespace CorporateHotelBooking.Test.Unit
+namespace CorporateHotelBooking.Test.Unit.UseCases
 {
     public class HotelServiceUnitTest
     {
@@ -66,7 +66,7 @@ namespace CorporateHotelBooking.Test.Unit
             var roomType = "Deluxe";
             var otherRoomType = "Standard";
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
-            hotel.AddRoom(roomNumber, roomType);
+            hotel.SetRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
             var addHotelUseCase = new AddHotelUseCase(_hotelRepository.Object);
             var setRoomUseCase = new SetRoomUseCase(_hotelRepository.Object);

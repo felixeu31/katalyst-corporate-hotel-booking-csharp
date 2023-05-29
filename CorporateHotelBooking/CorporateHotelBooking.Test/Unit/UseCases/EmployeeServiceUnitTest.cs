@@ -2,7 +2,7 @@
 using Moq;
 using CorporateHotelBooking.Employees.Domain;
 
-namespace CorporateHotelBooking.Test.Unit
+namespace CorporateHotelBooking.Test.Unit.UseCases
 {
     public class EmployeeServiceUnitTest
     {

@@ -2,7 +2,7 @@
 using CorporateHotelBooking.Employees.Infra;
 using FluentAssertions;
 
-namespace CorporateHotelBooking.Test.Integration
+namespace CorporateHotelBooking.Test.Integration.Infra
 {
     public class InMemoryEmployeeRepositoryTest
     {

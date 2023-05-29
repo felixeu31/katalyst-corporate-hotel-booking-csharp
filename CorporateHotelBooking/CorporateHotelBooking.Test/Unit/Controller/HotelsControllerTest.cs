@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 
-namespace CorporateHotelBooking.Test.Unit;
+namespace CorporateHotelBooking.Test.Unit.Controller;
 
 public class HotelsControllerTest
 {

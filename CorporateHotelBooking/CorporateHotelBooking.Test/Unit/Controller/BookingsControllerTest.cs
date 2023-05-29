@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 
-namespace CorporateHotelBooking.Test.Unit;
+namespace CorporateHotelBooking.Test.Unit.Controller;
 
 public class BookingsControllerTest
 {
@@ -29,11 +29,11 @@ public class BookingsControllerTest
 
         // Assert
         _bookUseCaseMock.Verify(mock => mock.Execute(
-            bookingData.RoomNumber, 
-            bookingData.HotelId, 
-            bookingData.EmployeeId, 
-            bookingData.RoomType, 
-            bookingData.CheckIn, 
+            bookingData.RoomNumber,
+            bookingData.HotelId,
+            bookingData.EmployeeId,
+            bookingData.RoomType,
+            bookingData.CheckIn,
             bookingData.CheckOut), Times.Once);
         ((CreatedResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.Created);
     }

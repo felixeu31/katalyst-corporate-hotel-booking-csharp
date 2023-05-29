@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CorporateHotelBooking.Bookings.Domain;
 
-namespace CorporateHotelBooking.Test.Unit
+namespace CorporateHotelBooking.Test.Unit.UseCases
 {
     public class BookingServiceUnitTest
     {
