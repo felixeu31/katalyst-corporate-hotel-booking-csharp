@@ -1,4 +1,5 @@
 using Castle.Core.Resource;
+using CorporateHotelBooking.Api.Controllers;
 using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Infra;
@@ -48,11 +49,11 @@ namespace CorporateHotelBooking.Test.E2E
             // Act
             var bookResponse = await _client.PostAsJsonAsync("bookings", new { roomNumber, hotelId, employeeId, roomType, checkIn, checkOut });
             Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
-            var booking = await bookResponse.Content.ReadFromJsonAsync<Booking>();
+            var booking = await bookResponse.Content.ReadFromJsonAsync<BookingDto>();
 
             // Assert
-            booking.HotelId.Should().Be(HotelId.From(hotelId));
-            booking.BookedBy.Should().Be(EmployeeId.From(employeeId));
+            booking.HotelId.Should().Be(hotelId);
+            booking.BookedBy.Should().Be(employeeId);
             booking.RoomType.Should().Be(roomType);
             booking.RoomNumber.Should().Be(roomNumber);
             booking.CheckIn.Should().BeSameDateAs(checkIn);

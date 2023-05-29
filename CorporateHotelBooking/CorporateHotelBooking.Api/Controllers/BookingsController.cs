@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using CorporateHotelBooking.Bookings.Application;
+using CorporateHotelBooking.Bookings.Domain;
 
 namespace CorporateHotelBooking.Api.Controllers
 {
@@ -17,7 +18,7 @@ namespace CorporateHotelBooking.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Book(BookBody bookingData)
+        public IActionResult Book(BookingBody bookingData)
         {
             var booking = _bookUseCase.Execute(bookingData.RoomNumber,
                 bookingData.HotelId,
@@ -26,9 +27,27 @@ namespace CorporateHotelBooking.Api.Controllers
                 bookingData.CheckIn,
                 bookingData.CheckOut);
 
-            return Created("", booking);
+            return Created("", BookingDto.From(booking));
         }
     }
 
-    public record BookBody(int RoomNumber, Guid HotelId, Guid EmployeeId, string RoomType, DateTime CheckIn, DateTime CheckOut) { }
+    public record BookingBody(int RoomNumber, Guid HotelId, Guid EmployeeId, string RoomType, DateTime CheckIn, DateTime CheckOut) { }
+
+    public record BookingDto(Guid BookingId, Guid HotelId, Guid BookedBy, int RoomNumber, string RoomType,
+        DateTime CheckIn, DateTime CheckOut)
+    {
+        public static BookingDto? From(Booking? booking)
+        {
+            if (booking == null) return null;
+
+            return new BookingDto(
+                booking.BookingId.Value,
+                booking.HotelId.Value,
+                booking.BookedBy.Value,
+                booking.RoomNumber,
+                booking.RoomType,
+                booking.CheckIn,
+                booking.CheckOut);
+        }
+    }
 }

@@ -22,7 +22,7 @@ public class BookingsControllerTest
     public void ShouldBookRoom()
     {
         // Arrange
-        var bookingData = new BookBody(1, Guid.NewGuid(), Guid.NewGuid(), "Deluxe", DateTime.Today, DateTime.Today.AddDays(1));
+        var bookingData = new BookingBody(1, Guid.NewGuid(), Guid.NewGuid(), "Deluxe", DateTime.Today, DateTime.Today.AddDays(1));
 
         // Act
         var addBookingResponse = _bookingsController.Book(bookingData);
