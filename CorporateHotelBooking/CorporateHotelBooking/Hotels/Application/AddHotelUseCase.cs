@@ -2,7 +2,7 @@ using CorporateHotelBooking.Hotels.Domain;
 
 namespace CorporateHotelBooking.Hotels.Application;
 
-public class AddHotelUseCase
+public class AddHotelUseCase : IAddHotelUseCase
 {
     private readonly IHotelRepository _hotelRepository;
 

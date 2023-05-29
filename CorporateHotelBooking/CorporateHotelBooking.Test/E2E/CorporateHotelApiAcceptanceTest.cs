@@ -25,10 +25,9 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
-        public async Task an_employee_should_be_able_to_book_a_room()
+        public async Task an_existing_room_in_hotel_should_be_booked()
         {
             // Arrange
-            var companyId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
             var hotelId = Guid.NewGuid();
             var hotelName = "Westing";
@@ -43,7 +42,7 @@ namespace CorporateHotelBooking.Test.E2E
             Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
 
             // Act
-            var bookResponse = await _client.PostAsJsonAsync($"bookings", new { roomNumber, hotelId, employeeId, roomType, checkIn, checkOut });
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { roomNumber, hotelId, employeeId, roomType, checkIn, checkOut });
             Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
             var booking = await bookResponse.Content.ReadFromJsonAsync<Booking>();
 

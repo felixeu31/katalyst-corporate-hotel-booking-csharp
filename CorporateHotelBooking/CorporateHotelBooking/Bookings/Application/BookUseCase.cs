@@ -4,7 +4,7 @@ using CorporateHotelBooking.Hotels.Domain;
 
 namespace CorporateHotelBooking.Bookings.Application;
 
-public class BookUseCase
+public class BookUseCase : IBookUseCase
 {
     private readonly IBookingRepository _bookingRepository;
 

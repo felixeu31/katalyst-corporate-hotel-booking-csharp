@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using CorporateHotelBooking.Bookings.Application;
 
 namespace CorporateHotelBooking.Api.Controllers
 {
@@ -8,10 +9,24 @@ namespace CorporateHotelBooking.Api.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
+        private readonly IBookUseCase _bookUseCase;
+
+        public BookingsController(IBookUseCase bookUseCase)
+        {
+            _bookUseCase = bookUseCase;
+        }
+
         [HttpPost]
         public IActionResult Book(BookBody bookingData)
         {
-            throw new NotImplementedException();
+            var booking = _bookUseCase.Execute(bookingData.RoomNumber,
+                bookingData.HotelId,
+                bookingData.EmployeeId,
+                bookingData.RoomType,
+                bookingData.CheckIn,
+                bookingData.CheckOut);
+
+            return Created("", booking);
         }
     }
 
