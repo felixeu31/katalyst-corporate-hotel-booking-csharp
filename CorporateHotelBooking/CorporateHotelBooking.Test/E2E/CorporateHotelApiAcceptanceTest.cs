@@ -60,5 +60,21 @@ namespace CorporateHotelBooking.Test.E2E
             booking.CheckOut.Should().BeSameDateAs(checkOut);
         }
 
+        [Fact]
+        public async Task should_return_conflict_when_trying_to_add_duplicated_hotel()
+        {
+            // Arrange
+            var hotelId = Guid.NewGuid();
+
+            var addHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = "Hotel 1" });
+            Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
+
+            // Act
+            var duplicatedAddHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = "Same hotel" });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, duplicatedAddHotelResponse.StatusCode);
+        }
+
     }
 }

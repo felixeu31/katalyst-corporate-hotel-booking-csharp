@@ -13,6 +13,8 @@ public class AddHotelUseCase : IAddHotelUseCase
 
     public void Execute(Guid hotelId, string hotelName)
     {
+        if (_hotelRepository.Get(HotelId.From(hotelId)) is not null) throw new ExistingHotelException();
+
         _hotelRepository.Add(new Hotel(HotelId.From(hotelId), hotelName));
     }
 }

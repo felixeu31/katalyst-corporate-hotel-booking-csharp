@@ -1,4 +1,5 @@
 ﻿using CorporateHotelBooking.Hotels.Application;
+using CorporateHotelBooking.Hotels.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -20,9 +21,17 @@ namespace CorporateHotelBooking.Api.Controllers
         [HttpPost]
         public IActionResult AddHotel(AddHotelBody hotelData)
         {
-            _addHotelUseCase.Execute(hotelData.HotelId, hotelData.HotelName);
-            
-            return StatusCode((int)HttpStatusCode.Created);
+            try
+            {
+                _addHotelUseCase.Execute(hotelData.HotelId, hotelData.HotelName);
+
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (ExistingHotelException)
+            {
+
+                return StatusCode((int)HttpStatusCode.Conflict);
+            }
         }
 
         [HttpPost("{hotelId}/rooms")]
