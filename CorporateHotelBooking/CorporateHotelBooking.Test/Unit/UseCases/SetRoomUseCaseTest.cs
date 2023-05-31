@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
+using FluentAssertions;
 using Moq;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
@@ -58,6 +59,26 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
 
             // Assert
             _hotelRepository.Verify(x => x.Update(It.IsAny<Hotel>()));
+        }
+
+        [Fact]
+        public void should_throw_exception_when_hotel_not_found()
+        {
+            // Arrange
+            Guid hotelId = Guid.NewGuid();
+            string hotelName = "Westing";
+            var roomNumber = 1;
+            var roomType = "Deluxe";
+            var hotel = new Hotel(HotelId.From(hotelId), hotelName);
+            hotel.SetRoom(roomNumber, roomType);
+            _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(default(Hotel?));
+            var setRoomUseCase = new SetRoomUseCase(_hotelRepository.Object);
+
+            // Act
+            Action action = () => setRoomUseCase.Execute(hotelId, roomNumber, roomType);
+
+            // Assert
+            action.Should().Throw<HotelNotFoundException>();
         }
     }
 }

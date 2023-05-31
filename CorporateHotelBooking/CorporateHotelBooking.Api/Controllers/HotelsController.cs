@@ -29,7 +29,6 @@ namespace CorporateHotelBooking.Api.Controllers
             }
             catch (ExistingHotelException)
             {
-
                 return StatusCode((int)HttpStatusCode.Conflict);
             }
         }
@@ -37,9 +36,16 @@ namespace CorporateHotelBooking.Api.Controllers
         [HttpPost("{hotelId}/rooms")]
         public IActionResult SetRoom(Guid hotelId, SetRoomBody roomData)
         {
-            _setRoomUseCase.Execute(hotelId, roomData.RoomNumber, roomData.RoomType);
+            try
+            {
+                _setRoomUseCase.Execute(hotelId, roomData.RoomNumber, roomData.RoomType);
 
-            return StatusCode((int)HttpStatusCode.OK);
+                return StatusCode((int)HttpStatusCode.OK);
+            }
+            catch (HotelNotFoundException)
+            {
+                return StatusCode((int)HttpStatusCode.NotFound);
+            }
         }
     }
     

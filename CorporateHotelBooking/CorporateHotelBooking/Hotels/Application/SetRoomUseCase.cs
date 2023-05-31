@@ -15,6 +15,8 @@ public class SetRoomUseCase : ISetRoomUseCase
     {
         var hotel = _hotelRepository.Get(HotelId.From(hotelId));
 
+        if (hotel is null) throw new HotelNotFoundException();
+
         hotel.SetRoom(roomNumber, roomType);
 
         _hotelRepository.Update(hotel);

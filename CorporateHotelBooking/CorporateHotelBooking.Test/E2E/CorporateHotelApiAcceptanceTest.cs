@@ -61,7 +61,7 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
-        public async Task should_return_conflict_when_trying_to_add_duplicated_hotel()
+        public async Task add_hotel_should_return_conflict_when_trying_to_add_duplicated_hotel()
         {
             // Arrange
             var hotelId = Guid.NewGuid();
@@ -74,6 +74,21 @@ namespace CorporateHotelBooking.Test.E2E
 
             // Assert
             Assert.Equal(HttpStatusCode.Conflict, duplicatedAddHotelResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task set_room_should_return_not_found_when_hotel_does_not_exist()
+        {
+            // Arrange
+            var roomType = "Suite";
+            var roomNumber = 1;
+
+            // Act
+            var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{Guid.NewGuid()}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, setRoomResponse.StatusCode);
+
         }
 
     }
