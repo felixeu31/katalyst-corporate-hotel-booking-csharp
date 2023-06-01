@@ -59,30 +59,5 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             hotel.Rooms.First().RoomNumber.Should().Be(roomNumber);
             hotel.Rooms.First().RoomType.Should().Be(roomType);
         }
-
-
-        //[Fact]
-        //public void should_update_hotel_room_when_existing()
-        //{
-        //    // Arrange
-        //    
-        //    HotelId hotelId = HotelId.New();
-        //    string hotelName = "Westing";
-        //    var roomNumber = 1;
-        //    var roomType = "Deluxe";
-        //    var otherRoomType = "Standard";
-
-        //    // Act
-        //    _hotelRepository.Add(hotelId, hotelName);
-        //    _hotelRepository.AddRoom(hotelId, roomNumber, roomType);
-        //    _hotelRepository.UpdateRoom(hotelId, roomNumber, otherRoomType);
-        //    Hotel hotel = _hotelRepository.GetById(hotelId);
-
-        //    // Assert
-        //    hotel.Should().NotBeNull();
-        //    hotel.Rooms.Should().HaveCount(1);
-        //    hotel.Rooms.First().RoomNumber.Should().Be(roomNumber);
-        //    hotel.Rooms.First().RoomType.Should().Be(otherRoomType);
-        //}
     }
 }

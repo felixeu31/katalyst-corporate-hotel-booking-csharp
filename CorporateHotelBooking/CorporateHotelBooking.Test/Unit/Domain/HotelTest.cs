@@ -35,4 +35,22 @@ public class HotelTest
         hotel.Rooms[0].RoomNumber.Should().Be(1);
         hotel.Rooms[0].RoomType.Should().Be("Standard");
     }
+
+    [Fact]
+    public void ShouldCalculateRoomCount()
+    {
+        // Arrange
+        var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
+        hotel.SetRoom(1, "Deluxe");
+        hotel.SetRoom(2, "Deluxe");
+        hotel.SetRoom(3, "Standard");
+
+        // Act
+        var roomCount = hotel.CalculateRoomCount();
+
+        // Assert
+        roomCount.Should().HaveCount(2);
+        roomCount["Deluxe"].Should().Be(2);
+        roomCount["Standard"].Should().Be(1);
+    }
 }

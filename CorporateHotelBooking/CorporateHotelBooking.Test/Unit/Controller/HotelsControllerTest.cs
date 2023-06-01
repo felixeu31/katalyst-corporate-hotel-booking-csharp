@@ -10,15 +10,17 @@ namespace CorporateHotelBooking.Test.Unit.Controller;
 
 public class HotelsControllerTest
 {
-    private Mock<IAddHotelUseCase> _addHotelUseCaseMock;
-    private Mock<ISetRoomUseCase> _setRoomUseCaseMock;
+    private readonly Mock<IAddHotelUseCase> _addHotelUseCaseMock;
+    private readonly Mock<ISetRoomUseCase> _setRoomUseCaseMock;
+    private readonly Mock<IFindHotelUseCase> _findHotelUseCase;
     private HotelsController _hotelsController;
 
     public HotelsControllerTest()
     {
+        _findHotelUseCase = new Mock<IFindHotelUseCase>();
         _addHotelUseCaseMock = new Mock<IAddHotelUseCase>();
         _setRoomUseCaseMock = new Mock<ISetRoomUseCase>();
-        _hotelsController = new HotelsController(_addHotelUseCaseMock.Object, _setRoomUseCaseMock.Object);
+        _hotelsController = new HotelsController(_addHotelUseCaseMock.Object, _setRoomUseCaseMock.Object, _findHotelUseCase.Object);
     }
     [Fact]
     public void ShouldAddTask()
@@ -68,6 +70,22 @@ public class HotelsControllerTest
         // Assert
 
         ((StatusCodeResult)setRoomResponse).StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public void should_find_hotel()
+    {
+        // Arrange
+        var hotelId = Guid.NewGuid();
+        _findHotelUseCase
+            .Setup(x => x.Execute(
+                hotelId)).Returns(new HotelDto(hotelId, "hotel name", new Dictionary<string, int>(), new List<RoomDto>()));
+        // Act
+        var setRoomResponse = _hotelsController.FindHotelBy(hotelId);
+
+        // Assert
+
+        ((OkObjectResult)setRoomResponse).StatusCode.Should().Be((int)HttpStatusCode.OK);
     }
 
 }

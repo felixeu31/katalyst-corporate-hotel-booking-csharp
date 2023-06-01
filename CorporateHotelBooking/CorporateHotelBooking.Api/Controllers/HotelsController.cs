@@ -11,11 +11,13 @@ namespace CorporateHotelBooking.Api.Controllers
     {
         private readonly IAddHotelUseCase _addHotelUseCase;
         private readonly ISetRoomUseCase _setRoomUseCase;
+        private readonly IFindHotelUseCase _findHotelUseCase;
 
-        public HotelsController(IAddHotelUseCase addHotelUseCase, ISetRoomUseCase setRoomUseCase)
+        public HotelsController(IAddHotelUseCase addHotelUseCase, ISetRoomUseCase setRoomUseCase, IFindHotelUseCase findHotelUseCase)
         {
             _addHotelUseCase = addHotelUseCase;
             _setRoomUseCase = setRoomUseCase;
+            _findHotelUseCase = findHotelUseCase;
         }
 
         [HttpPost]
@@ -47,8 +49,24 @@ namespace CorporateHotelBooking.Api.Controllers
                 return StatusCode((int)HttpStatusCode.NotFound);
             }
         }
+
+
+        [HttpGet("{hotelId}")]
+        public IActionResult FindHotelBy(Guid hotelId)
+        {
+            try
+            {
+                var hotelDto = _findHotelUseCase.Execute(hotelId);
+
+                return Ok(hotelDto);
+            }
+            catch (HotelNotFoundException)
+            {
+                return StatusCode((int)HttpStatusCode.NotFound);
+            }
+        }
     }
-    
+
     public record AddHotelBody(Guid HotelId, string HotelName) { }
     public record SetRoomBody(int RoomNumber, string RoomType) { }
 }

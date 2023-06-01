@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IAddHotelUseCase, AddHotelUseCase>();
 builder.Services.AddSingleton<ISetRoomUseCase, SetRoomUseCase>();
 builder.Services.AddSingleton<IBookUseCase, BookUseCase>();
+builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IHotelRepository, InMemoryHotelRepository>();
 

@@ -40,4 +40,16 @@ public class Hotel
     {
         _rooms.Add(new Room(roomNumber, roomType));
     }
+
+    public Dictionary<string, int> CalculateRoomCount()
+    {
+        var roomCount = new Dictionary<string, int>();
+
+        foreach (var roomTypeGroup in _rooms.GroupBy(x => x.RoomType))
+        {
+            roomCount.Add(roomTypeGroup.Key, roomTypeGroup.Count());
+        }
+
+        return roomCount;
+    }
 }

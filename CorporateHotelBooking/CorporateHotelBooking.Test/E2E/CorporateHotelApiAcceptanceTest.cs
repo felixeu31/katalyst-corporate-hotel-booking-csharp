@@ -91,5 +91,45 @@ namespace CorporateHotelBooking.Test.E2E
 
         }
 
+
+        [Fact]
+        public async Task find_hotel_should_return_hotel_information()
+        {
+            // Arrange
+            var hotelId = Guid.NewGuid();
+            var hotelName = "Westing";
+            var roomType1 = "Suite";
+            var roomType2 = "Standard";
+            var room1 = new { RoomNumber = 1, RoomType = roomType1 };
+            var room2 = new { RoomNumber = 2, RoomType = roomType1 };
+            var room3 = new { RoomNumber = 3, RoomType = roomType1 };
+            var room4 = new { RoomNumber = 4, RoomType = roomType1 };
+            var room5 = new { RoomNumber = 5, RoomType = roomType2 };
+            var room6 = new { RoomNumber = 6, RoomType = roomType2 };
+
+            await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
+            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room1);
+            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room2);
+            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room3);
+            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room4);
+            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room5);
+            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room6);
+
+            // Act
+            var findHotelResponse = await _client.GetAsync($"hotels/{hotelId}");
+            Assert.Equal(HttpStatusCode.OK, findHotelResponse.StatusCode);
+            var hotelDto = await findHotelResponse.Content.ReadFromJsonAsync<HotelDto>();
+
+            // Assert
+            hotelDto.Should().NotBeNull();
+            hotelDto.HotelId.Should().Be(hotelId);
+            hotelDto.HotelName.Should().Be(hotelName);
+            hotelDto.RoomCount.Should().HaveCount(2);
+            hotelDto.RoomCount[roomType1].Should().Be(4);
+            hotelDto.RoomCount[roomType2].Should().Be(2);
+            hotelDto.Rooms.Should().HaveCount(6);
+            hotelDto.Rooms.First(x => x.RoomNumber.Equals(room1.RoomNumber)).RoomType.Should().Be(room1.RoomType);
+        }
+
     }
 }
