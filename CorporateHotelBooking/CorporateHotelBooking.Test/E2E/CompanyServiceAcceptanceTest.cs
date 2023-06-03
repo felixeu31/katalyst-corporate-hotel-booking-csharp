@@ -31,14 +31,15 @@ namespace CorporateHotelBooking.Test.E2E
 
             // Assert
             Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
+            
+            // Just and example that could help preventing the access to the repo from
+            // the acceptance test.
+            // The treadoff here is that I am assuming that we will at some point in time have a get endpoint anyways.
+            // So given that this is true, this acceptance test would then test even more the outside-part, then
+            // in the inside you can actually assert the repo.
+            var listEmployeeResponse = await _client.GetAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
 
-            ThenEmployeeShouldExistInRepository();
-
-            void ThenEmployeeShouldExistInRepository()
-            {
-                var employeeRepository = _apiFactory.Services.GetService<IEmployeeRepository>();
-                Assert.NotNull(employeeRepository.Get(EmployeeId.From(employeeId)));
-            }
+            Assert.NotNull(listEmployeeResponse.Get(EmployeeId.From(employeeId)));
         }
     }
 }
