@@ -1,6 +1,9 @@
 using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Infra;
+using CorporateHotelBooking.Employees.Application;
+using CorporateHotelBooking.Employees.Domain;
+using CorporateHotelBooking.Employees.Infra;
 using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
@@ -12,8 +15,10 @@ builder.Services.AddSingleton<IAddHotelUseCase, AddHotelUseCase>();
 builder.Services.AddSingleton<ISetRoomUseCase, SetRoomUseCase>();
 builder.Services.AddSingleton<IBookUseCase, BookUseCase>();
 builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
+builder.Services.AddSingleton<IAddEmployeeUseCase, AddEmployeeUseCase>();
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IHotelRepository, InMemoryHotelRepository>();
+builder.Services.AddSingleton<IEmployeeRepository, InMemoryEmployeeRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
