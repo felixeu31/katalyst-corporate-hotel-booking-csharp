@@ -9,20 +9,43 @@ namespace CorporateHotelBooking.Test.Unit.Controller
 {
     public class EmployeesControllerTest
     {
+        private readonly Mock<IAddEmployeeUseCase> _addEmployeeUseCaseMock;
+        private readonly Mock<IDeleteEmployeeUseCase> _deleteEmployeeUseCaseMock;
+        private readonly EmployeesController _employeesController;
+
+        public EmployeesControllerTest()
+        {
+            _addEmployeeUseCaseMock = new Mock<IAddEmployeeUseCase>();
+            _deleteEmployeeUseCaseMock = new Mock<IDeleteEmployeeUseCase>();
+            _employeesController = new EmployeesController(_addEmployeeUseCaseMock.Object, _deleteEmployeeUseCaseMock.Object);
+        }
+
         [Fact]
         public void AddEmployee_ShouldProcessRequestAndInvokeUseCase()
         {
             // Arrange
-            var addEmployeeUseCaseMock = new Mock<IAddEmployeeUseCase>();
-            var employeesController = new EmployeesController(addEmployeeUseCaseMock.Object);
             var addEmployeeData = new AddEmployeeData(Guid.NewGuid(), Guid.NewGuid());
 
             // Act
-            var addEmployeeResponse = employeesController.AddHotel(addEmployeeData);
+            var addEmployeeResponse = _employeesController.AddEmployee(addEmployeeData);
 
             // Assert
-            addEmployeeUseCaseMock.Verify(mock => mock.Execute(addEmployeeData.CompanyId, addEmployeeData.EmployeeId), Times.Once);
+            _addEmployeeUseCaseMock.Verify(mock => mock.Execute(addEmployeeData.CompanyId, addEmployeeData.EmployeeId), Times.Once);
             ((StatusCodeResult)addEmployeeResponse).StatusCode.Should().Be((int)HttpStatusCode.Created);
+        }
+
+        [Fact]
+        public void DeleteEmployee_ShouldProcessRequestAndInvokeUseCase()
+        {
+            // Arrange
+            var employeeId = Guid.NewGuid();
+
+            // Act
+            var deleteEmployeeResponse = _employeesController.DeleteEmployee(employeeId);
+
+            // Assert
+            _deleteEmployeeUseCaseMock.Verify(mock => mock.Execute(employeeId), Times.Once);
+            ((StatusCodeResult)deleteEmployeeResponse).StatusCode.Should().Be((int)HttpStatusCode.OK);
         }
     }
 }

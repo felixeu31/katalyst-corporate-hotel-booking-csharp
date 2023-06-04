@@ -4,11 +4,11 @@ using CorporateHotelBooking.Employees.Domain;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
-    public class EmployeeServiceUnitTest
+    public class AddEmployeeUseCaseTest
     {
         private readonly Mock<IEmployeeRepository> _employeeRepository;
 
-        public EmployeeServiceUnitTest()
+        public AddEmployeeUseCaseTest()
         {
             _employeeRepository = new();
         }

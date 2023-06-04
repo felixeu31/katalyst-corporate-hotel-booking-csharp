@@ -41,5 +41,36 @@ namespace CorporateHotelBooking.Test.E2E
                 Assert.NotNull(context.Employees[EmployeeId.From(employeeId)]);
             }
         }
+
+        [Fact]
+        public async void should_be_able_to_delete_an_employee()
+        {
+            // Arrange
+            Guid employeeId = Guid.NewGuid();
+            Guid companyId = Guid.NewGuid();
+            var givenEmployeeRepository = GivenRepositoryWithExistingEmployee();
+
+            // Act
+            var addEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, addEmployeeResponse.StatusCode);
+
+            ThenEmployeeShouldNotExistInRepository();
+
+            IEmployeeRepository GivenRepositoryWithExistingEmployee()
+            {
+                var employeeRepository = _apiFactory.Services.GetService<IEmployeeRepository>();
+
+                employeeRepository.Add(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
+
+                return employeeRepository;
+            }
+
+            void ThenEmployeeShouldNotExistInRepository()
+            {
+                Assert.Null(givenEmployeeRepository.Get(EmployeeId.From(employeeId)));
+            }
+        }
     }
 }

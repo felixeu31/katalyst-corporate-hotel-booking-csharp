@@ -8,10 +8,12 @@ namespace CorporateHotelBooking.Test.Integration.Infra
     public class InMemoryEmployeeRepositoryTest
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private InMemoryContext _context;
 
         public InMemoryEmployeeRepositoryTest()
         {
-            _employeeRepository = new InMemoryEmployeeRepository(new InMemoryContext());
+            _context = new InMemoryContext();
+            _employeeRepository = new InMemoryEmployeeRepository(_context);
         }
 
         [Fact]
@@ -29,6 +31,22 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             employee.Should().NotBeNull();
             employee.CompanyId.Should().Be(companyId);
             employee.EmployeeId.Should().Be(employeeId);
+        }
+
+
+        [Fact]
+        public void should_delete_employee()
+        {
+            // Arrange
+            EmployeeId employeeId = EmployeeId.New();
+            CompanyId companyId = CompanyId.New();
+            _context.Employees.Add(employeeId, new Employee(companyId, employeeId));
+
+            // Act
+            _employeeRepository.Delete(employeeId);
+
+            // Assert
+            _context.Employees.Should().NotContainKey(employeeId);
         }
 
     }

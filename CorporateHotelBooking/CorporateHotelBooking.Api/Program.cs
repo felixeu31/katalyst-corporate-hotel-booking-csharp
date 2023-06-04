@@ -1,3 +1,4 @@
+using CorporateHotelBooking.Api.Controllers;
 using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Infra;
@@ -17,6 +18,7 @@ builder.Services.AddSingleton<ISetRoomUseCase, SetRoomUseCase>();
 builder.Services.AddSingleton<IBookUseCase, BookUseCase>();
 builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
 builder.Services.AddSingleton<IAddEmployeeUseCase, AddEmployeeUseCase>();
+builder.Services.AddSingleton<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IHotelRepository, InMemoryHotelRepository>();
 builder.Services.AddSingleton<IEmployeeRepository, InMemoryEmployeeRepository>();

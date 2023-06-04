@@ -22,4 +22,9 @@ public class InMemoryEmployeeRepository : IEmployeeRepository
     {
         return _context.Employees.TryGetValue(employeeId, out var employee) ? employee : null;
     }
+
+    public void Delete(EmployeeId employeeId)
+    {
+        _context.Employees.Remove(employeeId);
+    }
 }
