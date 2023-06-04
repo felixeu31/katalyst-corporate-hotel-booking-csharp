@@ -13,21 +13,42 @@ namespace CorporateHotelBooking.Test.Integration.Infra
     public class InMemoryHotelRepositoryTest
     {
         private readonly IHotelRepository _hotelRepository;
+        private readonly InMemoryContext _context;
 
         public InMemoryHotelRepositoryTest()
         {
-            _hotelRepository = new InMemoryHotelRepository(new InMemoryContext());
+            _context = new InMemoryContext();
+            _hotelRepository = new InMemoryHotelRepository(_context);
         }
 
         [Fact]
-        public void should_retrieve_added_hotel()
+        public void should_add_hotel()
         {
             // Arrange
             HotelId hotelId = HotelId.New();
             string hotelName = "Westing";
+            var newHotel = new Hotel(hotelId, hotelName);
 
             // Act
-            _hotelRepository.Add(new Hotel(hotelId, hotelName));
+            _hotelRepository.Add(newHotel);
+
+            // Assert
+            Hotel? hotel = _context.Hotels[hotelId];
+            hotel.Should().NotBeNull();
+            hotel.HotelId.Should().Be(hotelId);
+            hotel.HotelName.Should().Be(hotelName);
+        }
+
+        [Fact]
+        public void should_retrieve_hotel()
+        {
+            // Arrange
+            HotelId hotelId = HotelId.New();
+            string hotelName = "Westing";
+            var newHotel = new Hotel(hotelId, hotelName);
+            _context.Hotels.Add(newHotel.HotelId, newHotel);
+
+            // Act
             Hotel? hotel = _hotelRepository.Get(hotelId);
 
             // Assert
@@ -47,14 +68,16 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             var roomNumber = 1;
             var roomType = "Deluxe";
             var newHotel = new Hotel(hotelId, hotelName);
+            _context.Hotels.Add(newHotel.HotelId, newHotel);
+
+            var updatedHotel = new Hotel(hotelId, hotelName);
+            updatedHotel.SetRoom(roomNumber, roomType);
 
             // Act
-            _hotelRepository.Add(newHotel);
-            newHotel.SetRoom(roomNumber, roomType);
-            _hotelRepository.Update(newHotel);
-            Hotel hotel = _hotelRepository.Get(hotelId);
+            _hotelRepository.Update(updatedHotel);
 
             // Assert
+            Hotel hotel = _context.Hotels[hotelId];
             hotel.Should().NotBeNull();
             hotel.Rooms.Should().HaveCount(1);
             hotel.Rooms.First().RoomNumber.Should().Be(roomNumber);

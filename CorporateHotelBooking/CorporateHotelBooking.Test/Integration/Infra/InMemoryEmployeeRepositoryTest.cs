@@ -8,7 +8,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
     public class InMemoryEmployeeRepositoryTest
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private InMemoryContext _context;
+        private readonly InMemoryContext _context;
 
         public InMemoryEmployeeRepositoryTest()
         {
@@ -20,17 +20,16 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_retrieve_added_employee()
         {
             // Arrange
-            EmployeeId employeeId = EmployeeId.New();
-            CompanyId companyId = CompanyId.New();
+            var newEmployee = new Employee(CompanyId.New(), EmployeeId.New());
 
             // Act
-            _employeeRepository.Add(new Employee(companyId, employeeId));
-            Employee? employee = _employeeRepository.Get(employeeId);
+            _employeeRepository.Add(newEmployee);
 
             // Assert
+            Employee? employee = _context.Employees[newEmployee.EmployeeId];
             employee.Should().NotBeNull();
-            employee.CompanyId.Should().Be(companyId);
-            employee.EmployeeId.Should().Be(employeeId);
+            employee.CompanyId.Should().Be(newEmployee.CompanyId);
+            employee.EmployeeId.Should().Be(newEmployee.EmployeeId);
         }
 
 
@@ -38,15 +37,14 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_delete_employee()
         {
             // Arrange
-            EmployeeId employeeId = EmployeeId.New();
-            CompanyId companyId = CompanyId.New();
-            _context.Employees.Add(employeeId, new Employee(companyId, employeeId));
+            var employee = new Employee(CompanyId.New(), EmployeeId.New());
+            _context.Employees.Add(employee.EmployeeId, employee);
 
             // Act
-            _employeeRepository.Delete(employeeId);
+            _employeeRepository.Delete(employee.EmployeeId);
 
             // Assert
-            _context.Employees.Should().NotContainKey(employeeId);
+            _context.Employees.Should().NotContainKey(EmployeeId.New());
         }
 
     }
