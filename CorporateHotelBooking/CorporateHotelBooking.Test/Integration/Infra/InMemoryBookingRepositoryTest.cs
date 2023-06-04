@@ -1,5 +1,6 @@
 ﻿using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Infra;
+using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Hotels.Domain;
 using FluentAssertions;
@@ -12,7 +13,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
 
         public InMemoryBookingRepositoryTest()
         {
-            _bookingRepository = new InMemoryBookingRepository();
+            _bookingRepository = new InMemoryBookingRepository(new InMemoryContext());
         }
 
         [Fact]

@@ -1,24 +1,25 @@
+using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Hotels.Domain;
 
 namespace CorporateHotelBooking.Hotels.Infrastructure;
 
 public class InMemoryHotelRepository : IHotelRepository
 {
-    private readonly Dictionary<HotelId, Hotel> _hotels;
+    private readonly InMemoryContext _context;
 
-    public InMemoryHotelRepository()
+    public InMemoryHotelRepository(InMemoryContext context)
     {
-        _hotels = new Dictionary<HotelId, Hotel>();
+        _context = context;
     }
 
     public void Add(Hotel hotel)
     {
-        _hotels.Add(hotel.HotelId, hotel);
+        _context.Hotels.Add(hotel.HotelId, hotel);
     }
 
     public Hotel? Get(HotelId hotelId)
     {
-        if (_hotels.TryGetValue(hotelId, out var hotel))
+        if (_context.Hotels.TryGetValue(hotelId, out var hotel))
         {
             return hotel;
         }
@@ -27,6 +28,6 @@ public class InMemoryHotelRepository : IHotelRepository
 
     public void Update(Hotel hotel)
     {
-        _hotels[hotel.HotelId] = hotel;
+        _context.Hotels[hotel.HotelId] = hotel;
     }
 }

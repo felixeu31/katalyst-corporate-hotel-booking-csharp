@@ -1,27 +1,24 @@
 using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Data;
 
 namespace CorporateHotelBooking.Bookings.Infra;
 
 public class InMemoryBookingRepository : IBookingRepository
 {
-    private readonly Dictionary<BookingId, Booking> _bookings;
+    private readonly InMemoryContext _context;
 
-    public InMemoryBookingRepository()
+    public InMemoryBookingRepository(InMemoryContext context)
     {
-        _bookings = new Dictionary<BookingId, Booking>();
+        _context = context;
     }
 
     public void Add(Booking booking)
     {
-        _bookings.Add(booking.BookingId, booking);
+        _context.Bookings.Add(booking.BookingId, booking);
     }
 
     public Booking? Get(BookingId bookingId)
     {
-        if (_bookings.TryGetValue(bookingId, out var booking))
-        {
-            return booking;
-        }
-        return null;
+        return _context.Bookings.TryGetValue(bookingId, out var booking) ? booking : null;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
 using FluentAssertions;
@@ -15,7 +16,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
 
         public InMemoryHotelRepositoryTest()
         {
-            _hotelRepository = new InMemoryHotelRepository();
+            _hotelRepository = new InMemoryHotelRepository(new InMemoryContext());
         }
 
         [Fact]
@@ -27,7 +28,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
 
             // Act
             _hotelRepository.Add(new Hotel(hotelId, hotelName));
-            Hotel hotel = _hotelRepository.Get(hotelId);
+            Hotel? hotel = _hotelRepository.Get(hotelId);
 
             // Assert
             hotel.Should().NotBeNull();

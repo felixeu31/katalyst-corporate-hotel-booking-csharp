@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http.Json;
 using CorporateHotelBooking.Employees.Infra;
 using Microsoft.Extensions.DependencyInjection;
+using CorporateHotelBooking.Data;
 
 namespace CorporateHotelBooking.Test.E2E
 {
@@ -36,8 +37,8 @@ namespace CorporateHotelBooking.Test.E2E
 
             void ThenEmployeeShouldExistInRepository()
             {
-                var employeeRepository = _apiFactory.Services.GetService<IEmployeeRepository>();
-                Assert.NotNull(employeeRepository.Get(EmployeeId.From(employeeId)));
+                var context = _apiFactory.Services.GetService<InMemoryContext>();
+                Assert.NotNull(context.Employees[EmployeeId.From(employeeId)]);
             }
         }
     }

@@ -1,3 +1,4 @@
+using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Hotels.Domain;
 
@@ -5,25 +6,20 @@ namespace CorporateHotelBooking.Employees.Infra;
 
 public class InMemoryEmployeeRepository : IEmployeeRepository
 {
-    private readonly Dictionary<EmployeeId, Employee> _employees;
+    private readonly InMemoryContext _context;
 
-    public InMemoryEmployeeRepository()
+    public InMemoryEmployeeRepository(InMemoryContext context)
     {
-        _employees = new Dictionary<EmployeeId, Employee>();
+        _context = context;
     }
 
     public void Add(Employee employee)
     {
-        _employees.Add(employee.EmployeeId, employee);
+        _context.Employees.Add(employee.EmployeeId, employee);
     }
 
     public Employee? Get(EmployeeId employeeId)
     {
-
-        if (_employees.TryGetValue(employeeId, out var employee))
-        {
-            return employee;
-        }
-        return null;
+        return _context.Employees.TryGetValue(employeeId, out var employee) ? employee : null;
     }
 }
