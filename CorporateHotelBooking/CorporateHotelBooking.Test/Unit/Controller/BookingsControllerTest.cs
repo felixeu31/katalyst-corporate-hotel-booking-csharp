@@ -38,4 +38,27 @@ public class BookingsControllerTest
         ((CreatedResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.Created);
     }
 
+
+    [Fact]
+    public void BookRoom_WhenEmployeeBookingPolicyException_ShouldReturnConflict()
+    {
+        // Arrange
+        var roomNumber = 1;
+        var newGuid = Guid.NewGuid();
+        var employeeId = Guid.NewGuid();
+        var roomType = "Deluxe";
+        var dateTime = DateTime.Today;
+        var checkOut = DateTime.Today.AddDays(1);
+        var bookingData = new BookingBody(roomNumber, newGuid, employeeId, roomType, dateTime, checkOut);
+
+        _bookUseCaseMock.Setup(x => x.Execute(roomNumber, newGuid, employeeId, roomType, dateTime, checkOut))
+            .Throws<EmployeeBookingPolicyException>();
+
+        // Act
+        var addBookingResponse = _bookingsController.Book(bookingData);
+
+        // Assert
+        ((ConflictResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.Conflict);
+    }
+
 }

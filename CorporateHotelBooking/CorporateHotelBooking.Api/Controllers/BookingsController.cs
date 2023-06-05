@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Test.Unit.Controller;
 
 namespace CorporateHotelBooking.Api.Controllers
 {
@@ -20,14 +21,21 @@ namespace CorporateHotelBooking.Api.Controllers
         [HttpPost]
         public IActionResult Book(BookingBody bookingData)
         {
-            var booking = _bookUseCase.Execute(bookingData.RoomNumber,
-                bookingData.HotelId,
-                bookingData.EmployeeId,
-                bookingData.RoomType,
-                bookingData.CheckIn,
-                bookingData.CheckOut);
+            try
+            {
+                var booking = _bookUseCase.Execute(bookingData.RoomNumber,
+                    bookingData.HotelId,
+                    bookingData.EmployeeId,
+                    bookingData.RoomType,
+                    bookingData.CheckIn,
+                    bookingData.CheckOut);
 
-            return Created("", BookingDto.From(booking));
+                return Created("", BookingDto.From(booking));
+            }
+            catch (EmployeeBookingPolicyException)
+            {
+                return Conflict();
+            }
         }
     }
 
