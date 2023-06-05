@@ -9,6 +9,8 @@ using CorporateHotelBooking.Data;
 
 namespace CorporateHotelBooking.Test.E2E
 {
+    // TODO: When deleting an employee, all the bookings and policies associated to the employee should also be deleted from the system.
+
     public class CompanyServiceAcceptanceTest : IClassFixture<CorporateHotelApiFactory>
     {
         private readonly CorporateHotelApiFactory _apiFactory;
