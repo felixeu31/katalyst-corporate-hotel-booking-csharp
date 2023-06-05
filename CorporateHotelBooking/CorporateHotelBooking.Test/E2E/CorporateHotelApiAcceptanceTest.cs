@@ -45,6 +45,8 @@ namespace CorporateHotelBooking.Test.E2E
             Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
             var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
             Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
+            var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { roomType } });
+            Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
 
             // Act
             var bookResponse = await _client.PostAsJsonAsync("bookings", new { roomNumber, hotelId, employeeId, roomType, checkIn, checkOut });
