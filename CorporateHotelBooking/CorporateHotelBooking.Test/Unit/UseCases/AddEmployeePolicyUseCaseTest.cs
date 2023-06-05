@@ -27,7 +27,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             addEmployeeUseCase.Execute(employeeId, policies);
 
             // Assert
-            _policiesRepository.Verify(x => x.AddEmployeePolicy(It.IsAny<EmployeeId>(), It.IsAny<List<string>>()), Times.Once());
+            _policiesRepository.Verify(x => x.AddEmployeePolicy(It.IsAny<EmployeePolicy>()), Times.Once());
         }
     }
 }

@@ -9,6 +9,9 @@ using CorporateHotelBooking.Employees.Infra;
 using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
+using CorporateHotelBooking.Policies.Application;
+using CorporateHotelBooking.Policies.Domain;
+using CorporateHotelBooking.Policies.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +21,12 @@ builder.Services.AddSingleton<ISetRoomUseCase, SetRoomUseCase>();
 builder.Services.AddSingleton<IBookUseCase, BookUseCase>();
 builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
 builder.Services.AddSingleton<IAddEmployeeUseCase, AddEmployeeUseCase>();
+builder.Services.AddSingleton<IAddEmployeePolicyUseCase, AddEmployeePolicyUseCase>();
 builder.Services.AddSingleton<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IHotelRepository, InMemoryHotelRepository>();
 builder.Services.AddSingleton<IEmployeeRepository, InMemoryEmployeeRepository>();
+builder.Services.AddSingleton<IPoliciesRepository, InMemoryPoliciesRepository>();
 builder.Services.AddSingleton<InMemoryContext>();
 
 builder.Services.AddControllers();

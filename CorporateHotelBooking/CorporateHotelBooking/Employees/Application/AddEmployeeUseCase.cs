@@ -2,11 +2,6 @@ using CorporateHotelBooking.Employees.Domain;
 
 namespace CorporateHotelBooking.Employees.Application;
 
-public interface IAddEmployeeUseCase
-{
-    void Execute(Guid companyId, Guid employeeId);
-}
-
 public class AddEmployeeUseCase : IAddEmployeeUseCase
 {
     private readonly IEmployeeRepository _employeeRepository;
