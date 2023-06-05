@@ -18,8 +18,10 @@ public class PoliciesController : ControllerBase
     [HttpPost("employee")]
     public StatusCodeResult AddEmployeePolicy(AddEmployeePolicyBody addEmployeePolicyBody)
     {
-        _addEmployeePolicyUseCase.Execute(addEmployeePolicyBody.EmployeeId, addEmployeePolicyBody.Policies);
+        _addEmployeePolicyUseCase.Execute(addEmployeePolicyBody.EmployeeId, addEmployeePolicyBody.RoomTypes);
 
         return new StatusCodeResult((int)HttpStatusCode.Created);
     }
 }
+
+public record AddEmployeePolicyBody(Guid EmployeeId, List<string> RoomTypes);

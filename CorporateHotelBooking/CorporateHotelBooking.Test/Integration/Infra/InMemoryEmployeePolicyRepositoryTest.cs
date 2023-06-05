@@ -30,7 +30,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             EmployeePolicy? employeePolicy = _context.EmployeePolicies[newEmployeePolicy.EmployeeId];
             employeePolicy.Should().NotBeNull();
             employeePolicy.EmployeeId.Should().Be(newEmployeePolicy.EmployeeId);
-            employeePolicy.Policies.Should().BeEquivalentTo(newEmployeePolicy.Policies);
+            employeePolicy.RoomTypes.Should().BeEquivalentTo(newEmployeePolicy.RoomTypes);
         }
 
     }

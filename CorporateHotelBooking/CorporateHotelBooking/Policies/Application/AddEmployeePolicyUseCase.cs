@@ -12,8 +12,8 @@ public class AddEmployeePolicyUseCase : IAddEmployeePolicyUseCase
         _policiesRepository = policiesRepository;
     }
 
-    public void Execute(Guid employeeId, List<string> policies)
+    public void Execute(Guid employeeId, List<string> roomTypes)
     {
-        _policiesRepository.AddEmployeePolicy(new EmployeePolicy(EmployeeId.From(employeeId), policies));
+        _policiesRepository.AddEmployeePolicy(new EmployeePolicy(EmployeeId.From(employeeId), roomTypes));
     }
 }

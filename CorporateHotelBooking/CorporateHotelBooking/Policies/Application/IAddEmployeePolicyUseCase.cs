@@ -2,5 +2,5 @@
 
 public interface IAddEmployeePolicyUseCase
 {
-    void Execute(Guid employeeId, List<string> policies);
+    void Execute(Guid employeeId, List<string> roomTypes);
 }
