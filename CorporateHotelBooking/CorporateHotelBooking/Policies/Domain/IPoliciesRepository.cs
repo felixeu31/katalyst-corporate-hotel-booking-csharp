@@ -4,5 +4,5 @@ namespace CorporateHotelBooking.Policies.Domain;
 
 public interface IPoliciesRepository
 {
-    void AddEmployeePolicy(EmployeePolicy newEmployeePolicy);
+    void AddEmployeePolicy(EmployeePolicy employeePolicy);
 }

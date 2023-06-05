@@ -1,5 +1,6 @@
 using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Employees.Domain;
+using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Policies.Domain;
 
 namespace CorporateHotelBooking.Policies.Infrastructure;
@@ -13,8 +14,8 @@ public class InMemoryPoliciesRepository : IPoliciesRepository
         _context = context;
     }
 
-    public void AddEmployeePolicy(EmployeePolicy newEmployeePolicy)
+    public void AddEmployeePolicy(EmployeePolicy employeePolicy)
     {
-        throw new NotImplementedException();
+        _context.EmployeePolicies.Add(employeePolicy.EmployeeId, employeePolicy);
     }
 }
