@@ -18,7 +18,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         }
 
         [Fact]
-        public void should_retrieve_added_employee_policy()
+        public void should_retrieve_employee_policy()
         {
             // Arrange
             var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string>{"Standard"});
@@ -28,6 +28,22 @@ namespace CorporateHotelBooking.Test.Integration.Infra
 
             // Assert
             EmployeePolicy? employeePolicy = _context.EmployeePolicies[newEmployeePolicy.EmployeeId];
+            employeePolicy.Should().NotBeNull();
+            employeePolicy.EmployeeId.Should().Be(newEmployeePolicy.EmployeeId);
+            employeePolicy.RoomTypes.Should().BeEquivalentTo(newEmployeePolicy.RoomTypes);
+        }
+
+        [Fact]
+        public void should_add_employee_policy()
+        {
+            // Arrange
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { "Standard" });
+            _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
+
+            // Act
+            EmployeePolicy? employeePolicy = _employeePolicyRepository.GetEmployeePolicy(newEmployeePolicy.EmployeeId);
+
+            // Assert
             employeePolicy.Should().NotBeNull();
             employeePolicy.EmployeeId.Should().Be(newEmployeePolicy.EmployeeId);
             employeePolicy.RoomTypes.Should().BeEquivalentTo(newEmployeePolicy.RoomTypes);
