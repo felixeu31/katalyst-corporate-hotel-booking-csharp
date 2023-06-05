@@ -23,6 +23,8 @@ builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
 builder.Services.AddSingleton<IAddEmployeeUseCase, AddEmployeeUseCase>();
 builder.Services.AddSingleton<IAddEmployeePolicyUseCase, AddEmployeePolicyUseCase>();
 builder.Services.AddSingleton<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
+builder.Services.AddSingleton<IIsBookingAllowedUseCase, IsBookingAllowedUseCase>();
+
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IHotelRepository, InMemoryHotelRepository>();
 builder.Services.AddSingleton<IEmployeeRepository, InMemoryEmployeeRepository>();
