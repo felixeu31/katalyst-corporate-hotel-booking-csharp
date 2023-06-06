@@ -35,6 +35,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             _policiesRepository.Verify(x => x.GetEmployeePolicy(EmployeeId.From(employeeId)), Times.Once());
             isBookingAllowed.Should().BeTrue();
         }
+
         [Fact]
         public void should_return_false_when_policy_is_not_contained()
         {
@@ -54,6 +55,24 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Assert
             _policiesRepository.Verify(x => x.GetEmployeePolicy(EmployeeId.From(employeeId)), Times.Once());
             isBookingAllowed.Should().BeFalse();
+        }
+
+        [Fact]
+        public void should_return_false_when_employee_does_not_have_policies()
+        {
+            // Arrange
+            Guid employeeId = Guid.NewGuid();
+            var roomType = "Standard";
+            var anotherRoomType = "Deluxe";
+            var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object);
+            _policiesRepository.Setup(x => x.GetEmployeePolicy(EmployeeId.From(employeeId))).Returns(default(EmployeePolicy?));
+
+            // Act
+            var isBookingAllowed = isBookingAllowedUseCase.Execute(employeeId, anotherRoomType);
+
+            // Assert
+            _policiesRepository.Verify(x => x.GetEmployeePolicy(EmployeeId.From(employeeId)), Times.Once());
+            isBookingAllowed.Should().BeTrue();
         }
     }
 }

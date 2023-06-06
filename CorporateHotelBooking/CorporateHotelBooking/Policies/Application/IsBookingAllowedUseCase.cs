@@ -16,12 +16,12 @@ public class IsBookingAllowedUseCase : IIsBookingAllowedUseCase
     {
         var employeePolicy = _policiesRepository.GetEmployeePolicy(EmployeeId.From(employeeId));
 
-        if (employeePolicy != null && employeePolicy.RoomTypes.Contains(roomType))
+        if (employeePolicy != null && !employeePolicy.RoomTypes.Contains(roomType))
         {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
 
     }
 }
