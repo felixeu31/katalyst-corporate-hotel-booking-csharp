@@ -11,6 +11,7 @@ using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
 using CorporateHotelBooking.Test.ApiFactory;
 using FluentAssertions;
+using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -33,6 +34,7 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task should_book_an_existing_room_in_hotel()
         {
             // Arrange
+            var companyId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
             var hotelId = Guid.NewGuid();
             var hotelName = "Westing";
@@ -45,6 +47,8 @@ namespace CorporateHotelBooking.Test.E2E
             Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
             var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
             Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
+            var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
+            Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
             var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { roomType } });
             Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
 

@@ -22,6 +22,7 @@ builder.Services.AddSingleton<IBookUseCase, BookUseCase>();
 builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
 builder.Services.AddSingleton<IAddEmployeeUseCase, AddEmployeeUseCase>();
 builder.Services.AddSingleton<IAddEmployeePolicyUseCase, AddEmployeePolicyUseCase>();
+builder.Services.AddSingleton<IAddCompanyPolicyUseCase, AddCompanyPolicyUseCase>();
 builder.Services.AddSingleton<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
 builder.Services.AddSingleton<IIsBookingAllowedUseCase, IsBookingAllowedUseCase>();
 

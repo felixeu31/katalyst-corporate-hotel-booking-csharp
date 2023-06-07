@@ -13,11 +13,13 @@ namespace CorporateHotelBooking.Data
             Employees = new Dictionary<EmployeeId, Employee>();
             Hotels = new Dictionary<HotelId, Hotel>();
             EmployeePolicies = new Dictionary<EmployeeId, EmployeePolicy>();
+            CompanyPolicies = new Dictionary<CompanyId, CompanyPolicy>();
         }
 
         public readonly Dictionary<BookingId, Booking> Bookings;
         public readonly Dictionary<EmployeeId, Employee> Employees;
         public readonly Dictionary<HotelId, Hotel> Hotels;
         public readonly Dictionary<EmployeeId, EmployeePolicy> EmployeePolicies;
+        public readonly Dictionary<CompanyId, CompanyPolicy> CompanyPolicies;
     }
 }

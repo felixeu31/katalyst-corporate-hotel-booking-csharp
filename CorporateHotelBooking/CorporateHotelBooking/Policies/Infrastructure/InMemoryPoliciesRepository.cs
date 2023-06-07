@@ -23,4 +23,14 @@ public class InMemoryPoliciesRepository : IPoliciesRepository
     {
         return _context.EmployeePolicies.TryGetValue(employeeId, out var employeePolicy) ? employeePolicy : null;
     }
+
+    public void AddCompanyPolicy(CompanyPolicy companyPolicy)
+    {
+        _context.CompanyPolicies.Add(companyPolicy.CompanyId, companyPolicy);
+    }
+
+    public CompanyPolicy? GetCompanyPolicy(CompanyId companyId)
+    {
+        return _context.CompanyPolicies.TryGetValue(companyId, out var companyPolicy) ? companyPolicy : null;
+    }
 }

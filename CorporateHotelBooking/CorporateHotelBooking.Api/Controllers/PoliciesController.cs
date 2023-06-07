@@ -9,10 +9,13 @@ namespace CorporateHotelBooking.Api.Controllers;
 public class PoliciesController : ControllerBase
 {
     private readonly IAddEmployeePolicyUseCase _addEmployeePolicyUseCase;
+    private readonly IAddCompanyPolicyUseCase _addCompanyPolicyUseCase;
 
-    public PoliciesController(IAddEmployeePolicyUseCase addEmployeePolicyUseCase)
+    public PoliciesController(IAddEmployeePolicyUseCase addEmployeePolicyUseCase,
+        IAddCompanyPolicyUseCase addCompanyPolicyUseCase)
     {
         _addEmployeePolicyUseCase = addEmployeePolicyUseCase;
+        _addCompanyPolicyUseCase = addCompanyPolicyUseCase;
     }
 
     [HttpPost("employee")]
@@ -22,6 +25,16 @@ public class PoliciesController : ControllerBase
 
         return new StatusCodeResult((int)HttpStatusCode.Created);
     }
+
+    [HttpPost("company")]
+    public StatusCodeResult AddCompanyPolicy(AddCompanyPolicyBody addCompanyPolicyBody)
+    {
+        _addCompanyPolicyUseCase.Execute(addCompanyPolicyBody.CompanyId, addCompanyPolicyBody.RoomTypes);
+
+        return new StatusCodeResult((int)HttpStatusCode.Created);
+    }
 }
+
+public record AddCompanyPolicyBody(Guid CompanyId, List<string> RoomTypes);
 
 public record AddEmployeePolicyBody(Guid EmployeeId, List<string> RoomTypes);
