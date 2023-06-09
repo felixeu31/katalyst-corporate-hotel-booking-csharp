@@ -14,6 +14,11 @@ public class AddCompanyPolicyUseCase : IAddCompanyPolicyUseCase
 
     public void Execute(Guid companyId, List<string> roomTypes)
     {
+        if (_policiesRepository.GetCompanyPolicy(CompanyId.From(companyId)) != default)
+        {
+            _policiesRepository.UpdateCompanyPolicy(new CompanyPolicy(CompanyId.From(companyId), roomTypes));
+        }
+
         _policiesRepository.AddCompanyPolicy(new CompanyPolicy(CompanyId.From(companyId), roomTypes));
     }
 }

@@ -18,7 +18,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         }
 
         [Fact]
-        public void should_retrieve_employee_policy()
+        public void should_add_employee_policy()
         {
             // Arrange
             var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string>{"Standard"});
@@ -34,7 +34,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         }
 
         [Fact]
-        public void should_add_employee_policy()
+        public void should_retrieve_employee_policy()
         {
             // Arrange
             var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { "Standard" });
@@ -51,7 +51,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
 
 
         [Fact]
-        public void should_retrieve_company_policy()
+        public void should_add_company_policy()
         {
             // Arrange
             var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { "Standard" });
@@ -67,7 +67,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         }
 
         [Fact]
-        public void should_add_company_policy()
+        public void should_retrieve_company_policy()
         {
             // Arrange
             var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { "Standard" });
@@ -80,6 +80,42 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             companyPolicy.Should().NotBeNull();
             companyPolicy.CompanyId.Should().Be(newCompanyPolicy.CompanyId);
             companyPolicy.RoomTypes.Should().BeEquivalentTo(newCompanyPolicy.RoomTypes);
+        }
+
+        [Fact]
+        public void should_update_company_policy()
+        {
+            // Arrange
+            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { "Standard" });
+            var updatedCompanyPolicy = new CompanyPolicy(newCompanyPolicy.CompanyId, new List<string> { "Deluxe" });
+            _context.CompanyPolicies.Add(newCompanyPolicy.CompanyId, newCompanyPolicy);
+
+            // Act
+            _policiesRepository.UpdateCompanyPolicy(updatedCompanyPolicy);
+
+            // Assert
+            CompanyPolicy? companyPolicy = _context.CompanyPolicies[updatedCompanyPolicy.CompanyId];
+            companyPolicy.Should().NotBeNull();
+            companyPolicy.CompanyId.Should().Be(updatedCompanyPolicy.CompanyId);
+            companyPolicy.RoomTypes.Should().BeEquivalentTo(updatedCompanyPolicy.RoomTypes);
+        }
+
+        [Fact]
+        public void should_update_employee_policy()
+        {
+            // Arrange
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { "Standard" });
+            var updatedEmployeePolicy = new EmployeePolicy(newEmployeePolicy.EmployeeId, new List<string> { "Deluxe" });
+            _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
+
+            // Act
+            _policiesRepository.UpdateEmployeePolicy(updatedEmployeePolicy);
+
+            // Assert
+            EmployeePolicy? employeePolicy = _context.EmployeePolicies[updatedEmployeePolicy.EmployeeId];
+            employeePolicy.Should().NotBeNull();
+            employeePolicy.EmployeeId.Should().Be(updatedEmployeePolicy.EmployeeId);
+            employeePolicy.RoomTypes.Should().BeEquivalentTo(updatedEmployeePolicy.RoomTypes);
         }
 
     }

@@ -16,7 +16,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
         }
 
         [Fact]
-        public void AddCompanyPolicy_ShouldStoreCompany()
+        public void AddCompanyPolicy_ShouldInsertCompanyPolicy_WhenNotExists()
         {
             // Arrange
             var addCompanyUseCase = new AddCompanyPolicyUseCase(_policiesRepository.Object);
@@ -28,6 +28,22 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
 
             // Assert
             _policiesRepository.Verify(x => x.AddCompanyPolicy(It.IsAny<CompanyPolicy>()), Times.Once());
+        }
+
+        [Fact]
+        public void AddCompanyPolicy_ShouldUpdateCompanyPolicy_WhenAlreadyExists()
+        {
+            // Arrange
+            var addCompanyUseCase = new AddCompanyPolicyUseCase(_policiesRepository.Object);
+            var companyId = CompanyId.New();
+            var policies = new List<string> { "Standard" };
+            _policiesRepository.Setup(x => x.GetCompanyPolicy(companyId)).Returns(new CompanyPolicy(companyId, new List<string>(){"Standard"}));
+
+            // Act
+            addCompanyUseCase.Execute(companyId.Value, policies);
+
+            // Assert
+            _policiesRepository.Verify(x => x.UpdateCompanyPolicy(It.IsAny<CompanyPolicy>()), Times.Once());
         }
     }
 }

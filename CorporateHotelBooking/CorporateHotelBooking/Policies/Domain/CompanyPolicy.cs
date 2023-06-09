@@ -7,9 +7,9 @@ public class CompanyPolicy
     public CompanyId CompanyId { get; }
     public List<string> RoomTypes { get; }
 
-    public CompanyPolicy(CompanyId employeeId, List<string> roomTypes)
+    public CompanyPolicy(CompanyId companyId, List<string> roomTypes)
     {
-        CompanyId = employeeId;
+        CompanyId = companyId;
         RoomTypes = roomTypes;
     }
 }

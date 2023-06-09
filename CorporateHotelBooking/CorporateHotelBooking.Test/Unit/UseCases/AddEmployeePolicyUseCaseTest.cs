@@ -3,6 +3,7 @@ using Moq;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Policies.Application;
 using CorporateHotelBooking.Policies.Domain;
+using System.ComponentModel.Design;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
@@ -28,6 +29,22 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
 
             // Assert
             _policiesRepository.Verify(x => x.AddEmployeePolicy(It.IsAny<EmployeePolicy>()), Times.Once());
+        }
+
+        [Fact]
+        public void AddEmployeePolicy_ShouldUpdateEmployeePolicy_WhenAlreadyExists()
+        {
+            // Arrange
+            var addEmployeeUseCase = new AddEmployeePolicyUseCase(_policiesRepository.Object);
+            var employeeId = EmployeeId.New();
+            var policies = new List<string> { "Standard" };
+            _policiesRepository.Setup(x => x.GetEmployeePolicy(employeeId)).Returns(new EmployeePolicy(employeeId, new List<string>() { "Standard" }));
+
+            // Act
+            addEmployeeUseCase.Execute(employeeId.Value, policies);
+
+            // Assert
+            _policiesRepository.Verify(x => x.UpdateEmployeePolicy(It.IsAny<EmployeePolicy>()), Times.Once());
         }
     }
 }
