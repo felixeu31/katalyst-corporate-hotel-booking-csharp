@@ -22,12 +22,7 @@ public class BookUseCase : IBookUseCase
     public Booking Execute(Guid hotelId, Guid employeeId, string roomType, DateTime checkIn,
         DateTime checkOut)
     {
-        var hotel = _hotelRepository.Get(HotelId.From(hotelId));
-
-        if (hotel == null)
-        {
-            throw new HotelNotFoundException();
-        }
+        var hotel = _hotelRepository.Get(HotelId.From(hotelId)) ?? throw new HotelNotFoundException();
 
         if (!_isBookingAllowedUseCase.Execute(employeeId, roomType))
         {
