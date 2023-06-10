@@ -1,4 +1,6 @@
-﻿namespace CorporateHotelBooking.Hotels.Domain;
+﻿using CorporateHotelBooking.Bookings.Domain.Exceptions;
+
+namespace CorporateHotelBooking.Hotels.Domain;
 
 public class Hotel
 {
@@ -55,6 +57,11 @@ public class Hotel
 
     public int GetAvailableRoom(string roomType)
     {
+        if (!_rooms.Select(x => x.RoomType).Contains(roomType))
+        {
+            throw new RoomTypeNotProvidedException();
+        }
+
         return _rooms.First(x => x.RoomType.Equals(roomType)).RoomNumber;
     }
 }

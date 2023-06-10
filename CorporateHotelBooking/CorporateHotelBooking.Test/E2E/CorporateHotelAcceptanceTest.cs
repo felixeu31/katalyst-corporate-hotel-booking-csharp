@@ -136,5 +136,57 @@ namespace CorporateHotelBooking.Test.E2E
             hotelDto.Rooms.First(x => x.RoomNumber.Equals(room1.RoomNumber)).RoomType.Should().Be(room1.RoomType);
         }
 
+        [Fact]
+        public async Task should_return_conflict_when_room_is_not_offered_by_hotel()
+        {
+            // Arrange
+            var hotelId = await GivenHotel(new List<RoomDto>() { new RoomDto(1, "Suite") });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                employeeId,
+                RoomType = "Presidential",
+                CheckIn = DateTime.Today.AddDays(1),
+                CheckOut = DateTime.Today.AddDays(2)
+            });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+
+        private async Task<Guid> GivenHotel(List<RoomDto> rooms)
+        {
+            var hotelId = Guid.NewGuid();
+            var hotelName = "Westing";
+
+            var addHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
+            Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
+
+            foreach (var room in rooms)
+            {
+                var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { room.RoomNumber, room.RoomType });
+                Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
+            }
+
+            return hotelId;
+        }
+
+        private async Task<(Guid, Guid)> GivenEmployeeInCompany()
+        {
+            var companyId = Guid.NewGuid();
+            var employeeId = Guid.NewGuid();
+
+            var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
+            Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
+
+            return (companyId, employeeId);
+
+        }
+
+        public record RoomDto(int RoomNumber, string RoomType);
     }
 }

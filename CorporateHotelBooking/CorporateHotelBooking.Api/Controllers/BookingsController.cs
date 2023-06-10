@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Bookings.Domain.Exceptions;
 using CorporateHotelBooking.Test.Unit.Controller;
 
 namespace CorporateHotelBooking.Api.Controllers
@@ -32,6 +33,10 @@ namespace CorporateHotelBooking.Api.Controllers
                 return Created("", BookingDto.From(booking));
             }
             catch (EmployeeBookingPolicyException)
+            {
+                return Conflict();
+            }
+            catch (RoomTypeNotProvidedException)
             {
                 return Conflict();
             }

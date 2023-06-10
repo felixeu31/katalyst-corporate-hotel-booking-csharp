@@ -1,4 +1,6 @@
-﻿using CorporateHotelBooking.Hotels.Domain;
+﻿using CorporateHotelBooking.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Unit.Domain;
@@ -67,5 +69,21 @@ public class HotelTest
 
         // Assert
         nextRoomNumber.Should().Be(1);
+    }
+
+    [Fact]
+    public void GetAvailableRoom_WhenRoomTypeNotProvided_ShouldThrowRoomNotProvidedException()
+    {
+        // Arrange
+        var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
+        hotel.SetRoom(1, "Deluxe");
+        hotel.SetRoom(2, "Deluxe");
+        hotel.SetRoom(3, "Standard");
+
+        // Act
+        Action action = () => hotel.GetAvailableRoom(RoomTypes.Presidential);
+
+        // Assert
+        action.Should().Throw<RoomTypeNotProvidedException>();
     }
 }

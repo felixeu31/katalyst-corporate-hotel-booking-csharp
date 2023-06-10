@@ -11,6 +11,9 @@ using CorporateHotelBooking.Policies.Application;
 using CorporateHotelBooking.Hotels.Application;
 using FluentAssertions;
 using CorporateHotelBooking.Test.Unit.Controller;
+using CorporateHotelBooking.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Employees.Domain;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
@@ -27,7 +30,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             _isBookingAllowedUseCase = new();
             _hotelRepository = new();
             var hotel = new Hotel(HotelId.New(), "Westing");
-            hotel.SetRoom(1, "Deluxe");
+            hotel.SetRoom(1, RoomTypes.Deluxe);
             _hotelRepository.Setup(x => x.Get(It.IsAny<HotelId>())).Returns(hotel);
             _bookUseCase = new BookUseCase(_bookingRepository.Object, _isBookingAllowedUseCase.Object, _hotelRepository.Object);
         }
@@ -38,7 +41,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var hotelId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
-            var roomType = "Deluxe";
+            var roomType = RoomTypes.Deluxe;
             var checkIn = DateTime.Today.AddDays(1);
             var chekout = DateTime.Today.AddDays(2);
             _isBookingAllowedUseCase.Setup(x => x.Execute(employeeId, roomType)).Returns(true);
@@ -57,7 +60,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var hotelId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
-            var roomType = "Deluxe";
+            var roomType = RoomTypes.Deluxe;
             var checkIn = DateTime.Today.AddDays(1);
             var chekout = DateTime.Today.AddDays(2);
             _isBookingAllowedUseCase.Setup(x => x.Execute(employeeId, roomType)).Returns(false);
@@ -68,5 +71,6 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Assert
             action.Should().Throw<EmployeeBookingPolicyException>();
         }
+
     }
 }

@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
+using CorporateHotelBooking.Bookings.Domain.Exceptions;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
@@ -51,6 +52,28 @@ public class BookingsControllerTest
 
         _bookUseCaseMock.Setup(x => x.Execute(newGuid, employeeId, roomType, dateTime, checkOut))
             .Throws<EmployeeBookingPolicyException>();
+
+        // Act
+        var addBookingResponse = _bookingsController.Book(bookingData);
+
+        // Assert
+        ((ConflictResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.Conflict);
+    }
+
+
+    [Fact]
+    public void BookRoom_WhenRoomNotProvidedException_ShouldReturnConflict()
+    {
+        // Arrange
+        var newGuid = Guid.NewGuid();
+        var employeeId = Guid.NewGuid();
+        var roomType = "Deluxe";
+        var dateTime = DateTime.Today;
+        var checkOut = DateTime.Today.AddDays(1);
+        var bookingData = new BookingBody(newGuid, employeeId, roomType, dateTime, checkOut);
+
+        _bookUseCaseMock.Setup(x => x.Execute(newGuid, employeeId, roomType, dateTime, checkOut))
+            .Throws<RoomTypeNotProvidedException>();
 
         // Act
         var addBookingResponse = _bookingsController.Book(bookingData);
