@@ -21,11 +21,11 @@ namespace CorporateHotelBooking.Test.E2E
     /// 
     /// </summary>
     /// <remarks>dotnet watch test --project .\CorporateHotelBooking.Test\CorporateHotelBooking.Test.csproj</remarks>
-    public class CorporateHotelApiAcceptanceTest : IClassFixture<CorporateHotelApiFactory>
+    public class CorporateHotelAcceptanceTest : IClassFixture<CorporateHotelApiFactory>
     {
         private readonly HttpClient _client;
 
-        public CorporateHotelApiAcceptanceTest(CorporateHotelApiFactory apiFactory)
+        public CorporateHotelAcceptanceTest(CorporateHotelApiFactory apiFactory)
         {
             _client = apiFactory.CreateClient();
         }
@@ -53,7 +53,7 @@ namespace CorporateHotelBooking.Test.E2E
             Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
 
             // Act
-            var bookResponse = await _client.PostAsJsonAsync("bookings", new { roomNumber, hotelId, employeeId, roomType, checkIn, checkOut });
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType, checkIn, checkOut });
             Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
             var booking = await bookResponse.Content.ReadFromJsonAsync<BookingDto>();
 
@@ -96,7 +96,6 @@ namespace CorporateHotelBooking.Test.E2E
             Assert.Equal(HttpStatusCode.NotFound, setRoomResponse.StatusCode);
 
         }
-
 
         [Fact]
         public async Task find_hotel_should_return_hotel_information()

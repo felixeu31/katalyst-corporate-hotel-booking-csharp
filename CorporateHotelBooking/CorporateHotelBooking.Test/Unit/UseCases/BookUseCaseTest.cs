@@ -18,13 +18,18 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
     {
         private readonly Mock<IBookingRepository> _bookingRepository;
         private readonly Mock<IIsBookingAllowedUseCase> _isBookingAllowedUseCase;
+        private readonly Mock<IHotelRepository> _hotelRepository;
         private BookUseCase _bookUseCase;
 
         public BookUseCaseTest()
         {
             _bookingRepository = new();
             _isBookingAllowedUseCase = new();
-            _bookUseCase = new BookUseCase(_bookingRepository.Object, _isBookingAllowedUseCase.Object);
+            _hotelRepository = new();
+            var hotel = new Hotel(HotelId.New(), "Westing");
+            hotel.SetRoom(1, "Deluxe");
+            _hotelRepository.Setup(x => x.Get(It.IsAny<HotelId>())).Returns(hotel);
+            _bookUseCase = new BookUseCase(_bookingRepository.Object, _isBookingAllowedUseCase.Object, _hotelRepository.Object);
         }
 
         [Fact]
@@ -32,7 +37,6 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
         {
             // Arrange
             var hotelId = Guid.NewGuid();
-            var roomNumber = 1;
             var employeeId = Guid.NewGuid();
             var roomType = "Deluxe";
             var checkIn = DateTime.Today.AddDays(1);
@@ -40,7 +44,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             _isBookingAllowedUseCase.Setup(x => x.Execute(employeeId, roomType)).Returns(true);
 
             // Act
-            _bookUseCase.Execute(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
+            _bookUseCase.Execute(hotelId, employeeId, roomType, checkIn, chekout);
 
             // Assert
             _bookingRepository.Verify(x => x.Add(It.IsAny<Booking>()), Times.Once());
@@ -52,7 +56,6 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
         {
             // Arrange
             var hotelId = Guid.NewGuid();
-            var roomNumber = 1;
             var employeeId = Guid.NewGuid();
             var roomType = "Deluxe";
             var checkIn = DateTime.Today.AddDays(1);
@@ -60,11 +63,10 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             _isBookingAllowedUseCase.Setup(x => x.Execute(employeeId, roomType)).Returns(false);
             
             // Act
-            Action action = () => _bookUseCase.Execute(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
+            Action action = () => _bookUseCase.Execute(hotelId, employeeId, roomType, checkIn, chekout);
 
             // Assert
             action.Should().Throw<EmployeeBookingPolicyException>();
-
         }
     }
 }

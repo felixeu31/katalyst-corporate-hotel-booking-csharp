@@ -52,4 +52,9 @@ public class Hotel
 
         return roomCount;
     }
+
+    public int GetAvailableRoom(string roomType)
+    {
+        return _rooms.First(x => x.RoomType.Equals(roomType)).RoomNumber;
+    }
 }

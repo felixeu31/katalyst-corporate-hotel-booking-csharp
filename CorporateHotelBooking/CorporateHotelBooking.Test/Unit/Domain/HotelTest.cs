@@ -53,4 +53,19 @@ public class HotelTest
         roomCount["Deluxe"].Should().Be(2);
         roomCount["Standard"].Should().Be(1);
     }
+
+    [Fact]
+    public void ShouldGetAvailableRoom()
+    {
+        var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
+        hotel.SetRoom(1, "Deluxe");
+        hotel.SetRoom(2, "Deluxe");
+        hotel.SetRoom(3, "Standard");
+
+        // Act
+        var nextRoomNumber = hotel.GetAvailableRoom("Deluxe");
+
+        // Assert
+        nextRoomNumber.Should().Be(1);
+    }
 }

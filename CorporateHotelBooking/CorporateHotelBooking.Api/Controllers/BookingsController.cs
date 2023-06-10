@@ -23,8 +23,7 @@ namespace CorporateHotelBooking.Api.Controllers
         {
             try
             {
-                var booking = _bookUseCase.Execute(bookingData.RoomNumber,
-                    bookingData.HotelId,
+                var booking = _bookUseCase.Execute(bookingData.HotelId,
                     bookingData.EmployeeId,
                     bookingData.RoomType,
                     bookingData.CheckIn,
@@ -39,7 +38,7 @@ namespace CorporateHotelBooking.Api.Controllers
         }
     }
 
-    public record BookingBody(int RoomNumber, Guid HotelId, Guid EmployeeId, string RoomType, DateTime CheckIn, DateTime CheckOut) { }
+    public record BookingBody(Guid HotelId, Guid EmployeeId, string RoomType, DateTime CheckIn, DateTime CheckOut) { }
 
     public record BookingDto(Guid BookingId, Guid HotelId, Guid BookedBy, int RoomNumber, string RoomType,
         DateTime CheckIn, DateTime CheckOut)

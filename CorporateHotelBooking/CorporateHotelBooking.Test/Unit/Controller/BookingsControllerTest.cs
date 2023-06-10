@@ -22,14 +22,13 @@ public class BookingsControllerTest
     public void ShouldBookRoom()
     {
         // Arrange
-        var bookingData = new BookingBody(1, Guid.NewGuid(), Guid.NewGuid(), "Deluxe", DateTime.Today, DateTime.Today.AddDays(1));
+        var bookingData = new BookingBody(Guid.NewGuid(), Guid.NewGuid(), "Deluxe", DateTime.Today, DateTime.Today.AddDays(1));
 
         // Act
         var addBookingResponse = _bookingsController.Book(bookingData);
 
         // Assert
         _bookUseCaseMock.Verify(mock => mock.Execute(
-            bookingData.RoomNumber,
             bookingData.HotelId,
             bookingData.EmployeeId,
             bookingData.RoomType,
@@ -43,15 +42,14 @@ public class BookingsControllerTest
     public void BookRoom_WhenEmployeeBookingPolicyException_ShouldReturnConflict()
     {
         // Arrange
-        var roomNumber = 1;
         var newGuid = Guid.NewGuid();
         var employeeId = Guid.NewGuid();
         var roomType = "Deluxe";
         var dateTime = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(1);
-        var bookingData = new BookingBody(roomNumber, newGuid, employeeId, roomType, dateTime, checkOut);
+        var bookingData = new BookingBody(newGuid, employeeId, roomType, dateTime, checkOut);
 
-        _bookUseCaseMock.Setup(x => x.Execute(roomNumber, newGuid, employeeId, roomType, dateTime, checkOut))
+        _bookUseCaseMock.Setup(x => x.Execute(newGuid, employeeId, roomType, dateTime, checkOut))
             .Throws<EmployeeBookingPolicyException>();
 
         // Act
