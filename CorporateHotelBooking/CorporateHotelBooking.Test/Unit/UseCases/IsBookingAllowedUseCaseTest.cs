@@ -6,6 +6,9 @@ using FluentAssertions;
 using Moq;
 using System.ComponentModel.Design;
 using CorporateHotelBooking.Test.Constants;
+using CorporateHotelBooking.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Employees.Domain.Exceptions;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
@@ -159,6 +162,24 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             _policiesRepository.Verify(x => x.GetEmployeePolicy(EmployeeId.From(employeeId)), Times.Once());
             _policiesRepository.Verify(x => x.GetCompanyPolicy(CompanyId.From(companyId)), Times.Once());
             isBookingAllowed.Should().BeTrue();
+        }
+        
+        [Fact]
+        public void should_throw_exception_when_employee_does_not_exist()
+        {
+            // Arrange
+            Guid companyId = Guid.NewGuid();
+            Guid employeeId = Guid.NewGuid();
+            var roomType = RoomTypes.Standard;
+            var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
+            _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
+                .Returns(default(Employee?));
+
+            // Act
+            Action action = () => isBookingAllowedUseCase.Execute(employeeId, roomType);
+
+            // Assert
+            action.Should().Throw<EmployeeNotFoundException>();
         }
     }
 }

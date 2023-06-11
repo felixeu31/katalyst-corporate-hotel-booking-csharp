@@ -1,4 +1,5 @@
 ﻿using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Hotels.Domain.Exceptions;
 
 namespace CorporateHotelBooking.Hotels.Application;
 

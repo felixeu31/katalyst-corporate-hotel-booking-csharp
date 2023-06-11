@@ -5,6 +5,7 @@ using CorporateHotelBooking.Bookings.Application;
 using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Bookings.Domain.Exceptions;
 using CorporateHotelBooking.Test.Unit.Controller;
+using CorporateHotelBooking.Employees.Domain.Exceptions;
 
 namespace CorporateHotelBooking.Api.Controllers
 {
@@ -43,6 +44,10 @@ namespace CorporateHotelBooking.Api.Controllers
             catch (RoomTypeNotAvailableException)
             {
                 return Conflict();
+            }
+            catch (EmployeeNotFoundException)
+            {
+                return NotFound();
             }
         }
     }

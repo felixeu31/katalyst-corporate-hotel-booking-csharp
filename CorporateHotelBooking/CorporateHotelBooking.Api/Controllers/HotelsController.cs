@@ -1,5 +1,5 @@
 ﻿using CorporateHotelBooking.Hotels.Application;
-using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Hotels.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

@@ -1,6 +1,7 @@
 using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Hotels.Domain.Exceptions;
 using CorporateHotelBooking.Policies.Application;
 using CorporateHotelBooking.Test.Unit.Controller;
 

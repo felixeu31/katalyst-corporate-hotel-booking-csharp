@@ -32,7 +32,7 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
-        public async Task should_be_able_to_book_an_avalable_room_in_hotel()
+        public async Task should_be_able_to_book_an_available_room_in_hotel()
         {
             // Arrange
             var companyId = Guid.NewGuid();
@@ -68,7 +68,7 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
-        public async Task add_hotel_should_return_conflict_when_trying_to_add_duplicated_hotel()
+        public async Task should_return_conflict_when_trying_to_add_duplicated_hotel()
         {
             // Arrange
             var hotelId = Guid.NewGuid();
@@ -191,6 +191,36 @@ namespace CorporateHotelBooking.Test.E2E
 
             // Assert
             Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+
+        [Fact]
+        public async Task should_return_not_found_when_employee_has_been_deleted()
+        {
+            // Arrange
+            var rooms = new List<RoomDto>
+            {
+                new RoomDto(1, RoomTypes.Standard),
+                new RoomDto(2, RoomTypes.Standard),
+                new RoomDto(3, RoomTypes.Deluxe)
+            };
+            var hotelId = await GivenHotelWith(rooms);
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            var deletedEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
+            Assert.Equal(HttpStatusCode.OK, deletedEmployeeResponse.StatusCode);
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                EmployeeId = employeeId,
+                RoomType = RoomTypes.Deluxe,
+                CheckIn = DateTime.Today.AddDays(3),
+                CheckOut = DateTime.Today.AddDays(10)
+            });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, bookResponse.StatusCode);
         }
 
 

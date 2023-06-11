@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Hotels.Domain.Exceptions;
 using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 using Moq;

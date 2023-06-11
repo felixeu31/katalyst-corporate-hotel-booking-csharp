@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Hotels.Domain.Exceptions;
 using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
