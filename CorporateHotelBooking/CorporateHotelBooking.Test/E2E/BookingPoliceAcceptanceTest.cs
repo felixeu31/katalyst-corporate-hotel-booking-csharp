@@ -173,7 +173,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
     }
     
     [Fact]
-    public async void should_remove_employee_policies_when_employee_is_deleted()
+    public async void should_allow_book_when_recreated_employee_does_not_have_his_old_policies()
     {
         // Arrange
         var companyId = Guid.NewGuid();
