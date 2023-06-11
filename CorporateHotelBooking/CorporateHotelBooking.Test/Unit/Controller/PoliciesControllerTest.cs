@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 using CorporateHotelBooking.Policies.Application;
+using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
@@ -25,7 +26,7 @@ public class PoliciesControllerTest
     {
         // Arrange
         var employeeId = Guid.NewGuid();
-        var policies = new List<string> { "Standard" };
+        var policies = new List<string> { RoomTypes.Standard };
 
         // Act
         var addHotelResponse = _policiesController.AddEmployeePolicy(new AddEmployeePolicyBody(employeeId, policies));
@@ -40,7 +41,7 @@ public class PoliciesControllerTest
     {
         // Arrange
         var companyId = Guid.NewGuid();
-        var policies = new List<string> { "Standard" };
+        var policies = new List<string> { RoomTypes.Standard };
 
         // Act
         var addHotelResponse = _policiesController.AddCompanyPolicy(new AddCompanyPolicyBody(companyId, policies));

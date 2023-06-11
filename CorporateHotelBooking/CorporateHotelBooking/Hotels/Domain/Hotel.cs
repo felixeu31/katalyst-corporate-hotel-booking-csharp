@@ -1,4 +1,6 @@
-﻿using CorporateHotelBooking.Bookings.Domain.Exceptions;
+﻿using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Bookings.Domain.Exceptions;
+using System.Linq;
 
 namespace CorporateHotelBooking.Hotels.Domain;
 
@@ -55,13 +57,29 @@ public class Hotel
         return roomCount;
     }
 
-    public int GetAvailableRoom(string roomType)
+    public int GetAvailableRoom(string roomType, DateTime checkIn, DateTime checkOut,
+        IEnumerable<Booking> existingBookings)
     {
-        if (!_rooms.Select(x => x.RoomType).Contains(roomType))
+        var roomsOfType = _rooms.Where(x => x.RoomType.Equals(roomType)).ToList();
+
+        if (!roomsOfType.Any())
         {
             throw new RoomTypeNotProvidedException();
         }
 
-        return _rooms.First(x => x.RoomType.Equals(roomType)).RoomNumber;
+        var conflictBookings = existingBookings.Where(x => 
+            (checkIn >= x.CheckIn && checkIn <= x.CheckOut)
+            || (checkOut >= x.CheckIn && checkOut <= x.CheckOut)
+            || (checkIn <= x.CheckIn && checkOut >= x.CheckOut)
+        );
+
+        var availableRooms = roomsOfType.Where(x => conflictBookings.All(y => y.RoomNumber != x.RoomNumber)).ToList();
+
+        if (!availableRooms.Any())
+        {
+            throw new RoomTypeNotAvailableException();
+        }
+
+        return availableRooms.First().RoomNumber;
     }
 }

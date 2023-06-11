@@ -3,6 +3,7 @@ using CorporateHotelBooking.Bookings.Infra;
 using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
@@ -25,7 +26,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             int roomNumber = 1;
             EmployeeId employeeId = EmployeeId.New();
-            string roomType = "Deluxe";
+            string roomType = RoomTypes.Deluxe;
             DateTime checkIn = DateTime.Today.AddDays(1);
             DateTime chekout = DateTime.Today.AddDays(2);
             var newBooking = new Booking(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
@@ -38,7 +39,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             booking.Should().NotBeNull();
             booking.RoomNumber.Should().Be(1);
             booking.HotelId.Should().Be(hotelId);
-            booking.RoomType.Should().Be("Deluxe");
+            booking.RoomType.Should().Be(RoomTypes.Deluxe);
             booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
             booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));
         }
@@ -50,7 +51,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             int roomNumber = 1;
             EmployeeId employeeId = EmployeeId.New();
-            string roomType = "Deluxe";
+            string roomType = RoomTypes.Deluxe;
             DateTime checkIn = DateTime.Today.AddDays(1);
             DateTime chekout = DateTime.Today.AddDays(2);
             var newBooking = new Booking(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
@@ -63,9 +64,32 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             booking.Should().NotBeNull();
             booking.RoomNumber.Should().Be(1);
             booking.HotelId.Should().Be(hotelId);
-            booking.RoomType.Should().Be("Deluxe");
+            booking.RoomType.Should().Be(RoomTypes.Deluxe);
             booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
             booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));
+        }
+
+        [Fact]
+        public void should_retrieve_bookings_by_hotel()
+        {
+            // Arrange
+            HotelId hotelId = HotelId.New();
+            HotelId anotherHotelId = HotelId.New();
+            EmployeeId employeeId = EmployeeId.New();
+            var booking1 = new Booking(1, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking2 = new Booking(2, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking3 = new Booking(2, anotherHotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            _inMemoryContext.Bookings.Add(booking1.BookingId, booking1);
+            _inMemoryContext.Bookings.Add(booking2.BookingId, booking2);
+            _inMemoryContext.Bookings.Add(booking3.BookingId, booking3);
+
+            // Act
+            var bookings = _bookingRepository.GetBookingsBy(hotelId);
+
+            // Assert
+            bookings.Should().NotBeNull();
+            bookings.Should().HaveCount(2);
+            bookings.Should().AllSatisfy(x => x.HotelId.Equals(hotelId));
         }
 
     }

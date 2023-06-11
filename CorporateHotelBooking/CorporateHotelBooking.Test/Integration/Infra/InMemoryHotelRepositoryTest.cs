@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CorporateHotelBooking.Data;
 using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Hotels.Infrastructure;
+using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
@@ -66,7 +67,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = "Deluxe";
+            var roomType = RoomTypes.Deluxe;
             var newHotel = new Hotel(hotelId, hotelName);
             _context.Hotels.Add(newHotel.HotelId, newHotel);
 

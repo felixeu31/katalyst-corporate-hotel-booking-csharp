@@ -1,5 +1,6 @@
 using CorporateHotelBooking.Bookings.Domain;
 using CorporateHotelBooking.Data;
+using CorporateHotelBooking.Hotels.Domain;
 
 namespace CorporateHotelBooking.Bookings.Infra;
 
@@ -20,5 +21,10 @@ public class InMemoryBookingRepository : IBookingRepository
     public Booking? Get(BookingId bookingId)
     {
         return _context.Bookings.TryGetValue(bookingId, out var booking) ? booking : null;
+    }
+
+    public IEnumerable<Booking> GetBookingsBy(HotelId hotelId)
+    {
+        return _context.Bookings.Select(x => x.Value).Where(x => x.HotelId.Equals(hotelId));
     }
 }

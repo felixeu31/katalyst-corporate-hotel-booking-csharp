@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 using CorporateHotelBooking.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
@@ -23,7 +24,7 @@ public class BookingsControllerTest
     public void ShouldBookRoom()
     {
         // Arrange
-        var bookingData = new BookingBody(Guid.NewGuid(), Guid.NewGuid(), "Deluxe", DateTime.Today, DateTime.Today.AddDays(1));
+        var bookingData = new BookingBody(Guid.NewGuid(), Guid.NewGuid(), RoomTypes.Deluxe, DateTime.Today, DateTime.Today.AddDays(1));
 
         // Act
         var addBookingResponse = _bookingsController.Book(bookingData);
@@ -45,7 +46,7 @@ public class BookingsControllerTest
         // Arrange
         var newGuid = Guid.NewGuid();
         var employeeId = Guid.NewGuid();
-        var roomType = "Deluxe";
+        var roomType = RoomTypes.Deluxe;
         var dateTime = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(1);
         var bookingData = new BookingBody(newGuid, employeeId, roomType, dateTime, checkOut);
@@ -67,13 +68,35 @@ public class BookingsControllerTest
         // Arrange
         var newGuid = Guid.NewGuid();
         var employeeId = Guid.NewGuid();
-        var roomType = "Deluxe";
+        var roomType = RoomTypes.Deluxe;
         var dateTime = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(1);
         var bookingData = new BookingBody(newGuid, employeeId, roomType, dateTime, checkOut);
 
         _bookUseCaseMock.Setup(x => x.Execute(newGuid, employeeId, roomType, dateTime, checkOut))
             .Throws<RoomTypeNotProvidedException>();
+
+        // Act
+        var addBookingResponse = _bookingsController.Book(bookingData);
+
+        // Assert
+        ((ConflictResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.Conflict);
+    }
+
+
+    [Fact]
+    public void BookRoom_WhenRoomNotAvailableException_ShouldReturnConflict()
+    {
+        // Arrange
+        var newGuid = Guid.NewGuid();
+        var employeeId = Guid.NewGuid();
+        var roomType = RoomTypes.Deluxe;
+        var dateTime = DateTime.Today;
+        var checkOut = DateTime.Today.AddDays(1);
+        var bookingData = new BookingBody(newGuid, employeeId, roomType, dateTime, checkOut);
+
+        _bookUseCaseMock.Setup(x => x.Execute(newGuid, employeeId, roomType, dateTime, checkOut))
+            .Throws<RoomTypeNotAvailableException>();
 
         // Act
         var addBookingResponse = _bookingsController.Book(bookingData);

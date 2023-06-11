@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CorporateHotelBooking.Hotels.Application;
 using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 using Moq;
 
@@ -26,7 +27,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = "Deluxe";
+            var roomType = RoomTypes.Deluxe;
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
             var setRoomUseCase = new SetRoomUseCase(_hotelRepository.Object);
@@ -46,8 +47,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = "Deluxe";
-            var otherRoomType = "Standard";
+            var roomType = RoomTypes.Deluxe;
+            var otherRoomType = RoomTypes.Standard;
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             hotel.SetRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
@@ -68,7 +69,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = "Deluxe";
+            var roomType = RoomTypes.Deluxe;
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             hotel.SetRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(default(Hotel?));

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
@@ -42,7 +43,7 @@ public class HotelsControllerTest
     {
         // Arrange
         var hotelId = Guid.NewGuid();
-        var setRoomBody = new SetRoomBody(1, "Deluxe");
+        var setRoomBody = new SetRoomBody(1, RoomTypes.Deluxe);
 
         // Act
         var addHotelResponse = _hotelsController.SetRoom(hotelId, setRoomBody);
@@ -57,7 +58,7 @@ public class HotelsControllerTest
     {
         // Arrange
         var hotelId = Guid.NewGuid();
-        var setRoomBody = new SetRoomBody(1, "Deluxe");
+        var setRoomBody = new SetRoomBody(1, RoomTypes.Deluxe);
 
         _setRoomUseCaseMock
             .Setup(x => x.Execute(

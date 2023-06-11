@@ -1,4 +1,5 @@
-﻿using CorporateHotelBooking.Bookings.Domain.Exceptions;
+﻿using CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Bookings.Domain.Exceptions;
 using CorporateHotelBooking.Hotels.Domain;
 using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
@@ -14,12 +15,12 @@ public class HotelTest
         var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
 
         // Act
-        hotel.SetRoom(1, "Deluxe");
+        hotel.SetRoom(1, RoomTypes.Deluxe);
 
         // Assert
         hotel.Rooms.Should().HaveCount(1);
         hotel.Rooms[0].RoomNumber.Should().Be(1);
-        hotel.Rooms[0].RoomType.Should().Be("Deluxe");
+        hotel.Rooms[0].RoomType.Should().Be(RoomTypes.Deluxe);
     }
 
     [Fact]
@@ -29,13 +30,13 @@ public class HotelTest
         var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
 
         // Act
-        hotel.SetRoom(1, "Deluxe");
-        hotel.SetRoom(1, "Standard");
+        hotel.SetRoom(1, RoomTypes.Deluxe);
+        hotel.SetRoom(1, RoomTypes.Standard);
 
         // Assert
         hotel.Rooms.Should().HaveCount(1);
         hotel.Rooms[0].RoomNumber.Should().Be(1);
-        hotel.Rooms[0].RoomType.Should().Be("Standard");
+        hotel.Rooms[0].RoomType.Should().Be(RoomTypes.Standard);
     }
 
     [Fact]
@@ -43,29 +44,29 @@ public class HotelTest
     {
         // Arrange
         var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
-        hotel.SetRoom(1, "Deluxe");
-        hotel.SetRoom(2, "Deluxe");
-        hotel.SetRoom(3, "Standard");
+        hotel.SetRoom(1, RoomTypes.Deluxe);
+        hotel.SetRoom(2, RoomTypes.Deluxe);
+        hotel.SetRoom(3, RoomTypes.Standard);
 
         // Act
         var roomCount = hotel.CalculateRoomCount();
 
         // Assert
         roomCount.Should().HaveCount(2);
-        roomCount["Deluxe"].Should().Be(2);
-        roomCount["Standard"].Should().Be(1);
+        roomCount[RoomTypes.Deluxe].Should().Be(2);
+        roomCount[RoomTypes.Standard].Should().Be(1);
     }
 
     [Fact]
     public void ShouldGetAvailableRoom()
     {
         var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
-        hotel.SetRoom(1, "Deluxe");
-        hotel.SetRoom(2, "Deluxe");
-        hotel.SetRoom(3, "Standard");
+        hotel.SetRoom(1, RoomTypes.Deluxe);
+        hotel.SetRoom(2, RoomTypes.Deluxe);
+        hotel.SetRoom(3, RoomTypes.Standard);
 
         // Act
-        var nextRoomNumber = hotel.GetAvailableRoom("Deluxe");
+        var nextRoomNumber = hotel.GetAvailableRoom(RoomTypes.Deluxe, DateTime.Today, DateTime.Today.AddDays(1), new List<Booking>());
 
         // Assert
         nextRoomNumber.Should().Be(1);
@@ -76,12 +77,12 @@ public class HotelTest
     {
         // Arrange
         var hotel = new Hotel(new HotelId(Guid.NewGuid()), "Westing");
-        hotel.SetRoom(1, "Deluxe");
-        hotel.SetRoom(2, "Deluxe");
-        hotel.SetRoom(3, "Standard");
+        hotel.SetRoom(1, RoomTypes.Deluxe);
+        hotel.SetRoom(2, RoomTypes.Deluxe);
+        hotel.SetRoom(3, RoomTypes.Standard);
 
         // Act
-        Action action = () => hotel.GetAvailableRoom(RoomTypes.Presidential);
+        Action action = () => hotel.GetAvailableRoom(RoomTypes.Presidential, DateTime.Today, DateTime.Today.AddDays(1), new List<Booking>());
 
         // Assert
         action.Should().Throw<RoomTypeNotProvidedException>();

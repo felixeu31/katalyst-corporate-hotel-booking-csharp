@@ -40,6 +40,10 @@ namespace CorporateHotelBooking.Api.Controllers
             {
                 return Conflict();
             }
+            catch (RoomTypeNotAvailableException)
+            {
+                return Conflict();
+            }
         }
     }
 

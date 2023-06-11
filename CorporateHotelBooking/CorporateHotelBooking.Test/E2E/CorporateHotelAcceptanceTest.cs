@@ -14,6 +14,7 @@ using FluentAssertions;
 using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Http.Json;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.E2E
 {
@@ -104,7 +105,7 @@ namespace CorporateHotelBooking.Test.E2E
             var hotelId = Guid.NewGuid();
             var hotelName = "Westing";
             var roomType1 = "Suite";
-            var roomType2 = "Standard";
+            var roomType2 = RoomTypes.Standard;
             var room1 = new { RoomNumber = 1, RoomType = roomType1 };
             var room2 = new { RoomNumber = 2, RoomType = roomType1 };
             var room3 = new { RoomNumber = 3, RoomType = roomType1 };
@@ -140,7 +141,7 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task should_return_conflict_when_room_is_not_offered_by_hotel()
         {
             // Arrange
-            var hotelId = await GivenHotel(new List<RoomDto>() { new RoomDto(1, "Suite") });
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, "Suite") });
             var (companyId, employeeId) = await GivenEmployeeInCompany();
 
             // Act
@@ -157,8 +158,43 @@ namespace CorporateHotelBooking.Test.E2E
             Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
         }
 
+        [Fact]
+        public async Task should_return_conflict_when_room_type_is_not_available_at_the_moment()
+        {
+            // Arrange
+            var rooms = new List<RoomDto>
+            {
+                new RoomDto(1, RoomTypes.Standard),
+                new RoomDto(2, RoomTypes.Standard),
+                new RoomDto(3, RoomTypes.Deluxe)
+            };
+            var hotelId = await GivenHotelWith(rooms);
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                employeeId,
+                RoomType = RoomTypes.Deluxe,
+                CheckIn = DateTime.Today.AddDays(-5),
+                CheckOut = DateTime.Today.AddDays(5)
+            });
 
-        private async Task<Guid> GivenHotel(List<RoomDto> rooms)
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                employeeId,
+                RoomType = RoomTypes.Deluxe,
+                CheckIn = DateTime.Today.AddDays(3),
+                CheckOut = DateTime.Today.AddDays(10)
+            });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+
+        private async Task<Guid> GivenHotelWith(List<RoomDto> rooms)
         {
             var hotelId = Guid.NewGuid();
             var hotelName = "Westing";

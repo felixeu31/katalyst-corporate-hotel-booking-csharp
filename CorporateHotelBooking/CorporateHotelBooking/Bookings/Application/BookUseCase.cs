@@ -29,7 +29,9 @@ public class BookUseCase : IBookUseCase
             throw new EmployeeBookingPolicyException();
         }
 
-        var roomNumber = hotel.GetAvailableRoom(roomType);
+        var existingBookings = _bookingRepository.GetBookingsBy(hotel.HotelId);
+
+        var roomNumber = hotel.GetAvailableRoom(roomType, checkIn, checkOut, existingBookings);
 
         var booking = new Booking(roomNumber, HotelId.From(hotelId), EmployeeId.From(employeeId), roomType, checkIn,
             checkOut);

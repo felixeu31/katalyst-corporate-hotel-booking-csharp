@@ -14,6 +14,7 @@ using CorporateHotelBooking.Test.Unit.Controller;
 using CorporateHotelBooking.Bookings.Domain.Exceptions;
 using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Test.Constants;
+using static System.Collections.Specialized.BitVector32;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
@@ -70,6 +71,30 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
 
             // Assert
             action.Should().Throw<EmployeeBookingPolicyException>();
+        }
+
+
+        [Fact]
+        public void AddBooking_WhenRoomIsNotAvailable_ShouldThrowException()
+        {
+            // Arrange
+            var hotelId = Guid.NewGuid();
+            var employeeId = Guid.NewGuid();
+            var roomType = RoomTypes.Deluxe;
+            var checkIn = DateTime.Today.AddDays(3);
+            var chekout = DateTime.Today.AddDays(10);
+            _isBookingAllowedUseCase.Setup(x => x.Execute(It.IsAny<Guid>(), It.IsAny<string>())).Returns(true);
+            _bookingRepository.Setup(x => x.GetBookingsBy(It.IsAny<HotelId>())).Returns(new List<Booking>()
+            {
+                new Booking(1,HotelId.From(hotelId),  EmployeeId.From(employeeId), RoomTypes.Deluxe, DateTime.Today.AddDays(-5), DateTime.Today.AddDays(5))
+            });
+
+            // Act
+            Action action = () => _bookUseCase.Execute(hotelId, employeeId, roomType, checkIn, chekout);
+
+            // Assert
+            action.Should().Throw<RoomTypeNotAvailableException>();
+
         }
 
     }

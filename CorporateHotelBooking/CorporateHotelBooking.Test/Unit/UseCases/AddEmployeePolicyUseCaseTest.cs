@@ -4,6 +4,7 @@ using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Policies.Application;
 using CorporateHotelBooking.Policies.Domain;
 using System.ComponentModel.Design;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
@@ -22,7 +23,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var addEmployeeUseCase = new AddEmployeePolicyUseCase(_policiesRepository.Object);
             var employeeId = Guid.NewGuid();
-            var policies = new List<string> { "Standard" };
+            var policies = new List<string> { RoomTypes.Standard };
 
             // Act
             addEmployeeUseCase.Execute(employeeId, policies);
@@ -37,8 +38,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var addEmployeeUseCase = new AddEmployeePolicyUseCase(_policiesRepository.Object);
             var employeeId = EmployeeId.New();
-            var policies = new List<string> { "Standard" };
-            _policiesRepository.Setup(x => x.GetEmployeePolicy(employeeId)).Returns(new EmployeePolicy(employeeId, new List<string>() { "Standard" }));
+            var policies = new List<string> { RoomTypes.Standard };
+            _policiesRepository.Setup(x => x.GetEmployeePolicy(employeeId)).Returns(new EmployeePolicy(employeeId, new List<string>() { RoomTypes.Standard }));
 
             // Act
             addEmployeeUseCase.Execute(employeeId.Value, policies);
