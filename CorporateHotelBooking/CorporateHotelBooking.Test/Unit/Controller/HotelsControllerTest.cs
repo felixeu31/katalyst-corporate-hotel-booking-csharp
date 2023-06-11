@@ -1,12 +1,11 @@
 ﻿using CorporateHotelBooking.Api.Controllers;
-using CorporateHotelBooking.Hotels.Application;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Hotels.Domain.Exceptions;
 using CorporateHotelBooking.Test.Constants;
+using CorporateHotelBooking.Application.Hotels.Domain.Exceptions;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 

@@ -26,7 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CorporateHotelBooking.Api\CorporateHotelBooking.Api.csproj" />
-    <ProjectReference Include="..\CorporateHotelBooking\CorporateHotelBooking.csproj" />
+    <ProjectReference Include="..\CorporateHotelBooking.Data.InMemory\CorporateHotelBooking.Data.InMemory.csproj" />
+    <ProjectReference Include="..\CorporateHotelBooking\CorporateHotelBooking.Application.csproj" />
   </ItemGroup>
 
 </Project>

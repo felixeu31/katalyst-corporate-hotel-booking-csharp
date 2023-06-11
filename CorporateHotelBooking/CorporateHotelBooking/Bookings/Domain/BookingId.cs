@@ -1,4 +1,6 @@
-namespace CorporateHotelBooking.Bookings.Domain;
+using CorporateHotelBooking.Application.Bookings.Domain;
+
+namespace CorporateHotelBooking.Application.Bookings.Domain;
 
 public record BookingId(Guid Value)
 {

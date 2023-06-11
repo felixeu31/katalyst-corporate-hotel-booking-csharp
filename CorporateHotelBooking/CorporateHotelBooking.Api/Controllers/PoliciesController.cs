@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using CorporateHotelBooking.Policies.Application;
 using Microsoft.AspNetCore.Mvc;
+using CorporateHotelBooking.Application.Policies.UseCases;
 
 namespace CorporateHotelBooking.Api.Controllers;
 

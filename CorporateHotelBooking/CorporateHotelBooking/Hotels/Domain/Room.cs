@@ -1,4 +1,4 @@
-﻿namespace CorporateHotelBooking.Hotels.Domain;
+﻿namespace CorporateHotelBooking.Application.Hotels.Domain;
 
 public class Room
 {

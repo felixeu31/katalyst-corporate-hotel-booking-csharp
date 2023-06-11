@@ -1,7 +1,7 @@
-﻿using CorporateHotelBooking.Hotels.Application;
-using CorporateHotelBooking.Hotels.Domain.Exceptions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using CorporateHotelBooking.Application.Hotels.Domain.Exceptions;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 
 namespace CorporateHotelBooking.Api.Controllers
 {

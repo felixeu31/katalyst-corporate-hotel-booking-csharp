@@ -1,8 +1,8 @@
-﻿using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Employees.Application;
-using Moq;
-using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Policies.Domain;
+﻿using Moq;
+using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Application.Employees.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {

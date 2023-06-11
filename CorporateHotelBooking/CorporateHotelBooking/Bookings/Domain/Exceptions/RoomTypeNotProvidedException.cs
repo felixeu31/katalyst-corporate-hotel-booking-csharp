@@ -1,4 +1,4 @@
-﻿namespace CorporateHotelBooking.Bookings.Domain.Exceptions;
+﻿namespace CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
 
 public class RoomTypeNotProvidedException : Exception
 {

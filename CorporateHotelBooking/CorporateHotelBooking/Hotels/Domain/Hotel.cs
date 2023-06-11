@@ -1,8 +1,9 @@
-﻿using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Bookings.Domain.Exceptions;
-using System.Linq;
+﻿using System.Linq;
+using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Application.Hotels.Domain;
 
-namespace CorporateHotelBooking.Hotels.Domain;
+namespace CorporateHotelBooking.Application.Hotels.Domain;
 
 public class Hotel
 {

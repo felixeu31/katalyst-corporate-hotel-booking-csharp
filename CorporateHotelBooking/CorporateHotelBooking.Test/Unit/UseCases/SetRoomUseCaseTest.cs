@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CorporateHotelBooking.Hotels.Application;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Hotels.Domain.Exceptions;
 using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 using Moq;
+using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Application.Hotels.Domain.Exceptions;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {

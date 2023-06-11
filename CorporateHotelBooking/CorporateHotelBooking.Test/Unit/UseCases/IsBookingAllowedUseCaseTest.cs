@@ -1,14 +1,11 @@
-﻿using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Policies.Application;
-using CorporateHotelBooking.Policies.Domain;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using System.ComponentModel.Design;
 using CorporateHotelBooking.Test.Constants;
-using CorporateHotelBooking.Bookings.Domain.Exceptions;
-using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Employees.Domain.Exceptions;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Employees.Domain.Exceptions;
+using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Application.Policies.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {

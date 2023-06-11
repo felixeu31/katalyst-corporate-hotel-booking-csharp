@@ -1,17 +1,13 @@
-using CorporateHotelBooking.Api.Controllers;
-using CorporateHotelBooking.Bookings.Application;
-using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Bookings.Infra;
-using CorporateHotelBooking.Data;
-using CorporateHotelBooking.Employees.Application;
-using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Employees.Infra;
-using CorporateHotelBooking.Hotels.Application;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Hotels.Infrastructure;
-using CorporateHotelBooking.Policies.Application;
-using CorporateHotelBooking.Policies.Domain;
-using CorporateHotelBooking.Policies.Infrastructure;
+using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Application.Bookings.UseCases;
+using CorporateHotelBooking.Application.Employees.UseCases;
+using CorporateHotelBooking.Application.Hotels.UseCases;
+using CorporateHotelBooking.Application.Policies.UseCases;
+using CorporateHotelBooking.Data.InMemory;
+using CorporateHotelBooking.Data.InMemory.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

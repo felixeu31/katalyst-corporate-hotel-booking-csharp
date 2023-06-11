@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
-using CorporateHotelBooking.Policies.Application;
 using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
+using CorporateHotelBooking.Application.Policies.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
