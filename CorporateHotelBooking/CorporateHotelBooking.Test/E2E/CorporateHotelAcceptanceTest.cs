@@ -32,7 +32,7 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
-        public async Task should_book_an_existing_room_in_hotel()
+        public async Task should_be_able_to_book_an_avalable_room_in_hotel()
         {
             // Arrange
             var companyId = Guid.NewGuid();
