@@ -94,7 +94,6 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
 
             // Assert
             action.Should().Throw<RoomTypeNotAvailableException>();
-
         }
 
     }

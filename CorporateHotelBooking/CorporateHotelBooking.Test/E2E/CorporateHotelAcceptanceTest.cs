@@ -192,7 +192,46 @@ namespace CorporateHotelBooking.Test.E2E
             // Assert
             Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
         }
+        
+        [Fact]
+        public async Task should_be_able_to_book_room_when_old_bookings_from_deleted_employee_have_been_removed()
+        {
+            // Arrange
+            var rooms = new List<RoomDto>
+            {
+                new RoomDto(1, RoomTypes.Standard),
+                new RoomDto(2, RoomTypes.Standard),
+                new RoomDto(3, RoomTypes.Deluxe)
+            };
+            var hotelId = await GivenHotelWith(rooms);
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                EmployeeId = employeeId,
+                RoomType = RoomTypes.Deluxe,
+                CheckIn = DateTime.Today.AddDays(-5),
+                CheckOut = DateTime.Today.AddDays(5)
+            });
 
+            var deletedEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
+            Assert.Equal(HttpStatusCode.OK, deletedEmployeeResponse.StatusCode);
+
+            var (companyId2, employeeId2) = await GivenEmployeeInCompany();
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                EmployeeId = employeeId2,
+                RoomType = RoomTypes.Deluxe,
+                CheckIn = DateTime.Today.AddDays(3),
+                CheckOut = DateTime.Today.AddDays(10)
+            });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
+        }
 
         [Fact]
         public async Task should_return_not_found_when_employee_has_been_deleted()

@@ -92,5 +92,27 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             bookings.Should().AllSatisfy(x => x.HotelId.Equals(hotelId));
         }
 
+        [Fact]
+        public void should_remove_bookings_by_employee()
+        {
+            // Arrange
+            HotelId hotelId = HotelId.New();
+            EmployeeId employeeId = EmployeeId.New();
+            var booking1 = new Booking(1, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking2 = new Booking(2, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking3 = new Booking(2, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            _inMemoryContext.Bookings.Add(booking1.BookingId, booking1);
+            _inMemoryContext.Bookings.Add(booking2.BookingId, booking2);
+            _inMemoryContext.Bookings.Add(booking3.BookingId, booking3);
+
+            // Act
+            _bookingRepository.DeleteEmployeeBookings(employeeId);
+
+            // Assert
+            var employeeBookings =
+                _inMemoryContext.Bookings.Select(x => x.Value).Where(x => x.BookedBy.Equals(employeeId));
+            employeeBookings.Should().HaveCount(0);
+        }
+
     }
 }
