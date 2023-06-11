@@ -43,4 +43,9 @@ public class InMemoryPoliciesRepository : IPoliciesRepository
     {
         _context.EmployeePolicies[employeePolicy.EmployeeId] = employeePolicy;
     }
+
+    public void DeleteEmployeePolicies(EmployeeId employeeId)
+    {
+        _context.EmployeePolicies.Remove(employeeId);
+    }
 }

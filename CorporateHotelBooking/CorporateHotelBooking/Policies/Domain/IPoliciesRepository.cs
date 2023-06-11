@@ -10,4 +10,5 @@ public interface IPoliciesRepository
     CompanyPolicy? GetCompanyPolicy(CompanyId from);
     void UpdateCompanyPolicy(CompanyPolicy companyPolicy);
     void UpdateEmployeePolicy(EmployeePolicy isAny);
+    void DeleteEmployeePolicies(EmployeeId employeeId);
 }

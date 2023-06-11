@@ -13,8 +13,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
     {
         _client = apiFactory.CreateClient();
     }
-
-
+    
     [Fact]
     public async void should_be_able_to_book_a_room_when_no_policies()
     {
@@ -171,6 +170,39 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
 
         // Assert
         Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+    }
+    
+    [Fact]
+    public async void should_remove_employee_policies_when_employee_is_deleted()
+    {
+        // Arrange
+        var companyId = Guid.NewGuid();
+        var employeeId = Guid.NewGuid();
+        var hotelId = Guid.NewGuid();
+        var hotelName = "Westing";
+        var roomType = "Suite";
+        var roomNumber = 1;
+        var checkIn = DateTime.Today;
+        var checkOut = DateTime.Today.AddDays(7);
+
+        var addHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
+        Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
+        var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
+        Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
+        var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
+        Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
+        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { RoomTypes.Standard } });
+        Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
+        var deletedEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
+        Assert.Equal(HttpStatusCode.OK, deletedEmployeeResponse.StatusCode);
+        var recreateEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
+        Assert.Equal(HttpStatusCode.Created, recreateEmployeeResponse.StatusCode);
+
+        // Act
+        var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType, checkIn, checkOut });
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
     }
 
 }

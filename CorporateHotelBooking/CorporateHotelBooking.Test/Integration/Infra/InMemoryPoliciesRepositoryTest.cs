@@ -119,5 +119,20 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             employeePolicy.RoomTypes.Should().BeEquivalentTo(updatedEmployeePolicy.RoomTypes);
         }
 
+        [Fact]
+        public void should_delete_employee_policies()
+        {
+            // Arrange
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { RoomTypes.Standard });
+            _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
+
+            // Act
+            _policiesRepository.DeleteEmployeePolicies(newEmployeePolicy.EmployeeId);
+
+            // Assert
+            var containsEmployeePolicy = _context.EmployeePolicies.ContainsKey(newEmployeePolicy.EmployeeId);
+            containsEmployeePolicy.Should().BeFalse();
+        }
+
     }
 }
