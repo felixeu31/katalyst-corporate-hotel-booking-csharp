@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CorporateHotelBooking.Data;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Hotels.Infrastructure;
-using CorporateHotelBooking.Test.Constants;
+﻿using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
+using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Data.InMemory;
+using CorporateHotelBooking.Data.InMemory.Repositories;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
 {

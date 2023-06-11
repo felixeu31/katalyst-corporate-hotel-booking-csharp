@@ -1,9 +1,9 @@
-﻿using CorporateHotelBooking.Data;
-using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Policies.Domain;
-using CorporateHotelBooking.Policies.Infrastructure;
-using CorporateHotelBooking.Test.Constants;
+﻿using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Data.InMemory;
+using CorporateHotelBooking.Data.InMemory.Repositories;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
 {

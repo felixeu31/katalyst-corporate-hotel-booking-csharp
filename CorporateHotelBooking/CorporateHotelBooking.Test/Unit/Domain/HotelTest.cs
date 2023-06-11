@@ -1,8 +1,8 @@
-﻿using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Bookings.Domain.Exceptions;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Test.Constants;
+﻿using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
+using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Application.Hotels.Domain;
 
 namespace CorporateHotelBooking.Test.Unit.Domain;
 

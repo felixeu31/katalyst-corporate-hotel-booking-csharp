@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using CorporateHotelBooking.Bookings.Application;
-using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Bookings.Domain.Exceptions;
-using CorporateHotelBooking.Test.Unit.Controller;
-using CorporateHotelBooking.Employees.Domain.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc;
+using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Application.Employees.Domain.Exceptions;
+using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Application.Bookings.UseCases;
 
 namespace CorporateHotelBooking.Api.Controllers
 {

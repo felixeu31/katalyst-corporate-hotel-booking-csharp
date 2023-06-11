@@ -1,6 +1,6 @@
-﻿using CorporateHotelBooking.Employees.Domain;
+﻿using CorporateHotelBooking.Application.Employees.Domain;
 
-namespace CorporateHotelBooking.Policies.Domain;
+namespace CorporateHotelBooking.Application.Policies.Domain;
 
 public class EmployeePolicy
 {

@@ -1,7 +1,7 @@
-﻿using CorporateHotelBooking.Data;
-using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Employees.Infra;
+﻿using CorporateHotelBooking.Employees.Infra;
 using FluentAssertions;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Data.InMemory;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
 {

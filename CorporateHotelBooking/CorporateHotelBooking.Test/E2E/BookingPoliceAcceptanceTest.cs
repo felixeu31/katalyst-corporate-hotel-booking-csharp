@@ -1,5 +1,4 @@
-﻿using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Test.ApiFactory;
+﻿using CorporateHotelBooking.Test.ApiFactory;
 using System.Net;
 using System.Net.Http.Json;
 using CorporateHotelBooking.Test.Constants;

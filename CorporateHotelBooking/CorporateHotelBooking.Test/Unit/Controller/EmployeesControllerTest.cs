@@ -1,9 +1,9 @@
 ﻿using CorporateHotelBooking.Api.Controllers;
-using CorporateHotelBooking.Employees.Application;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 using FluentAssertions;
+using CorporateHotelBooking.Application.Employees.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.Controller
 {

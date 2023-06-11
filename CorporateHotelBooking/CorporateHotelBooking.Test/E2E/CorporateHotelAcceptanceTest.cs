@@ -1,20 +1,10 @@
-using Castle.Core.Resource;
 using CorporateHotelBooking.Api.Controllers;
-using CorporateHotelBooking.Bookings.Application;
-using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Bookings.Infra;
-using CorporateHotelBooking.Employees.Application;
-using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Employees.Infra;
-using CorporateHotelBooking.Hotels.Application;
-using CorporateHotelBooking.Hotels.Domain;
-using CorporateHotelBooking.Hotels.Infrastructure;
 using CorporateHotelBooking.Test.ApiFactory;
 using FluentAssertions;
-using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Http.Json;
 using CorporateHotelBooking.Test.Constants;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 
 namespace CorporateHotelBooking.Test.E2E
 {

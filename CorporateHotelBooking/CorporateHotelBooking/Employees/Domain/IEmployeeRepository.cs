@@ -1,4 +1,6 @@
-﻿namespace CorporateHotelBooking.Employees.Domain;
+﻿using CorporateHotelBooking.Application.Employees.Domain;
+
+namespace CorporateHotelBooking.Application.Employees.Domain;
 
 public interface IEmployeeRepository
 {

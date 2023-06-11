@@ -1,7 +1,7 @@
-using CorporateHotelBooking.Employees.Domain;
-using CorporateHotelBooking.Hotels.Domain;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Hotels.Domain;
 
-namespace CorporateHotelBooking.Bookings.Domain;
+namespace CorporateHotelBooking.Application.Bookings.Domain;
 
 public class Booking
 {

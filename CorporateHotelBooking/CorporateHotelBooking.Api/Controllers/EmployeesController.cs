@@ -1,8 +1,7 @@
-﻿using CorporateHotelBooking.Hotels.Domain;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using CorporateHotelBooking.Employees.Application;
+using CorporateHotelBooking.Application.Employees.UseCases;
 
 namespace CorporateHotelBooking.Api.Controllers
 {

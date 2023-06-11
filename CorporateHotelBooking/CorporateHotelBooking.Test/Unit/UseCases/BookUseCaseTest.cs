@@ -1,20 +1,20 @@
-﻿using CorporateHotelBooking.Bookings.Application;
-using CorporateHotelBooking.Hotels.Domain;
-using Moq;
+﻿using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CorporateHotelBooking.Bookings.Domain;
-using CorporateHotelBooking.Policies.Application;
-using CorporateHotelBooking.Hotels.Application;
 using FluentAssertions;
 using CorporateHotelBooking.Test.Unit.Controller;
-using CorporateHotelBooking.Bookings.Domain.Exceptions;
-using CorporateHotelBooking.Employees.Domain;
 using CorporateHotelBooking.Test.Constants;
 using static System.Collections.Specialized.BitVector32;
+using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
+using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Application.Bookings.UseCases;
+using CorporateHotelBooking.Application.Policies.UseCases;
 
 namespace CorporateHotelBooking.Test.Unit.UseCases
 {
