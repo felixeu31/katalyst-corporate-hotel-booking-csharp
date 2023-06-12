@@ -43,6 +43,10 @@ namespace CorporateHotelBooking.Api.Controllers
             {
                 return Conflict();
             }
+            catch (InvalidBookingPeriodException)
+            {
+                return Conflict();
+            }
             catch (EmployeeNotFoundException)
             {
                 return NotFound();

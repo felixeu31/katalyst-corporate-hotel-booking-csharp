@@ -108,7 +108,7 @@ public class BookingsControllerTest
 
 
     [Fact]
-    public void BookRoom_WhenEmployeeNotFoundException_ShouldReturnConflict()
+    public void BookRoom_WhenEmployeeNotFoundException_ShouldReturnNotFound()
     {
         // Arrange
         var newGuid = Guid.NewGuid();
@@ -126,6 +126,28 @@ public class BookingsControllerTest
 
         // Assert
         ((NotFoundResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+    }
+
+
+    [Fact]
+    public void BookRoom_WhenBookingPeriodException_ShouldReturnConflict()
+    {
+        // Arrange
+        var newGuid = Guid.NewGuid();
+        var employeeId = Guid.NewGuid();
+        var roomType = SampleData.RoomTypes.Deluxe;
+        var dateTime = DateTime.Today.AddDays(1);
+        var checkOut = DateTime.Today.AddDays(1);
+        var bookingData = new BookingBody(newGuid, employeeId, roomType, dateTime, checkOut);
+
+        _bookUseCaseMock.Setup(x => x.Execute(newGuid, employeeId, roomType, dateTime, checkOut))
+            .Throws<InvalidBookingPeriodException>();
+
+        // Act
+        var addBookingResponse = _bookingsController.Book(bookingData);
+
+        // Assert
+        ((ConflictResult)addBookingResponse).StatusCode.Should().Be((int)HttpStatusCode.Conflict);
     }
 
 }

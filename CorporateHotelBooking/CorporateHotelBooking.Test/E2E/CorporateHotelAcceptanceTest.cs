@@ -124,6 +124,27 @@ namespace CorporateHotelBooking.Test.E2E
         }
 
         [Fact]
+        public async Task should_return_conflict_when_booking_period_is_invalid()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new
+            {
+                hotelId,
+                employeeId,
+                RoomType = SampleData.RoomTypes.Suite,
+                CheckIn = DateTime.Today.AddDays(1),
+                CheckOut = DateTime.Today.AddDays(1)
+            });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+        [Fact]
         public async Task should_return_conflict_when_room_type_is_not_available_at_the_moment()
         {
             // Arrange
