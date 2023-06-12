@@ -8,5 +8,6 @@ public struct SampleData
         public const string Junior = "Junior";
         public const string Standard = "Standard";
         public const string Presidential = "Presidential";
+        public const string Suite = "Suite";
     }
 }

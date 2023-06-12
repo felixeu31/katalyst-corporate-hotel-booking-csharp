@@ -25,46 +25,32 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task should_be_able_to_book_an_available_room_in_hotel()
         {
             // Arrange
-            var companyId = Guid.NewGuid();
-            var employeeId = Guid.NewGuid();
-            var hotelId = Guid.NewGuid();
-            var hotelName = "Westing";
-            var roomType = "Suite";
-            var roomNumber = 1;
-            var checkIn = DateTime.Today;
-            var checkOut = DateTime.Today.AddDays(7);
-
-            var addHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName});
-            Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
-            var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
-            Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
-            var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
-            Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
-            var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { roomType } });
-            Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenEmployeeHasPolicy(employeeId, SampleData.RoomTypes.Suite);
 
             // Act
-            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType, checkIn, checkOut });
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId,
+                roomType = SampleData.RoomTypes.Suite,
+                checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
             Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
             var booking = await bookResponse.Content.ReadFromJsonAsync<BookingDto>();
 
             // Assert
             booking.HotelId.Should().Be(hotelId);
             booking.BookedBy.Should().Be(employeeId);
-            booking.RoomType.Should().Be(roomType);
-            booking.RoomNumber.Should().Be(roomNumber);
-            booking.CheckIn.Should().BeSameDateAs(checkIn);
-            booking.CheckOut.Should().BeSameDateAs(checkOut);
+            booking.RoomType.Should().Be(SampleData.RoomTypes.Suite);
+            booking.RoomNumber.Should().Be(1);
+            booking.CheckIn.Should().BeSameDateAs(DateTime.Today);
+            booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(7));
         }
 
         [Fact]
         public async Task should_return_conflict_when_trying_to_add_duplicated_hotel()
         {
             // Arrange
-            var hotelId = Guid.NewGuid();
-
-            var addHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = "Hotel 1" });
-            Assert.Equal(HttpStatusCode.Created, addHotelResponse.StatusCode);
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
 
             // Act
             var duplicatedAddHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = "Same hotel" });
@@ -77,11 +63,8 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task set_room_should_return_not_found_when_hotel_does_not_exist()
         {
             // Arrange
-            var roomType = "Suite";
-            var roomNumber = 1;
-
             // Act
-            var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{Guid.NewGuid()}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
+            var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{Guid.NewGuid()}/rooms", new { RoomNumber = 1, RoomType = SampleData.RoomTypes.Suite });
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, setRoomResponse.StatusCode);
@@ -92,24 +75,16 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task find_hotel_should_return_hotel_information()
         {
             // Arrange
-            var hotelId = Guid.NewGuid();
             var hotelName = "Westing";
-            var roomType1 = "Suite";
-            var roomType2 = SampleData.RoomTypes.Standard;
-            var room1 = new { RoomNumber = 1, RoomType = roomType1 };
-            var room2 = new { RoomNumber = 2, RoomType = roomType1 };
-            var room3 = new { RoomNumber = 3, RoomType = roomType1 };
-            var room4 = new { RoomNumber = 4, RoomType = roomType1 };
-            var room5 = new { RoomNumber = 5, RoomType = roomType2 };
-            var room6 = new { RoomNumber = 6, RoomType = roomType2 };
-
-            await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
-            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room1);
-            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room2);
-            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room3);
-            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room4);
-            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room5);
-            await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", room6);
+            var hotelId = await GivenHotelWith(new List<RoomDto>()
+            {
+                new RoomDto( 1, SampleData.RoomTypes.Suite),
+                new RoomDto( 2, SampleData.RoomTypes.Suite),
+                new RoomDto( 3, SampleData.RoomTypes.Suite),
+                new RoomDto( 4, SampleData.RoomTypes.Suite),
+                new RoomDto( 5, SampleData.RoomTypes.Standard),
+                new RoomDto( 6, SampleData.RoomTypes.Standard)
+            });
 
             // Act
             var findHotelResponse = await _client.GetAsync($"hotels/{hotelId}");
@@ -121,17 +96,17 @@ namespace CorporateHotelBooking.Test.E2E
             hotelDto.HotelId.Should().Be(hotelId);
             hotelDto.HotelName.Should().Be(hotelName);
             hotelDto.RoomCount.Should().HaveCount(2);
-            hotelDto.RoomCount[roomType1].Should().Be(4);
-            hotelDto.RoomCount[roomType2].Should().Be(2);
+            hotelDto.RoomCount[SampleData.RoomTypes.Suite].Should().Be(4);
+            hotelDto.RoomCount[SampleData.RoomTypes.Standard].Should().Be(2);
             hotelDto.Rooms.Should().HaveCount(6);
-            hotelDto.Rooms.First(x => x.RoomNumber.Equals(room1.RoomNumber)).RoomType.Should().Be(room1.RoomType);
+            hotelDto.Rooms.First(x => x.RoomNumber.Equals(1)).RoomType.Should().Be(SampleData.RoomTypes.Suite);
         }
 
         [Fact]
         public async Task should_return_conflict_when_room_is_not_offered_by_hotel()
         {
             // Arrange
-            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, "Suite") });
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
             var (companyId, employeeId) = await GivenEmployeeInCompany();
 
             // Act
@@ -152,13 +127,12 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task should_return_conflict_when_room_type_is_not_available_at_the_moment()
         {
             // Arrange
-            var rooms = new List<RoomDto>
+            var hotelId = await GivenHotelWith(new List<RoomDto>
             {
                 new RoomDto(1, SampleData.RoomTypes.Standard),
                 new RoomDto(2, SampleData.RoomTypes.Standard),
                 new RoomDto(3, SampleData.RoomTypes.Deluxe)
-            };
-            var hotelId = await GivenHotelWith(rooms);
+            });
             var (companyId, employeeId) = await GivenEmployeeInCompany();
             await _client.PostAsJsonAsync("bookings", new
             {
@@ -187,13 +161,12 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task should_be_able_to_book_room_when_old_bookings_from_deleted_employee_have_been_removed()
         {
             // Arrange
-            var rooms = new List<RoomDto>
+            var hotelId = await GivenHotelWith(new List<RoomDto>
             {
                 new RoomDto(1, SampleData.RoomTypes.Standard),
                 new RoomDto(2, SampleData.RoomTypes.Standard),
                 new RoomDto(3, SampleData.RoomTypes.Deluxe)
-            };
-            var hotelId = await GivenHotelWith(rooms);
+            });
             var (companyId, employeeId) = await GivenEmployeeInCompany();
             await _client.PostAsJsonAsync("bookings", new
             {
@@ -227,13 +200,12 @@ namespace CorporateHotelBooking.Test.E2E
         public async Task should_return_not_found_when_employee_has_been_deleted()
         {
             // Arrange
-            var rooms = new List<RoomDto>
+            var hotelId = await GivenHotelWith(new List<RoomDto>
             {
                 new RoomDto(1, SampleData.RoomTypes.Standard),
                 new RoomDto(2, SampleData.RoomTypes.Standard),
                 new RoomDto(3, SampleData.RoomTypes.Deluxe)
-            };
-            var hotelId = await GivenHotelWith(rooms);
+            });
             var (companyId, employeeId) = await GivenEmployeeInCompany();
             var deletedEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
             Assert.Equal(HttpStatusCode.OK, deletedEmployeeResponse.StatusCode);
@@ -250,6 +222,124 @@ namespace CorporateHotelBooking.Test.E2E
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_be_able_to_book_a_room_when_no_policies()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType = SampleData.RoomTypes.Suite, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_not_allow_an_employee_to_book_a_room_that_is_not_contained_in_the_employee_policy()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenEmployeeHasPolicy(employeeId, SampleData.RoomTypes.Standard);
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, RoomType = SampleData.RoomTypes.Suite, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_not_allow_an_employee_to_book_a_room_that_is_not_contained_in_the_company_policy()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenCompanyHasPolicy(companyId, SampleData.RoomTypes.Standard);
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType = SampleData.RoomTypes.Suite, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_take_employee_policy_over_hotel_policy()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Deluxe) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenEmployeeHasPolicy(employeeId, SampleData.RoomTypes.Deluxe);
+            await GivenCompanyHasPolicy(companyId, SampleData.RoomTypes.Standard);
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType = SampleData.RoomTypes.Deluxe, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_use_last_company_policy_update_to_validate_policies()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenCompanyHasPolicy(companyId, SampleData.RoomTypes.Standard);
+            await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { SampleData.RoomTypes.Deluxe } });
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType = SampleData.RoomTypes.Standard, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_use_last_employee_policy_update_to_validate_policies()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenEmployeeHasPolicy(employeeId, SampleData.RoomTypes.Standard);
+            await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { SampleData.RoomTypes.Deluxe } });
+
+            // Act
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType = SampleData.RoomTypes.Standard, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Conflict, bookResponse.StatusCode);
+        }
+
+        [Fact]
+        public async void should_allow_book_when_recreated_employee_does_not_have_his_old_policies()
+        {
+            // Arrange
+            var hotelId = await GivenHotelWith(new List<RoomDto>() { new RoomDto(1, SampleData.RoomTypes.Suite) });
+            var (companyId, employeeId) = await GivenEmployeeInCompany();
+            await GivenEmployeeHasPolicy(employeeId, SampleData.RoomTypes.Standard);
+
+            // Act
+            var deletedEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
+            Assert.Equal(HttpStatusCode.OK, deletedEmployeeResponse.StatusCode);
+            var recreateEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
+            Assert.Equal(HttpStatusCode.Created, recreateEmployeeResponse.StatusCode);
+            var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType = SampleData.RoomTypes.Suite, checkIn = DateTime.Today,
+                checkOut = DateTime.Today.AddDays(7) });
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, bookResponse.StatusCode);
         }
 
 
@@ -280,6 +370,20 @@ namespace CorporateHotelBooking.Test.E2E
 
             return (companyId, employeeId);
 
+        }
+
+        private async Task GivenEmployeeHasPolicy(Guid employeeId, string roomType)
+        {
+            var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee",
+                new { EmployeeId = employeeId, RoomTypes = new List<string> { roomType } });
+            Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
+        }
+
+        private async Task GivenCompanyHasPolicy(Guid companyId, string roomType)
+        {
+            var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/company",
+                new { CompanyId = companyId, RoomTypes = new List<string> { roomType } });
+            Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
         }
 
         public record RoomDto(int RoomNumber, string RoomType);
