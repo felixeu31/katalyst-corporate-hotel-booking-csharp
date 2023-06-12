@@ -15,12 +15,7 @@ public class FindHotelUseCase : IFindHotelUseCase
 
     public HotelDto Execute(Guid hotelId)
     {
-        var hotel = _hotelRepository.Get(HotelId.From(hotelId));
-
-        if (hotel == null)
-        {
-            throw new HotelNotFoundException();
-        }
+        var hotel = _hotelRepository.Get(HotelId.From(hotelId)) ?? throw new HotelNotFoundException();
 
         return HotelDto.From(hotel);
     }

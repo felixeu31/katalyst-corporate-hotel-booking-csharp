@@ -1,8 +1,8 @@
 ﻿namespace CorporateHotelBooking.Test.Constants;
 
-public class SampleData
+public struct SampleData
 {
-    public class RoomTypes
+    public struct RoomTypes
     {
         public const string Deluxe = "Deluxe";
         public const string Junior = "Junior";

@@ -57,7 +57,7 @@ namespace CorporateHotelBooking.Api.Controllers
     {
         public static BookingDto? From(Booking? booking)
         {
-            if (booking == null) return null;
+            if (booking is null) return null;
 
             return new BookingDto(
                 booking.BookingId.Value,
