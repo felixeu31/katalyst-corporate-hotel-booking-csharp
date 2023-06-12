@@ -26,7 +26,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
+            var roomType = SampleData.RoomTypes.Standard;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
@@ -49,8 +49,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
-            var anotherRoomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Standard;
+            var anotherRoomType = SampleData.RoomTypes.Deluxe;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
@@ -73,8 +73,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
-            var anotherRoomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Standard;
+            var anotherRoomType = SampleData.RoomTypes.Deluxe;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
@@ -94,7 +94,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
+            var roomType = SampleData.RoomTypes.Standard;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
@@ -119,8 +119,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
-            var anotherRoomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Standard;
+            var anotherRoomType = SampleData.RoomTypes.Deluxe;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
@@ -145,7 +145,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
+            var roomType = SampleData.RoomTypes.Standard;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(new Employee(CompanyId.From(companyId), EmployeeId.From(employeeId)));
@@ -167,7 +167,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             Guid companyId = Guid.NewGuid();
             Guid employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Standard;
+            var roomType = SampleData.RoomTypes.Standard;
             var isBookingAllowedUseCase = new IsBookingAllowedUseCase(_policiesRepository.Object, _employeeRepository.Object);
             _employeeRepository.Setup(x => x.Get(EmployeeId.From(employeeId)))
                 .Returns(default(Employee?));

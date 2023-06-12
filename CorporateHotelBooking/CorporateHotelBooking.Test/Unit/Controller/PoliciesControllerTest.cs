@@ -26,7 +26,7 @@ public class PoliciesControllerTest
     {
         // Arrange
         var employeeId = Guid.NewGuid();
-        var policies = new List<string> { RoomTypes.Standard };
+        var policies = new List<string> { SampleData.RoomTypes.Standard };
 
         // Act
         var addHotelResponse = _policiesController.AddEmployeePolicy(new AddEmployeePolicyBody(employeeId, policies));
@@ -41,7 +41,7 @@ public class PoliciesControllerTest
     {
         // Arrange
         var companyId = Guid.NewGuid();
-        var policies = new List<string> { RoomTypes.Standard };
+        var policies = new List<string> { SampleData.RoomTypes.Standard };
 
         // Act
         var addHotelResponse = _policiesController.AddCompanyPolicy(new AddCompanyPolicyBody(companyId, policies));

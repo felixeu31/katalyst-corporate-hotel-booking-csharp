@@ -31,7 +31,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             _isBookingAllowedUseCase = new();
             _hotelRepository = new();
             var hotel = new Hotel(HotelId.New(), "Westing");
-            hotel.SetRoom(1, RoomTypes.Deluxe);
+            hotel.SetRoom(1, SampleData.RoomTypes.Deluxe);
             _hotelRepository.Setup(x => x.Get(It.IsAny<HotelId>())).Returns(hotel);
             _bookUseCase = new BookUseCase(_bookingRepository.Object, _isBookingAllowedUseCase.Object, _hotelRepository.Object);
         }
@@ -42,7 +42,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var hotelId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Deluxe;
             var checkIn = DateTime.Today.AddDays(1);
             var chekout = DateTime.Today.AddDays(2);
             _isBookingAllowedUseCase.Setup(x => x.Execute(employeeId, roomType)).Returns(true);
@@ -61,7 +61,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var hotelId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Deluxe;
             var checkIn = DateTime.Today.AddDays(1);
             var chekout = DateTime.Today.AddDays(2);
             _isBookingAllowedUseCase.Setup(x => x.Execute(employeeId, roomType)).Returns(false);
@@ -80,13 +80,13 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var hotelId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
-            var roomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Deluxe;
             var checkIn = DateTime.Today.AddDays(3);
             var chekout = DateTime.Today.AddDays(10);
             _isBookingAllowedUseCase.Setup(x => x.Execute(It.IsAny<Guid>(), It.IsAny<string>())).Returns(true);
             _bookingRepository.Setup(x => x.GetBookingsBy(It.IsAny<HotelId>())).Returns(new List<Booking>()
             {
-                new Booking(1,HotelId.From(hotelId),  EmployeeId.From(employeeId), RoomTypes.Deluxe, DateTime.Today.AddDays(-5), DateTime.Today.AddDays(5))
+                new Booking(1,HotelId.From(hotelId),  EmployeeId.From(employeeId), SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(-5), DateTime.Today.AddDays(5))
             });
 
             // Act

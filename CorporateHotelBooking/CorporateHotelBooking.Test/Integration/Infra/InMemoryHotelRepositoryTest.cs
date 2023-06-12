@@ -62,7 +62,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Deluxe;
             var newHotel = new Hotel(hotelId, hotelName);
             _context.Hotels.Add(newHotel.HotelId, newHotel);
 

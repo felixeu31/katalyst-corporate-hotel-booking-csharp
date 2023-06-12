@@ -21,7 +21,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var addCompanyUseCase = new AddCompanyPolicyUseCase(_policiesRepository.Object);
             var employeeId = Guid.NewGuid();
-            var policies = new List<string> { RoomTypes.Standard };
+            var policies = new List<string> { SampleData.RoomTypes.Standard };
 
             // Act
             addCompanyUseCase.Execute(employeeId, policies);
@@ -36,8 +36,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             // Arrange
             var addCompanyUseCase = new AddCompanyPolicyUseCase(_policiesRepository.Object);
             var companyId = CompanyId.New();
-            var policies = new List<string> { RoomTypes.Standard };
-            _policiesRepository.Setup(x => x.GetCompanyPolicy(companyId)).Returns(new CompanyPolicy(companyId, new List<string>(){RoomTypes.Standard}));
+            var policies = new List<string> { SampleData.RoomTypes.Standard };
+            _policiesRepository.Setup(x => x.GetCompanyPolicy(companyId)).Returns(new CompanyPolicy(companyId, new List<string>(){SampleData.RoomTypes.Standard}));
 
             // Act
             addCompanyUseCase.Execute(companyId.Value, policies);

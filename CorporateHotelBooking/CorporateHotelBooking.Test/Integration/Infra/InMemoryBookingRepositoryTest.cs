@@ -26,7 +26,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             int roomNumber = 1;
             EmployeeId employeeId = EmployeeId.New();
-            string roomType = RoomTypes.Deluxe;
+            string roomType = SampleData.RoomTypes.Deluxe;
             DateTime checkIn = DateTime.Today.AddDays(1);
             DateTime chekout = DateTime.Today.AddDays(2);
             var newBooking = new Booking(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
@@ -39,7 +39,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             booking.Should().NotBeNull();
             booking.RoomNumber.Should().Be(1);
             booking.HotelId.Should().Be(hotelId);
-            booking.RoomType.Should().Be(RoomTypes.Deluxe);
+            booking.RoomType.Should().Be(SampleData.RoomTypes.Deluxe);
             booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
             booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));
         }
@@ -51,7 +51,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             int roomNumber = 1;
             EmployeeId employeeId = EmployeeId.New();
-            string roomType = RoomTypes.Deluxe;
+            string roomType = SampleData.RoomTypes.Deluxe;
             DateTime checkIn = DateTime.Today.AddDays(1);
             DateTime chekout = DateTime.Today.AddDays(2);
             var newBooking = new Booking(roomNumber, hotelId, employeeId, roomType, checkIn, chekout);
@@ -64,7 +64,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             booking.Should().NotBeNull();
             booking.RoomNumber.Should().Be(1);
             booking.HotelId.Should().Be(hotelId);
-            booking.RoomType.Should().Be(RoomTypes.Deluxe);
+            booking.RoomType.Should().Be(SampleData.RoomTypes.Deluxe);
             booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
             booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));
         }
@@ -76,9 +76,9 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             HotelId hotelId = HotelId.New();
             HotelId anotherHotelId = HotelId.New();
             EmployeeId employeeId = EmployeeId.New();
-            var booking1 = new Booking(1, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
-            var booking2 = new Booking(2, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
-            var booking3 = new Booking(2, anotherHotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking1 = new Booking(1, hotelId, employeeId, SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking2 = new Booking(2, hotelId, employeeId, SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking3 = new Booking(2, anotherHotelId, employeeId, SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
             _inMemoryContext.Bookings.Add(booking1.BookingId, booking1);
             _inMemoryContext.Bookings.Add(booking2.BookingId, booking2);
             _inMemoryContext.Bookings.Add(booking3.BookingId, booking3);
@@ -98,9 +98,9 @@ namespace CorporateHotelBooking.Test.Integration.Infra
             // Arrange
             HotelId hotelId = HotelId.New();
             EmployeeId employeeId = EmployeeId.New();
-            var booking1 = new Booking(1, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
-            var booking2 = new Booking(2, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
-            var booking3 = new Booking(2, hotelId, employeeId, RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking1 = new Booking(1, hotelId, employeeId, SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking2 = new Booking(2, hotelId, employeeId, SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+            var booking3 = new Booking(2, hotelId, employeeId, SampleData.RoomTypes.Deluxe, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
             _inMemoryContext.Bookings.Add(booking1.BookingId, booking1);
             _inMemoryContext.Bookings.Add(booking2.BookingId, booking2);
             _inMemoryContext.Bookings.Add(booking3.BookingId, booking3);

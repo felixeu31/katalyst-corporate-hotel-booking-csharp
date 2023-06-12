@@ -28,7 +28,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Deluxe;
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
             var setRoomUseCase = new SetRoomUseCase(_hotelRepository.Object);
@@ -48,8 +48,8 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = RoomTypes.Deluxe;
-            var otherRoomType = RoomTypes.Standard;
+            var roomType = SampleData.RoomTypes.Deluxe;
+            var otherRoomType = SampleData.RoomTypes.Standard;
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             hotel.SetRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(hotel);
@@ -70,7 +70,7 @@ namespace CorporateHotelBooking.Test.Unit.UseCases
             Guid hotelId = Guid.NewGuid();
             string hotelName = "Westing";
             var roomNumber = 1;
-            var roomType = RoomTypes.Deluxe;
+            var roomType = SampleData.RoomTypes.Deluxe;
             var hotel = new Hotel(HotelId.From(hotelId), hotelName);
             hotel.SetRoom(roomNumber, roomType);
             _hotelRepository.Setup(repository => repository.Get(HotelId.From(hotelId))).Returns(default(Hotel?));

@@ -21,7 +21,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var employeeId = Guid.NewGuid();
         var hotelId = Guid.NewGuid();
         var hotelName = "Westing";
-        var roomType = RoomTypes.Deluxe;
+        var roomType = SampleData.RoomTypes.Deluxe;
         var roomNumber = 1;
         var checkIn = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(7);
@@ -55,7 +55,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
         Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
         var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
-        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string>{RoomTypes.Standard} });
+        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string>{SampleData.RoomTypes.Standard} });
         Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
 
         // Act
@@ -83,7 +83,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
         Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
         var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
-        var setCompanyPolicyResponse = await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { RoomTypes.Standard } });
+        var setCompanyPolicyResponse = await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { SampleData.RoomTypes.Standard } });
         Assert.Equal(HttpStatusCode.Created, setCompanyPolicyResponse.StatusCode);
 
         // Act
@@ -101,7 +101,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var employeeId = Guid.NewGuid();
         var hotelId = Guid.NewGuid();
         var hotelName = "Westing";
-        var roomType = RoomTypes.Deluxe;
+        var roomType = SampleData.RoomTypes.Deluxe;
         var roomNumber = 1;
         var checkIn = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(7);
@@ -109,8 +109,8 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var addHotelResponse = await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
         var setRoomResponse = await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
         var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
-        var setCompanyPolicyResponse = await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { RoomTypes.Standard } });
-        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { RoomTypes.Deluxe } });
+        var setCompanyPolicyResponse = await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { SampleData.RoomTypes.Standard } });
+        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { SampleData.RoomTypes.Deluxe } });
 
         // Act
         var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType, checkIn, checkOut });
@@ -127,7 +127,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var employeeId = Guid.NewGuid();
         var hotelId = Guid.NewGuid();
         var hotelName = "Westing";
-        var roomType = RoomTypes.Standard;
+        var roomType = SampleData.RoomTypes.Standard;
         var roomNumber = 1;
         var checkIn = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(7);
@@ -135,8 +135,8 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
         await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
         await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
-        await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { RoomTypes.Standard } });
-        await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { RoomTypes.Deluxe } });
+        await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { SampleData.RoomTypes.Standard } });
+        await _client.PostAsJsonAsync($"policies/company", new { CompanyId = companyId, RoomTypes = new List<string> { SampleData.RoomTypes.Deluxe } });
 
         // Act
         var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType, checkIn, checkOut });
@@ -153,7 +153,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         var employeeId = Guid.NewGuid();
         var hotelId = Guid.NewGuid();
         var hotelName = "Westing";
-        var roomType = RoomTypes.Standard;
+        var roomType = SampleData.RoomTypes.Standard;
         var roomNumber = 1;
         var checkIn = DateTime.Today;
         var checkOut = DateTime.Today.AddDays(7);
@@ -161,8 +161,8 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         await _client.PostAsJsonAsync("hotels", new { HotelId = hotelId, HotelName = hotelName });
         await _client.PostAsJsonAsync($"hotels/{hotelId}/rooms", new { RoomNumber = roomNumber, RoomType = roomType });
         await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
-        await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { RoomTypes.Standard } });
-        await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { RoomTypes.Deluxe } });
+        await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { SampleData.RoomTypes.Standard } });
+        await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { SampleData.RoomTypes.Deluxe } });
 
         // Act
         var bookResponse = await _client.PostAsJsonAsync("bookings", new { hotelId, employeeId, roomType, checkIn, checkOut });
@@ -190,7 +190,7 @@ public class BookingPoliceAcceptanceTest : IClassFixture<CorporateHotelApiFactor
         Assert.Equal(HttpStatusCode.OK, setRoomResponse.StatusCode);
         var addEmployeeResponse = await _client.PostAsJsonAsync("employees", new { CompanyId = companyId, EmployeeId = employeeId });
         Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
-        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { RoomTypes.Standard } });
+        var setEmployeePolicyResponse = await _client.PostAsJsonAsync($"policies/employee", new { EmployeeId = employeeId, RoomTypes = new List<string> { SampleData.RoomTypes.Standard } });
         Assert.Equal(HttpStatusCode.Created, setEmployeePolicyResponse.StatusCode);
         var deletedEmployeeResponse = await _client.DeleteAsync($"employees/{employeeId}");
         Assert.Equal(HttpStatusCode.OK, deletedEmployeeResponse.StatusCode);

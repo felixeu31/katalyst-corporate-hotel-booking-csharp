@@ -22,7 +22,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_add_employee_policy()
         {
             // Arrange
-            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string>{RoomTypes.Standard});
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string>{SampleData.RoomTypes.Standard});
 
             // Act
             _policiesRepository.AddEmployeePolicy(newEmployeePolicy);
@@ -38,7 +38,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_retrieve_employee_policy()
         {
             // Arrange
-            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { RoomTypes.Standard });
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { SampleData.RoomTypes.Standard });
             _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
 
             // Act
@@ -55,7 +55,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_add_company_policy()
         {
             // Arrange
-            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { RoomTypes.Standard });
+            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
 
             // Act
             _policiesRepository.AddCompanyPolicy(newCompanyPolicy);
@@ -71,7 +71,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_retrieve_company_policy()
         {
             // Arrange
-            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { RoomTypes.Standard });
+            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
             _context.CompanyPolicies.Add(newCompanyPolicy.CompanyId, newCompanyPolicy);
 
             // Act
@@ -87,8 +87,8 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_update_company_policy()
         {
             // Arrange
-            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { RoomTypes.Standard });
-            var updatedCompanyPolicy = new CompanyPolicy(newCompanyPolicy.CompanyId, new List<string> { RoomTypes.Deluxe });
+            var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
+            var updatedCompanyPolicy = new CompanyPolicy(newCompanyPolicy.CompanyId, new List<string> { SampleData.RoomTypes.Deluxe });
             _context.CompanyPolicies.Add(newCompanyPolicy.CompanyId, newCompanyPolicy);
 
             // Act
@@ -105,8 +105,8 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_update_employee_policy()
         {
             // Arrange
-            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { RoomTypes.Standard });
-            var updatedEmployeePolicy = new EmployeePolicy(newEmployeePolicy.EmployeeId, new List<string> { RoomTypes.Deluxe });
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { SampleData.RoomTypes.Standard });
+            var updatedEmployeePolicy = new EmployeePolicy(newEmployeePolicy.EmployeeId, new List<string> { SampleData.RoomTypes.Deluxe });
             _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
 
             // Act
@@ -123,7 +123,7 @@ namespace CorporateHotelBooking.Test.Integration.Infra
         public void should_delete_employee_policies()
         {
             // Arrange
-            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { RoomTypes.Standard });
+            var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { SampleData.RoomTypes.Standard });
             _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
 
             // Act

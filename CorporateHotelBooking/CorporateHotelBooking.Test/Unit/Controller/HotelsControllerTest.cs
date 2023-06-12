@@ -43,7 +43,7 @@ public class HotelsControllerTest
     {
         // Arrange
         var hotelId = Guid.NewGuid();
-        var setRoomBody = new SetRoomBody(1, RoomTypes.Deluxe);
+        var setRoomBody = new SetRoomBody(1, SampleData.RoomTypes.Deluxe);
 
         // Act
         var addHotelResponse = _hotelsController.SetRoom(hotelId, setRoomBody);
@@ -58,7 +58,7 @@ public class HotelsControllerTest
     {
         // Arrange
         var hotelId = Guid.NewGuid();
-        var setRoomBody = new SetRoomBody(1, RoomTypes.Deluxe);
+        var setRoomBody = new SetRoomBody(1, SampleData.RoomTypes.Deluxe);
 
         _setRoomUseCaseMock
             .Setup(x => x.Execute(

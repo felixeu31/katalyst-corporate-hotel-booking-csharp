@@ -25,10 +25,7 @@ public class BookUseCase : IBookUseCase
     {
         var hotel = _hotelRepository.Get(HotelId.From(hotelId)) ?? throw new HotelNotFoundException();
 
-        if (!_isBookingAllowedUseCase.Execute(employeeId, roomType))
-        {
-            throw new EmployeeBookingPolicyException();
-        }
+        ThrowIfPolicyDoesNotAllowBooking(employeeId, roomType);
 
         var existingBookings = _bookingRepository.GetBookingsBy(hotel.HotelId);
 
@@ -40,5 +37,13 @@ public class BookUseCase : IBookUseCase
         _bookingRepository.Add(booking);
 
         return booking;
+    }
+
+    private void ThrowIfPolicyDoesNotAllowBooking(Guid employeeId, string roomType)
+    {
+        if (!_isBookingAllowedUseCase.Execute(employeeId, roomType))
+        {
+            throw new EmployeeBookingPolicyException();
+        }
     }
 }

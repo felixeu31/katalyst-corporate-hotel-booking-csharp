@@ -95,7 +95,7 @@ namespace CorporateHotelBooking.Test.E2E
             var hotelId = Guid.NewGuid();
             var hotelName = "Westing";
             var roomType1 = "Suite";
-            var roomType2 = RoomTypes.Standard;
+            var roomType2 = SampleData.RoomTypes.Standard;
             var room1 = new { RoomNumber = 1, RoomType = roomType1 };
             var room2 = new { RoomNumber = 2, RoomType = roomType1 };
             var room3 = new { RoomNumber = 3, RoomType = roomType1 };
@@ -154,9 +154,9 @@ namespace CorporateHotelBooking.Test.E2E
             // Arrange
             var rooms = new List<RoomDto>
             {
-                new RoomDto(1, RoomTypes.Standard),
-                new RoomDto(2, RoomTypes.Standard),
-                new RoomDto(3, RoomTypes.Deluxe)
+                new RoomDto(1, SampleData.RoomTypes.Standard),
+                new RoomDto(2, SampleData.RoomTypes.Standard),
+                new RoomDto(3, SampleData.RoomTypes.Deluxe)
             };
             var hotelId = await GivenHotelWith(rooms);
             var (companyId, employeeId) = await GivenEmployeeInCompany();
@@ -164,7 +164,7 @@ namespace CorporateHotelBooking.Test.E2E
             {
                 hotelId,
                 employeeId,
-                RoomType = RoomTypes.Deluxe,
+                RoomType = SampleData.RoomTypes.Deluxe,
                 CheckIn = DateTime.Today.AddDays(-5),
                 CheckOut = DateTime.Today.AddDays(5)
             });
@@ -174,7 +174,7 @@ namespace CorporateHotelBooking.Test.E2E
             {
                 hotelId,
                 employeeId,
-                RoomType = RoomTypes.Deluxe,
+                RoomType = SampleData.RoomTypes.Deluxe,
                 CheckIn = DateTime.Today.AddDays(3),
                 CheckOut = DateTime.Today.AddDays(10)
             });
@@ -189,9 +189,9 @@ namespace CorporateHotelBooking.Test.E2E
             // Arrange
             var rooms = new List<RoomDto>
             {
-                new RoomDto(1, RoomTypes.Standard),
-                new RoomDto(2, RoomTypes.Standard),
-                new RoomDto(3, RoomTypes.Deluxe)
+                new RoomDto(1, SampleData.RoomTypes.Standard),
+                new RoomDto(2, SampleData.RoomTypes.Standard),
+                new RoomDto(3, SampleData.RoomTypes.Deluxe)
             };
             var hotelId = await GivenHotelWith(rooms);
             var (companyId, employeeId) = await GivenEmployeeInCompany();
@@ -199,7 +199,7 @@ namespace CorporateHotelBooking.Test.E2E
             {
                 hotelId,
                 EmployeeId = employeeId,
-                RoomType = RoomTypes.Deluxe,
+                RoomType = SampleData.RoomTypes.Deluxe,
                 CheckIn = DateTime.Today.AddDays(-5),
                 CheckOut = DateTime.Today.AddDays(5)
             });
@@ -214,7 +214,7 @@ namespace CorporateHotelBooking.Test.E2E
             {
                 hotelId,
                 EmployeeId = employeeId2,
-                RoomType = RoomTypes.Deluxe,
+                RoomType = SampleData.RoomTypes.Deluxe,
                 CheckIn = DateTime.Today.AddDays(3),
                 CheckOut = DateTime.Today.AddDays(10)
             });
@@ -229,9 +229,9 @@ namespace CorporateHotelBooking.Test.E2E
             // Arrange
             var rooms = new List<RoomDto>
             {
-                new RoomDto(1, RoomTypes.Standard),
-                new RoomDto(2, RoomTypes.Standard),
-                new RoomDto(3, RoomTypes.Deluxe)
+                new RoomDto(1, SampleData.RoomTypes.Standard),
+                new RoomDto(2, SampleData.RoomTypes.Standard),
+                new RoomDto(3, SampleData.RoomTypes.Deluxe)
             };
             var hotelId = await GivenHotelWith(rooms);
             var (companyId, employeeId) = await GivenEmployeeInCompany();
@@ -243,7 +243,7 @@ namespace CorporateHotelBooking.Test.E2E
             {
                 hotelId,
                 EmployeeId = employeeId,
-                RoomType = RoomTypes.Deluxe,
+                RoomType = SampleData.RoomTypes.Deluxe,
                 CheckIn = DateTime.Today.AddDays(3),
                 CheckOut = DateTime.Today.AddDays(10)
             });
