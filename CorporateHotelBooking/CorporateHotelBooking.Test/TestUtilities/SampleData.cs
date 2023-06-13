@@ -1,4 +1,4 @@
-﻿namespace CorporateHotelBooking.Test.Constants;
+﻿namespace CorporateHotelBooking.Test.TestUtilities;
 
 public struct SampleData
 {

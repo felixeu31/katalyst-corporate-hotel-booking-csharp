@@ -1,13 +1,16 @@
-﻿using CorporateHotelBooking.Test.Constants;
+﻿using System.ComponentModel;
+using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 using CorporateHotelBooking.Application.Bookings.Domain;
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Hotels.Domain;
 using CorporateHotelBooking.Data.InMemory;
 using CorporateHotelBooking.Data.InMemory.Repositories;
+using CorporateHotelBooking.Test.TestUtilities;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
 {
+    [Trait(TestTrait.Category, TestCategory.Integration)]
     public class InMemoryBookingRepositoryTest
     {
         private readonly IBookingRepository _bookingRepository;

@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
-using CorporateHotelBooking.Test.Constants;
 using FluentAssertions;
 using CorporateHotelBooking.Application.Policies.UseCases;
+using CorporateHotelBooking.Test.TestUtilities;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
+[Trait(TestTrait.Category, TestCategory.Unit)]
 public class PoliciesControllerTest
 {
     private readonly Mock<IAddEmployeePolicyUseCase> _addEmployeePolicyUseCase;

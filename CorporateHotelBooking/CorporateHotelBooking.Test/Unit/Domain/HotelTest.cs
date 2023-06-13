@@ -1,11 +1,13 @@
-﻿using CorporateHotelBooking.Test.Constants;
-using FluentAssertions;
+﻿using FluentAssertions;
 using CorporateHotelBooking.Application.Bookings.Domain;
 using CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
 using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Test.TestUtilities;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.Domain;
 
+[Trait(TestTrait.Category, TestCategory.Unit)]
 public class HotelTest
 {
     [Fact]

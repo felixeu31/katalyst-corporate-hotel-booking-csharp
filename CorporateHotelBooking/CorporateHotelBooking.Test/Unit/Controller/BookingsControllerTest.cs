@@ -3,14 +3,16 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
-using CorporateHotelBooking.Test.Constants;
 using CorporateHotelBooking.Application.Bookings.Domain.Exceptions;
 using CorporateHotelBooking.Application.Employees.Domain.Exceptions;
 using CorporateHotelBooking.Application.Policies.Domain;
 using CorporateHotelBooking.Application.Bookings.UseCases;
+using CorporateHotelBooking.Test.TestUtilities;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
+[Trait(TestTrait.Category, TestCategory.Unit)]
 public class BookingsControllerTest
 {
     private Mock<IBookUseCase> _bookUseCaseMock;

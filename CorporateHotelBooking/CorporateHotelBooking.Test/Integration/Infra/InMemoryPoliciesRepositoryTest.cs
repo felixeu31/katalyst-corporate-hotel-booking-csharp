@@ -1,12 +1,14 @@
-﻿using CorporateHotelBooking.Test.Constants;
-using FluentAssertions;
+﻿using FluentAssertions;
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Policies.Domain;
 using CorporateHotelBooking.Data.InMemory;
 using CorporateHotelBooking.Data.InMemory.Repositories;
+using CorporateHotelBooking.Test.Constants;
+using CorporateHotelBooking.Test.TestUtilities;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
 {
+    [Trait(TestTrait.Category, TestCategory.Integration)]
     public class InMemoryPoliciesRepositoryTest
     {
         private readonly IPoliciesRepository _policiesRepository;

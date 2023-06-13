@@ -3,12 +3,14 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
-using CorporateHotelBooking.Test.Constants;
 using CorporateHotelBooking.Application.Hotels.Domain.Exceptions;
 using CorporateHotelBooking.Application.Hotels.UseCases;
+using CorporateHotelBooking.Test.Constants;
+using CorporateHotelBooking.Test.TestUtilities;
 
 namespace CorporateHotelBooking.Test.Unit.Controller;
 
+[Trait(TestTrait.Category, TestCategory.Unit)]
 public class HotelsControllerTest
 {
     private readonly Mock<IAddHotelUseCase> _addHotelUseCaseMock;

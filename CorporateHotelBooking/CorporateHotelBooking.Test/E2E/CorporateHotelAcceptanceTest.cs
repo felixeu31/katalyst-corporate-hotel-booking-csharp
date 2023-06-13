@@ -3,8 +3,9 @@ using CorporateHotelBooking.Test.ApiFactory;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
-using CorporateHotelBooking.Test.Constants;
 using CorporateHotelBooking.Application.Hotels.UseCases;
+using CorporateHotelBooking.Test.Constants;
+using CorporateHotelBooking.Test.TestUtilities;
 
 namespace CorporateHotelBooking.Test.E2E
 {
@@ -12,6 +13,7 @@ namespace CorporateHotelBooking.Test.E2E
     /// 
     /// </summary>
     /// <remarks>dotnet watch test --project .\CorporateHotelBooking.Test\CorporateHotelBooking.Test.csproj</remarks>
+    [Trait(TestTrait.Category, TestCategory.EndToEnd)]
     public class CorporateHotelAcceptanceTest : IClassFixture<CorporateHotelApiFactory>
     {
         private readonly HttpClient _client;

@@ -2,9 +2,11 @@
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Data.InMemory;
 using CorporateHotelBooking.Data.InMemory.Repositories;
+using CorporateHotelBooking.Test.Constants;
 
 namespace CorporateHotelBooking.Test.Integration.Infra
 {
+    [Trait(TestTrait.Category, TestCategory.Integration)]
     public class InMemoryEmployeeRepositoryTest
     {
         private readonly IEmployeeRepository _employeeRepository;
