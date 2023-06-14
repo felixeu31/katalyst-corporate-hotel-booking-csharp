@@ -3,18 +3,18 @@ using CorporateHotelBooking.Data.Sql;
 using CorporateHotelBooking.Data.Sql.DataModel;
 using CorporateHotelBooking.Data.Sql.Repositories;
 using CorporateHotelBooking.Test.Constants;
-using CorporateHotelBooking.Test.Integration.Sql;
+using CorporateHotelBooking.Test.Fixtures;
 using FluentAssertions;
 
-namespace CorporateHotelBooking.Test.Integration.SqlInMemory;
+namespace CorporateHotelBooking.Test.Integration.SqlDataBase;
 
 [Trait(TestTrait.Category, TestCategory.Integration)]
-public class SqlInMemoryEmployeeRepositoryTest : IClassFixture<InMemoryDbTestFixture>
+public class SqlDataBaseEmployeeRepositoryTest : IClassFixture<LocalDbTestFixture>
 {
-    private readonly InMemoryDbTestFixture _fixture;
+    private readonly LocalDbTestFixture _fixture;
     private readonly IEmployeeRepository _employeeRepository;
 
-    public SqlInMemoryEmployeeRepositoryTest(InMemoryDbTestFixture fixture)
+    public SqlDataBaseEmployeeRepositoryTest(LocalDbTestFixture fixture)
     {
         _fixture = fixture;
         _employeeRepository = new SqlEmployeeRepository(new CorporateHotelDbContext(fixture.DbContextOptions));
@@ -56,6 +56,29 @@ public class SqlInMemoryEmployeeRepositoryTest : IClassFixture<InMemoryDbTestFix
 
         // Assert
         context.Employees.Should().NotContain(employeeData);
+    }
+
+
+    [Fact]
+    public void should_get_employee()
+    {
+        // Arrange
+        var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var employeeData = new EmployeeData
+        {
+            EmployeeId = Guid.NewGuid(),
+            CompanyId = Guid.NewGuid()
+        };
+        context.Employees.Add(employeeData);
+        context.SaveChanges();
+
+        // Act
+        var employee = _employeeRepository.Get(EmployeeId.From(employeeData.EmployeeId));
+
+        // Assert
+        employee.Should().NotBeNull();
+        employee.EmployeeId.Should().Be(EmployeeId.From(employeeData.EmployeeId));
+        employee.CompanyId.Should().Be(CompanyId.From(employeeData.CompanyId));
     }
 
 }

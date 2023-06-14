@@ -23,7 +23,9 @@ public class SqlEmployeeRepository : IEmployeeRepository
 
     public Employee? Get(EmployeeId employeeId)
     {
-        throw new NotImplementedException();
+        var employeeData = _context.Employees.FirstOrDefault(x => x.EmployeeId == employeeId.Value);
+
+        return EmployeeDataMapper.MapEmployeeFrom(employeeData);
     }
 
     public void Delete(EmployeeId employeeId)

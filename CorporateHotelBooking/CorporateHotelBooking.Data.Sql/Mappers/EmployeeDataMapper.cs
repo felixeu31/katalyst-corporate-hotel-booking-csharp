@@ -13,4 +13,9 @@ public class EmployeeDataMapper
             CompanyId = employee.CompanyId.Value
         };
     }
+
+    public static Employee MapEmployeeFrom(EmployeeData employeeData)
+    {
+        return new Employee(CompanyId.From(employeeData.CompanyId), EmployeeId.From(employeeData.EmployeeId));
+    }
 }
