@@ -8,8 +8,9 @@ using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Integration.SqlDataBase;
 
+[Collection(nameof(LocalDbTestFixtureCollection))]
 [Trait(TestTrait.Category, TestCategory.Integration)]
-public class SqlDataBaseEmployeeRepositoryTest : IClassFixture<LocalDbTestFixture>
+public class SqlDataBaseEmployeeRepositoryTest
 {
     private readonly LocalDbTestFixture _fixture;
     private readonly IEmployeeRepository _employeeRepository;
