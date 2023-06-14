@@ -68,7 +68,7 @@ public class SqlHotelRepositoryTest
 
 
     [Fact]
-    public void should_insert_new_room_to_hotel_when_new()
+    public void should_update_hotel()
     {
         // Arrange
         using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
