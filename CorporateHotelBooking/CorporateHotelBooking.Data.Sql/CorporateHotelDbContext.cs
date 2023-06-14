@@ -6,6 +6,8 @@ namespace CorporateHotelBooking.Data.Sql;
 public class CorporateHotelDbContext : DbContext
 {
     public DbSet<EmployeeData> Employees { get; set; }
+    public DbSet<HotelData> Hotels { get; set; }
+    public DbSet<RoomData> Rooms { get; set; }
 
     public CorporateHotelDbContext(DbContextOptions<CorporateHotelDbContext> options) : base(options)
     {

@@ -1,4 +1,6 @@
 ﻿using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Data.Sql.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace CorporateHotelBooking.Data.Sql.Repositories;
 
@@ -14,16 +16,28 @@ public class SqlHotelRepository : IHotelRepository
 
     public void Add(Hotel hotel)
     {
-        throw new NotImplementedException();
+        var hotelData = HotelDataMapper.MapHotelDataFrom(hotel);
+
+        _context.Hotels.Add(hotelData);
+
+        _context.SaveChanges();
     }
 
     public Hotel? Get(HotelId hotelId)
     {
-        throw new NotImplementedException();
+        var hotelData = _context.Hotels.FirstOrDefault(x => x.HotelId == hotelId.Value);
+
+        var hotel = HotelDataMapper.HydrateDomainFrom(hotelData);
+
+        return hotel;
     }
 
     public void Update(Hotel hotel)
     {
-        throw new NotImplementedException();
+        var hotelData = _context.Hotels.Include(x => x.Rooms).FirstOrDefault(x => x.HotelId == hotel.HotelId.Value);
+
+        HotelDataMapper.ApplyDomainChanges(hotelData, hotel);
+
+        _context.SaveChanges();
     }
 }
