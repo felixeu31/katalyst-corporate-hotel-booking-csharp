@@ -9,6 +9,7 @@ public class CorporateHotelDbContext : DbContext
     public DbSet<HotelData> Hotels { get; set; }
     public DbSet<RoomData> Rooms { get; set; }
     public DbSet<BookingData> Bookings { get; set; }
+    public DbSet<EmployeePolicyData> EmployeePolicies { get; set; }
 
     public CorporateHotelDbContext(DbContextOptions<CorporateHotelDbContext> options) : base(options)
     {

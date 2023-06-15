@@ -1,5 +1,7 @@
-﻿using CorporateHotelBooking.Application.Employees.Domain;
+﻿using CorporateHotelBooking.Application.Bookings.Domain;
+using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Policies.Domain;
+using CorporateHotelBooking.Data.Sql.Mappers;
 
 namespace CorporateHotelBooking.Data.Sql.Repositories;
 
@@ -15,7 +17,11 @@ public class SqlPoliciesRepository : IPoliciesRepository
 
     public void AddEmployeePolicy(EmployeePolicy employeePolicy)
     {
-        throw new NotImplementedException();
+        var employeePolicyData = EmployeePolicyDataMapper.MapEmployeePolicyDataFrom(employeePolicy);
+
+        _context.EmployeePolicies.Add(employeePolicyData);
+
+        _context.SaveChanges();
     }
 
     public EmployeePolicy? GetEmployeePolicy(EmployeeId employeeId)

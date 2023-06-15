@@ -5,11 +5,9 @@ using CorporateHotelBooking.Data.Sql;
 using CorporateHotelBooking.Test.Constants;
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Data.Sql.DataModel;
-using CorporateHotelBooking.Test.Fixtures;
 using CorporateHotelBooking.Test.Fixtures.DataBase;
 using CorporateHotelBooking.Test.TestUtilities;
 using FluentAssertions;
-using CorporateHotelBooking.Data.InMemory;
 
 namespace CorporateHotelBooking.Test.Integration.SqlDataBase;
 
