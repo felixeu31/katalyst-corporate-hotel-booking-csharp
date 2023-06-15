@@ -62,13 +62,21 @@ public class SqlPoliciesRepository : IPoliciesRepository
         _context.SaveChanges();
     }
 
-    public void UpdateEmployeePolicy(EmployeePolicy isAny)
+    public void UpdateEmployeePolicy(EmployeePolicy employeePolicy)
     {
-        throw new NotImplementedException();
+        var employeePolicyData = _context.EmployeePolicies.FirstOrDefault(x => x.EmployeeId == employeePolicy.EmployeeId.Value);
+
+        EmployeePolicyDataMapper.ApplyDomainChanges(employeePolicyData, employeePolicy);
+
+        _context.SaveChanges();
     }
 
     public void DeleteEmployeePolicies(EmployeeId employeeId)
     {
-        throw new NotImplementedException();
+        var employeePolicyData = _context.EmployeePolicies.SingleOrDefault(x => x.EmployeeId == employeeId.Value);
+
+        _context.EmployeePolicies.Remove(employeePolicyData);
+
+        _context.SaveChanges();
     }
 }

@@ -10,6 +10,6 @@ public interface IPoliciesRepository
     void AddCompanyPolicy(CompanyPolicy companyPolicy);
     CompanyPolicy? GetCompanyPolicy(CompanyId companyId);
     void UpdateCompanyPolicy(CompanyPolicy companyPolicy);
-    void UpdateEmployeePolicy(EmployeePolicy isAny);
+    void UpdateEmployeePolicy(EmployeePolicy employeePolicy);
     void DeleteEmployeePolicies(EmployeeId employeeId);
 }
