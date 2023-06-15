@@ -31,7 +31,11 @@ public class SqlPoliciesRepository : IPoliciesRepository
 
     public void AddCompanyPolicy(CompanyPolicy companyPolicy)
     {
-        throw new NotImplementedException();
+        var companyPolicyData = CompanyPolicyDataMapper.MapCompanyPolicyDataFrom(companyPolicy);
+
+        _context.CompanyPolicies.Add(companyPolicyData);
+
+        _context.SaveChanges();
     }
 
     public CompanyPolicy? GetCompanyPolicy(CompanyId from)

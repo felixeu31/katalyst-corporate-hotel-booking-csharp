@@ -60,21 +60,22 @@ public class SqlPoliciesRepositoryTest
     //}
 
 
-    //[Fact]
-    //public void should_add_company_policy()
-    //{
-    //    // Arrange
-    //    var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
+    [Fact]
+    public void should_add_company_policy()
+    {
+        // Arrange
+        var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
 
-    //    // Act
-    //    _policiesRepository.AddCompanyPolicy(newCompanyPolicy);
+        // Act
+        _policiesRepository.AddCompanyPolicy(newCompanyPolicy);
 
-    //    // Assert
-    //    CompanyPolicy? companyPolicy = _context.CompanyPolicies[newCompanyPolicy.CompanyId];
-    //    companyPolicy.Should().NotBeNull();
-    //    companyPolicy.CompanyId.Should().Be(newCompanyPolicy.CompanyId);
-    //    companyPolicy.RoomTypes.Should().BeEquivalentTo(newCompanyPolicy.RoomTypes);
-    //}
+        // Assert
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        CompanyPolicyData? companyPolicy = context.CompanyPolicies.Find(newCompanyPolicy.CompanyId.Value);
+        companyPolicy.Should().NotBeNull();
+        companyPolicy.CompanyId.Should().Be(newCompanyPolicy.CompanyId.Value);
+        companyPolicy.RoomTypes.Split(";").Should().BeEquivalentTo(newCompanyPolicy.RoomTypes);
+    }
 
     //[Fact]
     //public void should_retrieve_company_policy()
