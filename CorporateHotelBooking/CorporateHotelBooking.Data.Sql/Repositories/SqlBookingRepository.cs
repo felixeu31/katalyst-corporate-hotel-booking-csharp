@@ -26,7 +26,11 @@ public class SqlBookingRepository : IBookingRepository
 
     public Booking? Get(BookingId bookingId)
     {
-        throw new NotImplementedException();
+        var bookingData = _context.Bookings.FirstOrDefault(x => x.BookingId == bookingId.Value);
+
+        var booking = BookingDataMapper.HydrateDomainFrom(bookingData);
+
+        return booking;
     }
 
     public IEnumerable<Booking> GetBookingsBy(HotelId hotelId)

@@ -49,4 +49,38 @@ public class SqlBookingRepositoryTest
         booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
         booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));
     }
+
+    [Fact]
+    public void should_get_booking()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var bookingData = new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = HotelId.New().Value,
+            BookedBy = EmployeeId.New().Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1,
+
+
+        };
+        context.Bookings.Add(bookingData);
+        context.SaveChanges();
+
+        // Act
+        var booking = _bookingRepository.Get(BookingId.From(bookingData.BookingId));
+
+        // Assert
+        booking.Should().NotBeNull();
+        booking.BookingId.Should().Be(BookingId.From(bookingData.BookingId));
+        booking.RoomNumber.Should().Be(bookingData.RoomNumber);
+        booking.HotelId.Should().Be(HotelId.From(bookingData.HotelId));
+        booking.BookedBy.Should().Be(EmployeeId.From(bookingData.BookedBy));
+        booking.RoomType.Should().Be(bookingData.RoomType);
+        booking.CheckIn.Should().BeSameDateAs(bookingData.CheckIn);
+        booking.CheckOut.Should().BeSameDateAs(bookingData.CheckOut);
+    }
 }

@@ -6,14 +6,19 @@ namespace CorporateHotelBooking.Application.Bookings.Domain;
 
 public class Booking
 {
-    public Booking(int roomNumber, HotelId hotelId, EmployeeId bookedBy, string roomType, DateTime checkIn, DateTime checkOut)
+    public Booking(int roomNumber, HotelId hotelId, EmployeeId bookedBy, string roomType, DateTime checkIn, DateTime checkOut) : this(BookingId.New(), roomNumber, hotelId, bookedBy, roomType, checkIn, checkOut)
+    {
+        
+    }
+
+    public Booking(BookingId bookingId, int roomNumber, HotelId hotelId, EmployeeId bookedBy, string roomType, DateTime checkIn, DateTime checkOut)
     {
         if (checkOut < checkIn || (checkOut - checkIn).TotalDays < 1)
         {
             throw new InvalidBookingPeriodException();
         }
 
-        BookingId = BookingId.New();
+        BookingId = bookingId;
         RoomNumber = roomNumber;
         HotelId = hotelId;
         BookedBy = bookedBy;

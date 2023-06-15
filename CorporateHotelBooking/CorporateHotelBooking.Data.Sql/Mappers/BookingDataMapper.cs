@@ -23,7 +23,7 @@ public class BookingDataMapper
 
     public static Booking HydrateDomainFrom(BookingData bookingData)
     {
-        return new Booking(bookingData.RoomNumber, HotelId.From(bookingData.HotelId), EmployeeId.From(bookingData.BookedBy), bookingData.RoomType, bookingData.CheckIn, bookingData.CheckOut);
+        return new Booking(BookingId.From(bookingData.BookingId),  bookingData.RoomNumber, HotelId.From(bookingData.HotelId), EmployeeId.From(bookingData.BookedBy), bookingData.RoomType, bookingData.CheckIn, bookingData.CheckOut);
     }
 
     public static void ApplyDomainChanges(BookingData bookingData, Booking booking)
