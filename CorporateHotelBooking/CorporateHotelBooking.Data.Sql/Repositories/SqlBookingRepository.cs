@@ -35,7 +35,11 @@ public class SqlBookingRepository : IBookingRepository
 
     public IEnumerable<Booking> GetBookingsBy(HotelId hotelId)
     {
-        throw new NotImplementedException();
+        var bookingDatas = _context.Bookings.Where(x => x.HotelId.Equals(hotelId.Value)).ToList();
+
+        var bookings = bookingDatas.Select(BookingDataMapper.HydrateDomainFrom);
+
+        return bookings;
     }
 
     public void DeleteEmployeeBookings(EmployeeId employeeId)

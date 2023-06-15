@@ -84,4 +84,53 @@ public class SqlBookingRepositoryTest
         booking.CheckIn.Should().BeSameDateAs(bookingData.CheckIn);
         booking.CheckOut.Should().BeSameDateAs(bookingData.CheckOut);
     }
+
+    [Fact]
+    public void should_get_bookings_by_hotel()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var hotelId = HotelId.New();
+        var hotelId2 = HotelId.New();
+        context.Bookings.Add(new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = hotelId.Value,
+            BookedBy = EmployeeId.New().Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1
+        });
+        context.Bookings.Add(new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = hotelId.Value,
+            BookedBy = EmployeeId.New().Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1
+        });
+        context.Bookings.Add(new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = hotelId2.Value,
+            BookedBy = EmployeeId.New().Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1
+        });
+        context.SaveChanges();
+
+        // Act
+        var bookings = _bookingRepository.GetBookingsBy(hotelId);
+
+        // Assert
+        bookings.Should().NotBeNull();
+        bookings.Should().HaveCount(2);
+        bookings.Should().AllSatisfy(x => x.HotelId.Equals(hotelId));
+    }
+
 }
