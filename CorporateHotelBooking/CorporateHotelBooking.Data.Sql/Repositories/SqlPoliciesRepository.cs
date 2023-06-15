@@ -1,7 +1,9 @@
 ﻿using CorporateHotelBooking.Application.Bookings.Domain;
 using CorporateHotelBooking.Application.Employees.Domain;
+using CorporateHotelBooking.Application.Hotels.Domain;
 using CorporateHotelBooking.Application.Policies.Domain;
 using CorporateHotelBooking.Data.Sql.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace CorporateHotelBooking.Data.Sql.Repositories;
 
@@ -53,7 +55,11 @@ public class SqlPoliciesRepository : IPoliciesRepository
 
     public void UpdateCompanyPolicy(CompanyPolicy companyPolicy)
     {
-        throw new NotImplementedException();
+        var companyPolicyData = _context.CompanyPolicies.FirstOrDefault(x => x.CompanyId == companyPolicy.CompanyId.Value);
+
+        CompanyPolicyDataMapper.ApplyDomainChanges(companyPolicyData, companyPolicy);
+
+        _context.SaveChanges();
     }
 
     public void UpdateEmployeePolicy(EmployeePolicy isAny)

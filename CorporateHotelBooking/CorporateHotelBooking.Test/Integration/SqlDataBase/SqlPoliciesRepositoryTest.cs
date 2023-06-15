@@ -105,23 +105,30 @@ public class SqlPoliciesRepositoryTest
         companyPolicy.RoomTypes.Should().BeEquivalentTo(newCompanyPolicyData.RoomTypes.Split(";"));
     }
 
-    //[Fact]
-    //public void should_update_company_policy()
-    //{
-    //    // Arrange
-    //    var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
-    //    var updatedCompanyPolicy = new CompanyPolicy(newCompanyPolicy.CompanyId, new List<string> { SampleData.RoomTypes.Deluxe });
-    //    _context.CompanyPolicies.Add(newCompanyPolicy.CompanyId, newCompanyPolicy);
+    [Fact]
+    public void should_update_company_policy()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var newCompanyPolicyData = new CompanyPolicyData
+        {
+            CompanyId = CompanyId.New().Value,
+            RoomTypes = "junior;deluxe"
+        };
+        context.CompanyPolicies.Add(newCompanyPolicyData);
+        context.SaveChanges();
 
-    //    // Act
-    //    _policiesRepository.UpdateCompanyPolicy(updatedCompanyPolicy);
+        // Act
+        var updatedCompanyPolicy = new CompanyPolicy(CompanyId.From(newCompanyPolicyData.CompanyId), new List<string> { SampleData.RoomTypes.Deluxe });
+        _policiesRepository.UpdateCompanyPolicy(updatedCompanyPolicy);
 
-    //    // Assert
-    //    CompanyPolicy? companyPolicy = _context.CompanyPolicies[updatedCompanyPolicy.CompanyId];
-    //    companyPolicy.Should().NotBeNull();
-    //    companyPolicy.CompanyId.Should().Be(updatedCompanyPolicy.CompanyId);
-    //    companyPolicy.RoomTypes.Should().BeEquivalentTo(updatedCompanyPolicy.RoomTypes);
-    //}
+        // Assert
+        using var contextRead = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        CompanyPolicyData? companyPolicy = contextRead.CompanyPolicies.Find(newCompanyPolicyData.CompanyId);
+        companyPolicy.Should().NotBeNull();
+        companyPolicy.CompanyId.Should().Be(newCompanyPolicyData.CompanyId);
+        companyPolicy.RoomTypes.Should().BeEquivalentTo(string.Join(";", updatedCompanyPolicy.RoomTypes));
+    }
 
     //[Fact]
     //public void should_update_employee_policy()
