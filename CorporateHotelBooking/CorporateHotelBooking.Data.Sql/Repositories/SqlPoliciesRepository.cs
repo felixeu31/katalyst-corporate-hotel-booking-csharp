@@ -26,7 +26,11 @@ public class SqlPoliciesRepository : IPoliciesRepository
 
     public EmployeePolicy? GetEmployeePolicy(EmployeeId employeeId)
     {
-        throw new NotImplementedException();
+        var employeePolicyData = _context.EmployeePolicies.FirstOrDefault(x => x.EmployeeId == employeeId.Value);
+
+        var employeePolicy = EmployeePolicyDataMapper.HydrateDomainFrom(employeePolicyData);
+
+        return employeePolicy;
     }
 
     public void AddCompanyPolicy(CompanyPolicy companyPolicy)

@@ -43,21 +43,27 @@ public class SqlPoliciesRepositoryTest
         employeePolicy.RoomTypes.Split(";").Should().BeEquivalentTo(newEmployeePolicy.RoomTypes);
     }
 
-    //[Fact]
-    //public void should_retrieve_employee_policy()
-    //{
-    //    // Arrange
-    //    var newEmployeePolicy = new EmployeePolicy(EmployeeId.New(), new List<string> { SampleData.RoomTypes.Standard });
-    //    _context.EmployeePolicies.Add(newEmployeePolicy.EmployeeId, newEmployeePolicy);
+    [Fact]
+    public void should_retrieve_employee_policy()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var newEmployeePolicyData = new EmployeePolicyData
+        {
+            EmployeeId = EmployeeId.New().Value,
+            RoomTypes = "junior;deluxe"
+        };
+        context.EmployeePolicies.Add(newEmployeePolicyData);
+        context.SaveChanges();
 
-    //    // Act
-    //    EmployeePolicy? employeePolicy = _policiesRepository.GetEmployeePolicy(newEmployeePolicy.EmployeeId);
+        // Act
+        EmployeePolicy? employeePolicy = _policiesRepository.GetEmployeePolicy(EmployeeId.From(newEmployeePolicyData.EmployeeId));
 
-    //    // Assert
-    //    employeePolicy.Should().NotBeNull();
-    //    employeePolicy.EmployeeId.Should().Be(newEmployeePolicy.EmployeeId);
-    //    employeePolicy.RoomTypes.Should().BeEquivalentTo(newEmployeePolicy.RoomTypes);
-    //}
+        // Assert
+        employeePolicy.Should().NotBeNull();
+        employeePolicy.EmployeeId.Should().Be(EmployeeId.From(newEmployeePolicyData.EmployeeId));
+        employeePolicy.RoomTypes.Should().BeEquivalentTo(newEmployeePolicyData.RoomTypes.Split(";"));
+    }
 
 
     [Fact]
