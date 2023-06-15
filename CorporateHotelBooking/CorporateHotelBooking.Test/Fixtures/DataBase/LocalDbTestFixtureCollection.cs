@@ -1,4 +1,4 @@
-﻿namespace CorporateHotelBooking.Test.Fixtures;
+﻿namespace CorporateHotelBooking.Test.Fixtures.DataBase;
 
 
 [CollectionDefinition(nameof(LocalDbTestFixtureCollection))]

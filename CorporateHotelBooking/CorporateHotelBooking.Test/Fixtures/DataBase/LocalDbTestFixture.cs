@@ -1,7 +1,7 @@
 ﻿using CorporateHotelBooking.Data.Sql;
 using Microsoft.EntityFrameworkCore;
 
-namespace CorporateHotelBooking.Test.Fixtures
+namespace CorporateHotelBooking.Test.Fixtures.DataBase
 {
     public class LocalDbTestFixture : IDisposable
     {

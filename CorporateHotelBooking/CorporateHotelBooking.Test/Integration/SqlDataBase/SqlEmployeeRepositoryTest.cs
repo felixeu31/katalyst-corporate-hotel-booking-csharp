@@ -4,6 +4,7 @@ using CorporateHotelBooking.Data.Sql.DataModel;
 using CorporateHotelBooking.Data.Sql.Repositories;
 using CorporateHotelBooking.Test.Constants;
 using CorporateHotelBooking.Test.Fixtures;
+using CorporateHotelBooking.Test.Fixtures.DataBase;
 using FluentAssertions;
 
 namespace CorporateHotelBooking.Test.Integration.SqlDataBase;

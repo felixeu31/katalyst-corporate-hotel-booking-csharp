@@ -1,10 +1,10 @@
-﻿using CorporateHotelBooking.Application.Employees.Domain;
-using CorporateHotelBooking.Application.Hotels.Domain;
+﻿using CorporateHotelBooking.Application.Hotels.Domain;
 using CorporateHotelBooking.Data.Sql;
 using CorporateHotelBooking.Data.Sql.DataModel;
 using CorporateHotelBooking.Data.Sql.Repositories;
 using CorporateHotelBooking.Test.Constants;
 using CorporateHotelBooking.Test.Fixtures;
+using CorporateHotelBooking.Test.Fixtures.DataBase;
 using CorporateHotelBooking.Test.TestUtilities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace CorporateHotelBooking.Test.ApiFactory
+namespace CorporateHotelBooking.Test.Fixtures.API
 {
-    public class CorporateHotelApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
+    public class CorporateHotelInMemoryApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
