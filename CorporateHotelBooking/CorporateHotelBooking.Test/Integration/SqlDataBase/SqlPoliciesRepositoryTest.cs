@@ -83,21 +83,27 @@ public class SqlPoliciesRepositoryTest
         companyPolicy.RoomTypes.Split(";").Should().BeEquivalentTo(newCompanyPolicy.RoomTypes);
     }
 
-    //[Fact]
-    //public void should_retrieve_company_policy()
-    //{
-    //    // Arrange
-    //    var newCompanyPolicy = new CompanyPolicy(CompanyId.New(), new List<string> { SampleData.RoomTypes.Standard });
-    //    _context.CompanyPolicies.Add(newCompanyPolicy.CompanyId, newCompanyPolicy);
+    [Fact]
+    public void should_retrieve_company_policy()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var newCompanyPolicyData = new CompanyPolicyData
+        {
+            CompanyId = CompanyId.New().Value,
+            RoomTypes = "junior;deluxe"
+        };
+        context.CompanyPolicies.Add(newCompanyPolicyData);
+        context.SaveChanges();
 
-    //    // Act
-    //    CompanyPolicy? companyPolicy = _policiesRepository.GetCompanyPolicy(newCompanyPolicy.CompanyId);
+        // Act
+        CompanyPolicy? companyPolicy = _policiesRepository.GetCompanyPolicy(CompanyId.From(newCompanyPolicyData.CompanyId));
 
-    //    // Assert
-    //    companyPolicy.Should().NotBeNull();
-    //    companyPolicy.CompanyId.Should().Be(newCompanyPolicy.CompanyId);
-    //    companyPolicy.RoomTypes.Should().BeEquivalentTo(newCompanyPolicy.RoomTypes);
-    //}
+        // Assert
+        companyPolicy.Should().NotBeNull();
+        companyPolicy.CompanyId.Should().Be(CompanyId.From(newCompanyPolicyData.CompanyId));
+        companyPolicy.RoomTypes.Should().BeEquivalentTo(newCompanyPolicyData.RoomTypes.Split(";"));
+    }
 
     //[Fact]
     //public void should_update_company_policy()

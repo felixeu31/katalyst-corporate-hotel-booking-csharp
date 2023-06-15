@@ -42,9 +42,13 @@ public class SqlPoliciesRepository : IPoliciesRepository
         _context.SaveChanges();
     }
 
-    public CompanyPolicy? GetCompanyPolicy(CompanyId from)
+    public CompanyPolicy? GetCompanyPolicy(CompanyId companyId)
     {
-        throw new NotImplementedException();
+        var companyPolicyData = _context.CompanyPolicies.FirstOrDefault(x => x.CompanyId == companyId.Value);
+
+        var companyPolicy = CompanyPolicyDataMapper.HydrateDomainFrom(companyPolicyData);
+
+        return companyPolicy;
     }
 
     public void UpdateCompanyPolicy(CompanyPolicy companyPolicy)

@@ -8,7 +8,7 @@ public interface IPoliciesRepository
     void AddEmployeePolicy(EmployeePolicy employeePolicy);
     EmployeePolicy? GetEmployeePolicy(EmployeeId employeeId);
     void AddCompanyPolicy(CompanyPolicy companyPolicy);
-    CompanyPolicy? GetCompanyPolicy(CompanyId from);
+    CompanyPolicy? GetCompanyPolicy(CompanyId companyId);
     void UpdateCompanyPolicy(CompanyPolicy companyPolicy);
     void UpdateEmployeePolicy(EmployeePolicy isAny);
     void DeleteEmployeePolicies(EmployeeId employeeId);
