@@ -66,6 +66,7 @@ public class InMemoryBookingRepositoryTest
         booking.Should().NotBeNull();
         booking.RoomNumber.Should().Be(1);
         booking.HotelId.Should().Be(hotelId);
+        booking.BookedBy.Should().Be(employeeId);
         booking.RoomType.Should().Be(SampleData.RoomTypes.Deluxe);
         booking.CheckIn.Should().BeSameDateAs(DateTime.Today.AddDays(1));
         booking.CheckOut.Should().BeSameDateAs(DateTime.Today.AddDays(2));

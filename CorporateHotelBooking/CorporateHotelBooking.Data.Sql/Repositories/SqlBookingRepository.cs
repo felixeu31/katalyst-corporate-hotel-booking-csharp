@@ -1,6 +1,7 @@
 ﻿using CorporateHotelBooking.Application.Bookings.Domain;
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Data.Sql.Mappers;
 
 namespace CorporateHotelBooking.Data.Sql.Repositories;
 
@@ -16,7 +17,11 @@ public class SqlBookingRepository : IBookingRepository
 
     public void Add(Booking booking)
     {
-        throw new NotImplementedException();
+        var bookingData = BookingDataMapper.MapBookingDataFrom(booking);
+
+        _context.Bookings.Add(bookingData);
+
+        _context.SaveChanges();
     }
 
     public Booking? Get(BookingId bookingId)
