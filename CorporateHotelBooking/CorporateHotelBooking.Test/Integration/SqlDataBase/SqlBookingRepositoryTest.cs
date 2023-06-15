@@ -9,6 +9,7 @@ using CorporateHotelBooking.Test.Fixtures;
 using CorporateHotelBooking.Test.Fixtures.DataBase;
 using CorporateHotelBooking.Test.TestUtilities;
 using FluentAssertions;
+using CorporateHotelBooking.Data.InMemory;
 
 namespace CorporateHotelBooking.Test.Integration.SqlDataBase;
 
@@ -131,6 +132,61 @@ public class SqlBookingRepositoryTest
         bookings.Should().NotBeNull();
         bookings.Should().HaveCount(2);
         bookings.Should().AllSatisfy(x => x.HotelId.Equals(hotelId));
+    }
+
+
+    [Fact]
+    public void should_remove_bookings_by_employee()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        var hotelId = HotelId.New();
+        var hotelId2 = HotelId.New();
+        var employeeId = EmployeeId.New();
+        var employeeId2 = EmployeeId.New();
+        context.Bookings.Add(new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = hotelId.Value,
+            BookedBy = employeeId.Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1
+        });
+        context.Bookings.Add(new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = hotelId.Value,
+            BookedBy = employeeId.Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1
+        });
+        context.Bookings.Add(new BookingData
+        {
+            BookingId = BookingId.New().Value,
+            HotelId = hotelId2.Value,
+            BookedBy = employeeId2.Value,
+            CheckIn = DateTime.Today,
+            CheckOut = DateTime.Today.AddDays(2),
+            RoomType = SampleData.RoomTypes.Junior,
+            RoomNumber = 1
+        });
+        context.SaveChanges();
+
+        // Act
+        _bookingRepository.DeleteEmployeeBookings(employeeId);
+
+        // Assert
+        var employeeBookings =
+            context.Bookings.Where(x => x.BookedBy.Equals(employeeId.Value));
+        employeeBookings.Should().HaveCount(0);
+
+        var employee2Bookings =
+            context.Bookings.Where(x => x.BookedBy.Equals(employeeId2.Value));
+        employee2Bookings.Should().HaveCount(1);
     }
 
 }

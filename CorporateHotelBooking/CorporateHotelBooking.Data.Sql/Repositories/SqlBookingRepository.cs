@@ -44,6 +44,11 @@ public class SqlBookingRepository : IBookingRepository
 
     public void DeleteEmployeeBookings(EmployeeId employeeId)
     {
-        throw new NotImplementedException();
+        foreach (var employeeBooking in _context.Bookings.Where(x => x.BookedBy.Equals(employeeId.Value)).ToList())
+        {
+            _context.Bookings.Remove(employeeBooking);
+        }
+
+        _context.SaveChanges();
     }
 }
