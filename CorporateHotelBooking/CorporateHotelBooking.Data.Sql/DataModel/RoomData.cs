@@ -5,8 +5,6 @@ namespace CorporateHotelBooking.Data.Sql.DataModel;
 
 public class RoomData
 {
-    [Key]
-    [DatabaseGenerat‌ed(DatabaseGeneratedOp‌​tion.None)]
     public int RoomNumber { get; set; }
 
     public string RoomType { get; set; }

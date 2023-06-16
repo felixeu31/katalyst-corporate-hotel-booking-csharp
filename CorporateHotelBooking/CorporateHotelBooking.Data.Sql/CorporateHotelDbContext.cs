@@ -15,4 +15,9 @@ public class CorporateHotelDbContext : DbContext
     public CorporateHotelDbContext(DbContextOptions<CorporateHotelDbContext> options) : base(options)
     {
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<RoomData>()
+            .HasKey(c => new { c.RoomNumber, c.HotelId });
+    }
 }

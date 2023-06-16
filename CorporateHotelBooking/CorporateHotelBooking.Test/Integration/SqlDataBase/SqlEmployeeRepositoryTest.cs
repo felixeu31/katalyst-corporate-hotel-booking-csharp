@@ -23,7 +23,7 @@ public class SqlEmployeeRepositoryTest
     }
 
     [Fact]
-    public void should_retrieve_added_employee()
+    public void should_add_employee()
     {
         // Arrange
         using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
@@ -38,6 +38,8 @@ public class SqlEmployeeRepositoryTest
         employee.EmployeeId.Should().Be(employee1.EmployeeId.Value);
         employee.CompanyId.Should().Be(employee1.CompanyId.Value);
     }
+
+
 
 
     [Fact]
@@ -62,6 +64,25 @@ public class SqlEmployeeRepositoryTest
 
 
     [Fact]
+    public void should_do_nothing_when_delete_non_existent_employee()
+    {
+        // Arrange
+        var employeeData = new EmployeeData
+        {
+            EmployeeId = Guid.NewGuid(),
+            CompanyId = Guid.NewGuid()
+        };
+
+        // Act
+        _employeeRepository.Delete(EmployeeId.From(employeeData.EmployeeId));
+
+        // Assert
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+        context.Employees.Should().NotContain(employeeData);
+    }
+
+
+    [Fact]
     public void should_get_employee()
     {
         // Arrange
@@ -81,6 +102,19 @@ public class SqlEmployeeRepositoryTest
         employee.Should().NotBeNull();
         employee.EmployeeId.Should().Be(EmployeeId.From(employeeData.EmployeeId));
         employee.CompanyId.Should().Be(CompanyId.From(employeeData.CompanyId));
+    }
+
+    [Fact]
+    public void should_get_nothing_when_non_existent_employee()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+
+        // Act
+        var employee = _employeeRepository.Get(EmployeeId.New());
+
+        // Assert
+        employee.Should().BeNull();
     }
 
 }

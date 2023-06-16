@@ -65,6 +65,19 @@ public class SqlPoliciesRepositoryTest
         employeePolicy.RoomTypes.Should().BeEquivalentTo(newEmployeePolicyData.RoomTypes.Split(";"));
     }
 
+    [Fact]
+    public void should_retrieve_nothing_when_non_existing_employee_policy()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+
+        // Act
+        EmployeePolicy? employeePolicy = _policiesRepository.GetEmployeePolicy(EmployeeId.New());
+
+        // Assert
+        employeePolicy.Should().BeNull();
+    }
+
 
     [Fact]
     public void should_add_company_policy()
@@ -103,6 +116,19 @@ public class SqlPoliciesRepositoryTest
         companyPolicy.Should().NotBeNull();
         companyPolicy.CompanyId.Should().Be(CompanyId.From(newCompanyPolicyData.CompanyId));
         companyPolicy.RoomTypes.Should().BeEquivalentTo(newCompanyPolicyData.RoomTypes.Split(";"));
+    }
+
+    [Fact]
+    public void should_retrieve_nothing_when_non_existing_company_policy()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+
+        // Act
+        CompanyPolicy? companyPolicy = _policiesRepository.GetCompanyPolicy(CompanyId.New());
+
+        // Assert
+        companyPolicy.Should().BeNull();
     }
 
     [Fact]
@@ -172,6 +198,25 @@ public class SqlPoliciesRepositoryTest
         _policiesRepository.DeleteEmployeePolicies(EmployeeId.From(newEmployeePolicyData.EmployeeId));
 
         // Assert
+        var containsEmployeePolicy = context.EmployeePolicies.Any(x => x.EmployeeId.Equals(newEmployeePolicyData.EmployeeId));
+        containsEmployeePolicy.Should().BeFalse();
+    }
+
+    [Fact]
+    public void should_do_nothing_when_delete_non_existent_employee_policies()
+    {
+        // Arrange
+        var newEmployeePolicyData = new EmployeePolicyData
+        {
+            EmployeeId = EmployeeId.New().Value,
+            RoomTypes = "junior;deluxe"
+        };
+
+        // Act
+        _policiesRepository.DeleteEmployeePolicies(EmployeeId.From(newEmployeePolicyData.EmployeeId));
+
+        // Assert
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
         var containsEmployeePolicy = context.EmployeePolicies.Any(x => x.EmployeeId.Equals(newEmployeePolicyData.EmployeeId));
         containsEmployeePolicy.Should().BeFalse();
     }

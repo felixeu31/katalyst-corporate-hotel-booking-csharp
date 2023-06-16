@@ -12,7 +12,7 @@ namespace CorporateHotelBooking.Test.Fixtures.DataBase
         public LocalDbTestFixture()
         {
             // Create a unique database name
-            var dbName = "CorporateHotelTestDatabase_" + Guid.NewGuid();
+            var dbName = "CorporateHotelIntegrationTestDatabase_" + Guid.NewGuid();
 
             // Set up the connection string for LocalDb
             _connectionString = $"Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog={dbName};Integrated Security=True";

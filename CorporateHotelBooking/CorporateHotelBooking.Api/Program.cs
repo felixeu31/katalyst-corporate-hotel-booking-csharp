@@ -12,15 +12,15 @@ using CorporateHotelBooking.Data.InMemory.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IAddHotelUseCase, AddHotelUseCase>();
-builder.Services.AddSingleton<ISetRoomUseCase, SetRoomUseCase>();
-builder.Services.AddSingleton<IBookUseCase, BookUseCase>();
-builder.Services.AddSingleton<IFindHotelUseCase, FindHotelUseCase>();
-builder.Services.AddSingleton<IAddEmployeeUseCase, AddEmployeeUseCase>();
-builder.Services.AddSingleton<IAddEmployeePolicyUseCase, AddEmployeePolicyUseCase>();
-builder.Services.AddSingleton<IAddCompanyPolicyUseCase, AddCompanyPolicyUseCase>();
-builder.Services.AddSingleton<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
-builder.Services.AddSingleton<IIsBookingAllowedUseCase, IsBookingAllowedUseCase>();
+builder.Services.AddScoped<IAddHotelUseCase, AddHotelUseCase>();
+builder.Services.AddScoped<ISetRoomUseCase, SetRoomUseCase>();
+builder.Services.AddScoped<IBookUseCase, BookUseCase>();
+builder.Services.AddScoped<IFindHotelUseCase, FindHotelUseCase>();
+builder.Services.AddScoped<IAddEmployeeUseCase, AddEmployeeUseCase>();
+builder.Services.AddScoped<IAddEmployeePolicyUseCase, AddEmployeePolicyUseCase>();
+builder.Services.AddScoped<IAddCompanyPolicyUseCase, AddCompanyPolicyUseCase>();
+builder.Services.AddScoped<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
+builder.Services.AddScoped<IIsBookingAllowedUseCase, IsBookingAllowedUseCase>();
 
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IHotelRepository, InMemoryHotelRepository>();

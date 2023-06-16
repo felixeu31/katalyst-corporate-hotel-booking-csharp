@@ -1,14 +1,17 @@
 ﻿using CorporateHotelBooking.Application.Bookings.Domain;
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 using CorporateHotelBooking.Data.Sql.DataModel;
 
 namespace CorporateHotelBooking.Data.Sql.Mappers;
 
 public class BookingDataMapper
 {
-    public static BookingData MapBookingDataFrom(Booking booking)
+    public static BookingData? MapBookingDataFrom(Booking? booking)
     {
+        if (booking is null) return null;
+
         return new BookingData
         {
             BookingId = booking.BookingId.Value,
@@ -21,8 +24,10 @@ public class BookingDataMapper
         };
     }
 
-    public static Booking HydrateDomainFrom(BookingData bookingData)
+    public static Booking? HydrateDomainFrom(BookingData? bookingData)
     {
+        if (bookingData is null) return null;
+
         return new Booking(BookingId.From(bookingData.BookingId),  bookingData.RoomNumber, HotelId.From(bookingData.HotelId), EmployeeId.From(bookingData.BookedBy), bookingData.RoomType, bookingData.CheckIn, bookingData.CheckOut);
     }
 

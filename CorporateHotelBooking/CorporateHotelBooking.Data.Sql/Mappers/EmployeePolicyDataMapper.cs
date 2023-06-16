@@ -1,6 +1,7 @@
 ﻿using CorporateHotelBooking.Application.Bookings.Domain;
 using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 using CorporateHotelBooking.Application.Policies.Domain;
 using CorporateHotelBooking.Data.Sql.DataModel;
 
@@ -8,8 +9,10 @@ namespace CorporateHotelBooking.Data.Sql.Mappers;
 
 public class EmployeePolicyDataMapper
 {
-    public static EmployeePolicyData MapEmployeePolicyDataFrom(EmployeePolicy employeePolicy)
+    public static EmployeePolicyData? MapEmployeePolicyDataFrom(EmployeePolicy? employeePolicy)
     {
+        if (employeePolicy is null) return null;
+
         return new EmployeePolicyData
         {
             EmployeeId = employeePolicy.EmployeeId.Value,
@@ -17,8 +20,10 @@ public class EmployeePolicyDataMapper
         };
     }
 
-    public static EmployeePolicy HydrateDomainFrom(EmployeePolicyData employeePolicyData)
+    public static EmployeePolicy? HydrateDomainFrom(EmployeePolicyData? employeePolicyData)
     {
+        if (employeePolicyData is null) return null;
+
         return new EmployeePolicy(EmployeeId.From(employeePolicyData.EmployeeId), employeePolicyData.RoomTypes.Split(";").ToList());
     }
 

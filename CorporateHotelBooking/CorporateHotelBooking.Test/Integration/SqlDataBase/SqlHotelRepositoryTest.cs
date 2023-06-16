@@ -52,7 +52,20 @@ public class SqlHotelRepositoryTest
         var hotelData = new HotelData
         {
             HotelId = Guid.NewGuid(),
-            HotelName = "Westing"
+            HotelName = "Westing",
+            Rooms = new List<RoomData>()
+            {
+                new RoomData
+                {
+                    RoomNumber = 1,
+                    RoomType = SampleData.RoomTypes.Presidential
+                },
+                new RoomData
+                {
+                    RoomNumber = 2,
+                    RoomType = SampleData.RoomTypes.Presidential
+                }
+            }
         };
         context.Hotels.Add(hotelData);
         context.SaveChanges();
@@ -64,8 +77,22 @@ public class SqlHotelRepositoryTest
         hotel.Should().NotBeNull();
         hotel.HotelId.Should().Be(HotelId.From(hotelData.HotelId));
         hotel.HotelName.Should().Be(hotelData.HotelName);
+        hotel.Rooms.Should().HaveCount(2);
+        hotel.Rooms.First().RoomType.Should().Be(SampleData.RoomTypes.Presidential);
     }
 
+    [Fact]
+    public void should_get_nothing_when_non_existent_hotel()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+
+        // Act
+        var hotel = _hotelRepository.Get(HotelId.New());
+
+        // Assert
+        hotel.Should().BeNull();
+    }
 
     [Fact]
     public void should_update_hotel()

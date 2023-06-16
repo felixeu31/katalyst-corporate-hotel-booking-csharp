@@ -1,12 +1,15 @@
 ﻿using CorporateHotelBooking.Application.Hotels.Domain;
+using CorporateHotelBooking.Application.Hotels.UseCases;
 using CorporateHotelBooking.Data.Sql.DataModel;
 
 namespace CorporateHotelBooking.Data.Sql.Mappers;
 
 public class RoomDataMapper
 {
-    public static RoomData MapRoomDataFrom(Room room, Guid hotelId)
+    public static RoomData? MapRoomDataFrom(Room? room, Guid hotelId)
     {
+        if (room is null) return null;
+
         return new RoomData
         {
             HotelId = hotelId,
@@ -15,8 +18,10 @@ public class RoomDataMapper
         };
     }
 
-    public static Room HydrateDomainFrom(RoomData roomData)
+    public static Room? HydrateDomainFrom(RoomData? roomData)
     {
+        if (roomData is null) return null;
+
         return new Room(roomData.RoomNumber, roomData.RoomType);
     }
 

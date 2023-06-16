@@ -7,11 +7,13 @@ namespace CorporateHotelBooking.Application.Hotels.Domain;
 
 public class Hotel
 {
-    public Hotel(HotelId hotelId, string hotelName)
+    public Hotel(HotelId hotelId, string hotelName) : this(hotelId, hotelName, new List<Room>()) { }
+
+    public Hotel(HotelId hotelId, string hotelName, List<Room?> rooms)
     {
         HotelId = hotelId;
         HotelName = hotelName;
-        _rooms = new List<Room>();
+        _rooms = rooms;
     }
 
     public HotelId HotelId { get; }

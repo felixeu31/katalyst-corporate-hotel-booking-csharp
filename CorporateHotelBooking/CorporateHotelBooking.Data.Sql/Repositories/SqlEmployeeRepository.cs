@@ -31,9 +31,12 @@ public class SqlEmployeeRepository : IEmployeeRepository
     public void Delete(EmployeeId employeeId)
     {
         var employeeData = _context.Employees.SingleOrDefault(x => x.EmployeeId == employeeId.Value);
-        
-        _context.Employees.Remove(employeeData);
-        
-        _context.SaveChanges();
+
+        if (employeeData is not null)
+        {
+            _context.Employees.Remove(employeeData);
+
+            _context.SaveChanges(); 
+        }
     }
 }

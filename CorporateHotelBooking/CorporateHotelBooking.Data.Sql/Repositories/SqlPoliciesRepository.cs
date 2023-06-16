@@ -75,8 +75,11 @@ public class SqlPoliciesRepository : IPoliciesRepository
     {
         var employeePolicyData = _context.EmployeePolicies.SingleOrDefault(x => x.EmployeeId == employeeId.Value);
 
-        _context.EmployeePolicies.Remove(employeePolicyData);
+        if (employeePolicyData is not null)
+        {
+            _context.EmployeePolicies.Remove(employeePolicyData);
 
-        _context.SaveChanges();
+            _context.SaveChanges(); 
+        }
     }
 }

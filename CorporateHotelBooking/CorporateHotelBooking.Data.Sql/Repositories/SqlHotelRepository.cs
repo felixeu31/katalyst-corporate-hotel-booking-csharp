@@ -25,7 +25,7 @@ public class SqlHotelRepository : IHotelRepository
 
     public Hotel? Get(HotelId hotelId)
     {
-        var hotelData = _context.Hotels.FirstOrDefault(x => x.HotelId == hotelId.Value);
+        var hotelData = _context.Hotels.Include(x => x.Rooms).FirstOrDefault(x => x.HotelId == hotelId.Value);
 
         var hotel = HotelDataMapper.HydrateDomainFrom(hotelData);
 

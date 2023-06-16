@@ -85,6 +85,19 @@ public class SqlBookingRepositoryTest
     }
 
     [Fact]
+    public void should_get_nothing_when_not_existent_booking()
+    {
+        // Arrange
+        using var context = new CorporateHotelDbContext(_fixture.DbContextOptions);
+
+        // Act
+        var booking = _bookingRepository.Get(BookingId.New());
+
+        // Assert
+        booking.Should().BeNull();
+    }
+
+    [Fact]
     public void should_get_bookings_by_hotel()
     {
         // Arrange

@@ -14,11 +14,11 @@ namespace CorporateHotelBooking.Test.E2E
     /// </summary>
     /// <remarks>dotnet watch test --project .\CorporateHotelBooking.Test\CorporateHotelBooking.Test.csproj</remarks>
     [Trait(TestTrait.Category, TestCategory.EndToEnd)]
-    public class CorporateHotelAcceptanceTest : IClassFixture<CorporateHotelInMemoryApiFactory>
+    public class CorporateHotelAcceptanceTest : IClassFixture<CorporateHotelSqlDbApiFactory>
     {
         private readonly HttpClient _client;
 
-        public CorporateHotelAcceptanceTest(CorporateHotelInMemoryApiFactory inMemoryApiFactory)
+        public CorporateHotelAcceptanceTest(CorporateHotelSqlDbApiFactory inMemoryApiFactory)
         {
             _client = inMemoryApiFactory.CreateClient();
         }
