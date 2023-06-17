@@ -4,7 +4,6 @@ using CorporateHotelBooking.Application.Employees.Domain;
 using CorporateHotelBooking.Application.Hotels.Domain;
 using CorporateHotelBooking.Application.Policies.Domain;
 using CorporateHotelBooking.Data.InMemory;
-using CorporateHotelBooking.Data.InMemory.Repositories;
 using CorporateHotelBooking.Data.Sql;
 using CorporateHotelBooking.Data.Sql.Repositories;
 using Microsoft.AspNetCore.Hosting;
@@ -13,14 +12,15 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Testcontainers.MsSql;
 
 namespace CorporateHotelBooking.Test.Fixtures.API
 {
-    public class CorporateHotelSqlDbApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
+    public class CorporateHotelSqlContainerDbApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
     {
         private DbContextOptions<CorporateHotelDbContext>? _dbContextOptions;
         private string? _connectionString;
-
+        private MsSqlContainer? _msSqlContainer;
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -44,10 +44,17 @@ namespace CorporateHotelBooking.Test.Fixtures.API
             });
         }
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            var dbName = "CorporateHotelE2ETestDatabase_" + Guid.NewGuid();
-            _connectionString = $"Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog={dbName};Integrated Security=True";
+            _msSqlContainer = new MsSqlBuilder()
+                .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+                .WithName($"CorporateHotelE2ETestDatabase_{Guid.NewGuid()}")
+                .WithCleanUp(true)
+                .Build();
+
+            await _msSqlContainer.StartAsync();
+
+            _connectionString = $"{_msSqlContainer?.GetConnectionString()}; Encrypt=False;";
 
             _dbContextOptions = new DbContextOptionsBuilder<CorporateHotelDbContext>()
                 .UseSqlServer(_connectionString)
@@ -58,19 +65,11 @@ namespace CorporateHotelBooking.Test.Fixtures.API
             {
                 context.Database.EnsureCreated();
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task DisposeAsync()
+        public async Task DisposeAsync()
         {
-            // Delete the database
-            using (var context = new CorporateHotelDbContext(_dbContextOptions))
-            {
-                context.Database.EnsureDeleted();
-            }
-
-            return Task.CompletedTask;
+            await _msSqlContainer?.StopAsync();
         }
     }
 }
